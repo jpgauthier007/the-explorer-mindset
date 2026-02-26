@@ -149,7 +149,11 @@ export function EmailSignup() {
 
           {status !== "success" && status !== "already" && (
             <p className="mt-5 text-gray-secondary text-xs font-display uppercase tracking-[0.08em]">
-              No spam &middot; Unsubscribe anytime &middot;{" "}
+              No spam &middot;{" "}
+              <a href="/unsubscribe" className="underline underline-offset-2 hover:text-offwhite transition-colors">
+                Unsubscribe anytime
+              </a>
+              {" "}&middot;{" "}
               <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
                 Privacy
               </a>
