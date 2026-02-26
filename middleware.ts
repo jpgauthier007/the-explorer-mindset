@@ -4,6 +4,20 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Redirect /newsletter to the signup section
+  if (pathname === "/newsletter") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    url.hash = "#join";
+    return NextResponse.redirect(url);
+  }
+  if (pathname === "/fr/newsletter") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/fr";
+    url.hash = "#join";
+    return NextResponse.redirect(url);
+  }
+
   // Redirect /en/* to /* to avoid duplicate content
   if (pathname.startsWith("/en")) {
     const url = request.nextUrl.clone();
