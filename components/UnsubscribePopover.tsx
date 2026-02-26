@@ -31,7 +31,7 @@ export function UnsubscribePopover({ className }: { className?: string }) {
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 bg-navy-800 border border-white/[0.08] rounded-xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.4)] z-50">
           {/* Arrow */}
           <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white/[0.08]" />
-          <p className="text-offwhite font-body text-sm leading-relaxed">
+          <p className="normal-case tracking-normal text-offwhite font-body text-sm leading-relaxed">
             To unsubscribe, use the link in any of our emails or contact us directly.
           </p>
         </div>
