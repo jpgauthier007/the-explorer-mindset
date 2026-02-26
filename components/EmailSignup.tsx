@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { UnsubscribePopover } from "./UnsubscribePopover";
+import type { Dictionary } from "@/dictionaries/getDictionary";
+
+type EmailSignupDict = Dictionary["emailSignup"];
 
 function generateChallenge() {
   const a = Math.floor(Math.random() * 10) + 1;
@@ -11,7 +14,7 @@ function generateChallenge() {
   return { a, b, answer: a + b, question: `${a} + ${b}` };
 }
 
-export function EmailSignup() {
+export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
   const [email, setEmail] = useState("");
   const [mathAnswer, setMathAnswer] = useState("");
   const [challenge, setChallenge] = useState<{ a: number; b: number; answer: number; question: string } | null>(null);
@@ -27,7 +30,7 @@ export function EmailSignup() {
 
     if (!challenge || parseInt(mathAnswer, 10) !== challenge.answer) {
       setStatus("error");
-      setErrorMessage("Incorrect answer. Please try again.");
+      setErrorMessage(dict.errorMath);
       setChallenge(generateChallenge());
       setMathAnswer("");
       return;
@@ -50,7 +53,7 @@ export function EmailSignup() {
 
       if (!res.ok) {
         setStatus("error");
-        setErrorMessage(data.error || "Something went wrong.");
+        setErrorMessage(data.error || dict.errorGeneric);
         setChallenge(generateChallenge());
         setMathAnswer("");
         return;
@@ -61,7 +64,7 @@ export function EmailSignup() {
       setMathAnswer("");
     } catch {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(dict.errorGeneric);
       setChallenge(generateChallenge());
       setMathAnswer("");
     }
@@ -80,17 +83,16 @@ export function EmailSignup() {
 
       <div className="relative z-10 mx-auto max-w-[1120px] px-5 md:px-10 text-center">
         <AnimateOnScroll>
-          <SectionBadge label="Join the Journey" />
+          <SectionBadge label={dict.badge} />
 
           <h2 className="mt-8 font-display font-bold text-3xl md:text-4xl text-offwhite max-w-xl mx-auto leading-tight tracking-tight">
-            The world won&rsquo;t stop changing.
+            {dict.heading}
             <br />
-            <span className="text-accent">Choose how you grow</span> with it.
+            <span className="text-accent">{dict.headingAccent}</span> {dict.headingEnd}
           </h2>
 
           <p className="mt-5 text-gray-muted font-body text-base md:text-lg max-w-lg mx-auto leading-relaxed">
-            Sign up for reflections on curiosity, adaptability, and
-            resilience&thinsp;&mdash;&thinsp;straight to your inbox.
+            {dict.description}
           </p>
 
           {status === "success" ? (
@@ -100,7 +102,7 @@ export function EmailSignup() {
                 <path d="M8 14.5l4 4 8-8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <span className="text-offwhite text-lg font-body">
-                You&rsquo;re on the path. Welcome aboard.
+                {dict.successMessage}
               </span>
             </div>
           ) : status === "already" ? (
@@ -111,7 +113,7 @@ export function EmailSignup() {
                 <circle cx="14" cy="19" r="1.5" fill="white" />
               </svg>
               <span className="text-offwhite text-lg font-body">
-                You&rsquo;re already subscribed&thinsp;&mdash;&thinsp;stay tuned!
+                {dict.alreadyMessage}
               </span>
             </div>
           ) : (
@@ -127,7 +129,7 @@ export function EmailSignup() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
+                  placeholder={dict.placeholder}
                   className="flex-1 bg-transparent text-offwhite placeholder:text-gray-secondary rounded-xl px-5 py-3.5 font-body text-base focus:outline-none transition-colors"
                 />
                 <button
@@ -141,10 +143,10 @@ export function EmailSignup() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
-                      Joining...
+                      {dict.submitting}
                     </span>
                   ) : (
-                    "Start Exploring"
+                    dict.submit
                   )}
                 </button>
               </div>
@@ -153,7 +155,7 @@ export function EmailSignup() {
               {challenge && (
                 <div className="mt-4 flex items-center justify-center gap-3">
                   <span className="text-offwhite text-sm font-body">
-                    What is {challenge.question}?
+                    {dict.mathPrompt} {challenge.question}?
                   </span>
                   <input
                     type="text"
@@ -162,7 +164,7 @@ export function EmailSignup() {
                     required
                     value={mathAnswer}
                     onChange={(e) => setMathAnswer(e.target.value)}
-                    placeholder="?"
+                    placeholder={dict.mathPlaceholder}
                     className="w-14 bg-white/[0.04] border border-white/[0.08] text-offwhite text-center rounded-lg px-2 py-1.5 font-body text-sm focus:outline-none focus:border-accent/40 transition-colors"
                   />
                 </div>
@@ -176,11 +178,13 @@ export function EmailSignup() {
 
           {status !== "success" && status !== "already" && (
             <div className="mt-5 text-gray-secondary text-xs font-body">
-              No spam &middot;{" "}
-              <UnsubscribePopover />
+              {dict.noSpam} &middot;{" "}
+              <UnsubscribePopover
+                dict={{ label: dict.unsubscribe, message: dict.unsubscribeMessage }}
+              />
               {" "}&middot;{" "}
               <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
-                Privacy
+                {dict.privacy}
               </a>
             </div>
           )}

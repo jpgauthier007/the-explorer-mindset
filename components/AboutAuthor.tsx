@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import type { Dictionary } from "@/dictionaries/getDictionary";
 
-export function AboutAuthor() {
+type AboutAuthorDict = Dictionary["aboutAuthor"];
+
+export function AboutAuthor({ dict }: { dict: AboutAuthorDict }) {
   return (
     <section id="author" className="relative bg-navy-900 py-24 md:py-32 overflow-hidden">
       {/* Accent glow */}
@@ -11,7 +14,7 @@ export function AboutAuthor() {
       <div className="relative mx-auto max-w-[1120px] px-5 md:px-10">
         <AnimateOnScroll>
           <div className="text-center mb-14">
-            <SectionBadge label="About the Author" />
+            <SectionBadge label={dict.badge} />
           </div>
         </AnimateOnScroll>
 
@@ -24,7 +27,7 @@ export function AboutAuthor() {
               <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/[0.08]">
                 <Image
                   src="/author-photo.jpg"
-                  alt="Jean-Philippe Gauthier"
+                  alt={dict.photoAlt}
                   width={480}
                   height={600}
                   className="w-full h-auto object-cover"
@@ -39,28 +42,19 @@ export function AboutAuthor() {
           <AnimateOnScroll delay={150} className="flex-1">
             <div className="text-center md:text-left">
               <h2 className="font-display font-bold text-2xl md:text-3xl text-offwhite tracking-tight">
-                Jean-Philippe Gauthier
+                {dict.name}
               </h2>
 
               <div className="mt-2 flex items-center gap-3 justify-center md:justify-start">
                 <span className="w-6 h-px bg-accent/40" />
                 <span className="text-xs font-display uppercase tracking-[0.14em] text-accent/70">
-                  Author &middot; Leader &middot; Coach
+                  {dict.role}
                 </span>
               </div>
 
               <div className="mt-6 space-y-5 text-gray-muted font-body text-base md:text-lg leading-[1.8] max-w-xl">
-                <p>
-                  A seasoned leader, coach, and trusted advisor with a thirty-year
-                  career, including more than a decade at Google. He describes
-                  himself as an &ldquo;ordinary man,&rdquo; not a natural-born
-                  risk-taker. He developed this mindset to navigate life&rsquo;s
-                  twists.
-                </p>
-                <p>
-                  He wrote this book out of a deep desire to guide his children,
-                  Ana&iuml;s and Louis, and his nephews, Jules and Samuel.
-                </p>
+                <p>{dict.bio1}</p>
+                <p>{dict.bio2}</p>
               </div>
             </div>
           </AnimateOnScroll>

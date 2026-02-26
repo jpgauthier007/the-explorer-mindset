@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "The Explorer Mindset - A Guide to Growth for Your Life, Family, and Work",
+    "description": "By Jean-Philippe Gauthier. A practical guide to building curiosity, adaptability, and resilience for navigating an uncertain future. Foreword by Sean Downey."
+  },
+  "header": {
+    "navBook": "The Book",
+    "navFramework": "Framework",
+    "navAuthor": "Author",
+    "navJoin": "Join",
+    "ctaBuy": "Buy"
+  },
+  "hero": {
+    "subtitle": "A Guide to Growth for Your Life, Family, and Work",
+    "author": "Jean-Philippe Gauthier",
+    "scroll": "Scroll",
+    "bookAlt": "The Explorer Mindset book cover"
+  },
+  "aboutBook": {
+    "badge": "About the Book",
+    "pullQuote": "\u201CSwap safety for curiosity and discover how energizing that choice can be.\u201D",
+    "description1": "Change isn\u2019t slowing down. It shapes how we lead, parent, and live. The question isn\u2019t whether you can keep up\u2009\u2014\u2009it\u2019s how you\u2019ll move through it.",
+    "description2": "This guide shows why an Explorer Mindset fuels happiness, resilience, and forward momentum. You\u2019ll find practical ways to experiment every day, adapt on the fly, transform setbacks into springboards, and ask bigger questions that pull you toward purpose."
+  },
+  "buyBook": {
+    "badge": "Get the Book",
+    "heading": "Start your journey today.",
+    "subtitle": "Available in three formats \u2014 choose the one that fits your adventure.",
+    "launchDate": "Coming March 12, 2026",
+    "comingSoon": "Coming Soon",
+    "formats": {
+      "digital": {
+        "name": "Digital Copy",
+        "description": "Instant access on Kindle. Read anywhere, anytime."
+      },
+      "hardcover": {
+        "name": "Hardcover",
+        "description": "Premium edition. A beautiful addition to your bookshelf."
+      },
+      "softcover": {
+        "name": "Softcover",
+        "description": "Lightweight and portable. Perfect for reading on the go."
+      }
+    }
+  },
+  "threePillars": {
+    "badge": "The Framework",
+    "heading": "Three traits that change everything.",
+    "pillars": [
+      {
+        "number": "01",
+        "title": "Curiosity",
+        "description": "The desire to understand and learn. To ask \u201Cwhat if\u201D before settling for \u201Cthat\u2019s how it is.\u201D"
+      },
+      {
+        "number": "02",
+        "title": "Adaptability",
+        "description": "The ability to adjust when the ground shifts. To welcome detours as part of the journey."
+      },
+      {
+        "number": "03",
+        "title": "Resilience",
+        "description": "The capacity to recover and keep moving. To turn every fall into forward momentum."
+      }
+    ]
+  },
+  "aboutAuthor": {
+    "badge": "About the Author",
+    "name": "Jean-Philippe Gauthier",
+    "role": "Author \u00b7 Leader \u00b7 Coach",
+    "bio1": "A seasoned leader, coach, and trusted advisor with a thirty-year career, including more than a decade at Google. He describes himself as an \u201Cordinary man,\u201D not a natural-born risk-taker. He developed this mindset to navigate life\u2019s twists.",
+    "bio2": "He wrote this book out of a deep desire to guide his children, Ana\u00efs and Louis, and his nephews, Jules and Samuel.",
+    "photoAlt": "Jean-Philippe Gauthier"
+  },
+  "emailSignup": {
+    "badge": "Join the Journey",
+    "heading": "The world won\u2019t stop changing.",
+    "headingAccent": "Choose how you grow",
+    "headingEnd": "with it.",
+    "description": "Sign up for reflections on curiosity, adaptability, and resilience\u2009\u2014\u2009straight to your inbox.",
+    "placeholder": "Your email address",
+    "submit": "Start Exploring",
+    "submitting": "Joining...",
+    "mathPrompt": "What is",
+    "mathPlaceholder": "?",
+    "successMessage": "You\u2019re on the path. Welcome aboard.",
+    "alreadyMessage": "You\u2019re already subscribed\u2009\u2014\u2009stay tuned!",
+    "errorMath": "Incorrect answer. Please try again.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "noSpam": "No spam",
+    "privacy": "Privacy",
+    "unsubscribe": "Unsubscribe",
+    "unsubscribeMessage": "To unsubscribe, use the link in any of our emails or contact us directly."
+  },
+  "footer": {
+    "tagline": "A guide to growth for your life, family, and work.",
+    "copyright": "\u00a9 2026 Jean-Philippe Gauthier. All rights reserved.",
+    "navBook": "The Book",
+    "navFramework": "Framework",
+    "navAuthor": "Author",
+    "navJoin": "Join",
+    "navBuy": "Buy",
+    "privacy": "Privacy",
+    "unsubscribe": "Unsubscribe",
+    "unsubscribeMessage": "To unsubscribe, use the link in any of our emails or contact us directly."
+  },
+  "notFound": {
+    "badge": "Off the Map",
+    "heading": "This trail doesn\u2019t lead anywhere.",
+    "description": "Even the best explorers take a wrong turn sometimes.",
+    "descriptionLine2": "Let\u2019s get you back on the path.",
+    "cta": "Back to Base Camp"
+  },
+  "privacy": {
+    "headerLabel": "Privacy Policy",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: February 25, 2026",
+    "backHome": "\u2190 Back to home",
+    "whatWeCollect": "What We Collect",
+    "whatWeCollectText": "When you subscribe to The Explorer Mindset newsletter, we collect only your <strong>email address</strong>. We do not collect names, payment information, browsing history, or any other personal data.",
+    "howWeUse": "How We Use Your Data",
+    "howWeUseText": "Your email address is used solely to send you occasional reflections on curiosity, adaptability, and resilience related to the book. We will never sell, rent, or share your email address with third parties.",
+    "whereStored": "Where Your Data Is Stored",
+    "whereStoredText": "Your email is stored securely in our database hosted by <a href=\"https://convex.dev\" target=\"_blank\" rel=\"noopener noreferrer\">Convex</a>, which uses encryption at rest and in transit. The website is hosted on <a href=\"https://vercel.com\" target=\"_blank\" rel=\"noopener noreferrer\">Vercel</a>.",
+    "yourRights": "Your Rights",
+    "yourRightsIntro": "You have the right to:",
+    "rightUnsubscribe": "<strong>Unsubscribe</strong> at any time using the link in our emails or by contacting us",
+    "rightDeletion": "<strong>Request deletion</strong> of your data by contacting us",
+    "rightKnow": "<strong>Know what data</strong> we hold about you (it\u2019s only your email)",
+    "cookies": "Cookies & Analytics",
+    "cookiesText": "This website does not use cookies and does not run any analytics or tracking scripts.",
+    "retention": "Data Retention",
+    "retentionText": "We retain your email address for as long as you remain subscribed. Once you unsubscribe, your record is marked as inactive. You may request full deletion at any time.",
+    "contact": "Contact",
+    "contactText": "For any privacy-related questions, please reach out at <strong>theexplorermindset.com</strong>."
+  }
+}

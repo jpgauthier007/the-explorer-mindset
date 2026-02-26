@@ -1,9 +1,16 @@
 import Link from "next/link";
-import { getDictionary } from "@/dictionaries/getDictionary";
+import { getDictionary, type Lang } from "@/dictionaries/getDictionary";
 
-export default async function PrivacyPage() {
-  const dict = await getDictionary("en");
+type Props = {
+  params: Promise<{ lang: string }>;
+};
+
+export default async function PrivacyPage({ params }: Props) {
+  const { lang: rawLang } = await params;
+  const lang = (rawLang === "fr" ? "fr" : "en") as Lang;
+  const dict = await getDictionary(lang);
   const p = dict.privacy;
+  const homeHref = lang === "fr" ? "/fr" : "/";
 
   return (
     <div className="min-h-screen bg-navy-950">
@@ -11,7 +18,7 @@ export default async function PrivacyPage() {
       <div className="border-b border-border-subtle">
         <div className="mx-auto max-w-[720px] px-5 md:px-10 py-6 flex items-center justify-between">
           <Link
-            href="/"
+            href={homeHref}
             className="font-display text-sm font-bold uppercase tracking-[0.14em] text-offwhite/80 hover:text-offwhite transition-colors"
           >
             T<span className="text-accent">E</span>M
@@ -92,7 +99,7 @@ export default async function PrivacyPage() {
 
         <div className="mt-16 pt-8 border-t border-border-subtle">
           <Link
-            href="/"
+            href={homeHref}
             className="text-sm text-gray-secondary font-display uppercase tracking-[0.08em] hover:text-offwhite transition-colors"
           >
             {p.backHome}

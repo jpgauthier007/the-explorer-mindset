@@ -38,6 +38,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://theexplorermindset.com",
+    languages: {
+      en: "https://theexplorermindset.com",
+      fr: "https://theexplorermindset.com/fr",
+    },
   },
 };
 

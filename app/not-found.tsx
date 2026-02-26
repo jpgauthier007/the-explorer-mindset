@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { getDictionary } from "@/dictionaries/getDictionary";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const dict = await getDictionary("en");
+  const nf = dict.notFound;
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Layered background */}
@@ -60,18 +64,18 @@ export default function NotFound() {
         <div className="-mt-16 sm:-mt-20">
           <div className="inline-flex items-center gap-2 text-accent text-[11px] font-display font-semibold uppercase tracking-[0.16em]">
             <span className="w-8 h-px bg-accent/40" />
-            Off the Map
+            {nf.badge}
             <span className="w-8 h-px bg-accent/40" />
           </div>
 
           <h1 className="mt-6 font-display font-bold text-2xl sm:text-3xl text-offwhite tracking-tight">
-            This trail doesn&rsquo;t lead anywhere.
+            {nf.heading}
           </h1>
 
           <p className="mt-4 font-body text-base sm:text-lg text-gray-muted leading-relaxed">
-            Even the best explorers take a wrong turn sometimes.
+            {nf.description}
             <br className="hidden sm:block" />
-            Let&rsquo;s get you back on the path.
+            {nf.descriptionLine2}
           </p>
 
           <Link
@@ -84,7 +88,7 @@ export default function NotFound() {
               <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88" fill="currentColor" opacity="0.3" />
               <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88" />
             </svg>
-            Back to Base Camp
+            {nf.cta}
           </Link>
         </div>
       </div>

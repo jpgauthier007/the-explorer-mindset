@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { DottedPathDivider } from "./DottedPath";
 import { UnsubscribePopover } from "./UnsubscribePopover";
+import type { Lang, Dictionary } from "@/dictionaries/getDictionary";
 
-export function Footer() {
+type FooterDict = Dictionary["footer"];
+
+export function Footer({ dict, lang }: { dict: FooterDict; lang: Lang }) {
+  const privacyHref = lang === "fr" ? "/fr/privacy" : "/privacy";
+
   return (
     <footer className="relative bg-navy-950 pt-16 pb-10 overflow-hidden">
       {/* Top gradient fade */}
@@ -17,7 +22,7 @@ export function Footer() {
               The <span className="text-accent">Explorer</span> Mindset
             </p>
             <p className="mt-2 font-body text-sm text-gray-secondary leading-relaxed max-w-xs">
-              A guide to growth for your life, family, and work.
+              {dict.tagline}
             </p>
           </div>
 
@@ -27,31 +32,31 @@ export function Footer() {
               href="#about"
               className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
             >
-              The Book
+              {dict.navBook}
             </a>
             <a
               href="#framework"
               className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
             >
-              Framework
+              {dict.navFramework}
             </a>
             <a
               href="#author"
               className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
             >
-              Author
+              {dict.navAuthor}
             </a>
             <a
               href="#join"
               className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
             >
-              Join
+              {dict.navJoin}
             </a>
             <a
               href="#buy"
               className="font-display text-xs uppercase tracking-[0.1em] text-accent hover:text-accent-hover transition-colors"
             >
-              Buy
+              {dict.navBuy}
             </a>
           </nav>
         </div>
@@ -64,16 +69,19 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-secondary">
           <p className="font-body text-xs">
-            &copy; 2026 Jean-Philippe Gauthier. All rights reserved.
+            {dict.copyright}
           </p>
           <div className="flex items-center gap-6 font-display text-xs uppercase tracking-[0.08em]">
             <Link
-              href="/privacy"
+              href={privacyHref}
               className="text-gray-secondary hover:text-offwhite transition-colors"
             >
-              Privacy
+              {dict.privacy}
             </Link>
-            <UnsubscribePopover className="text-gray-secondary" />
+            <UnsubscribePopover
+              className="text-gray-secondary"
+              dict={{ label: dict.unsubscribe, message: dict.unsubscribeMessage }}
+            />
           </div>
         </div>
       </div>

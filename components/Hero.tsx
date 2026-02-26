@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { DottedPathHero } from "./DottedPath";
+import type { Dictionary } from "@/dictionaries/getDictionary";
 
-export function Hero() {
+type HeroDict = Dictionary["hero"];
+
+export function Hero({ dict }: { dict: HeroDict }) {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Layered background */}
@@ -31,13 +34,13 @@ export function Hero() {
             </h1>
 
             <p className="mt-8 text-lg md:text-xl text-offwhite/80 font-body italic max-w-md mx-auto md:mx-0 leading-relaxed">
-              A Guide to Growth for Your Life, Family, and Work
+              {dict.subtitle}
             </p>
 
             <div className="mt-4 flex items-center gap-3 justify-center md:justify-start">
               <span className="w-6 h-px bg-accent/50" />
               <p className="text-sm text-gray-secondary font-display uppercase tracking-[0.1em]">
-                Jean-Philippe Gauthier
+                {dict.author}
               </p>
             </div>
           </div>
@@ -49,7 +52,7 @@ export function Hero() {
             <div className="relative transition-transform duration-700 hover:scale-[1.03]">
               <Image
                 src="/book-cover.png"
-                alt="The Explorer Mindset book cover"
+                alt={dict.bookAlt}
                 width={768}
                 height={768}
                 priority
@@ -63,7 +66,7 @@ export function Hero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
         <span className="text-[10px] font-display uppercase tracking-[0.2em] text-offwhite/30">
-          Scroll
+          {dict.scroll}
         </span>
         <div className="w-px h-8 bg-gradient-to-b from-offwhite/30 to-transparent animate-pulse" />
       </div>

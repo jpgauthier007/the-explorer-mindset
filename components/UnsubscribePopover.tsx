@@ -2,7 +2,18 @@
 
 import { useState, useRef, useEffect } from "react";
 
-export function UnsubscribePopover({ className }: { className?: string }) {
+type UnsubscribeDict = {
+  label: string;
+  message: string;
+};
+
+export function UnsubscribePopover({
+  className,
+  dict,
+}: {
+  className?: string;
+  dict: UnsubscribeDict;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,7 +35,7 @@ export function UnsubscribePopover({ className }: { className?: string }) {
         onClick={() => setOpen(!open)}
         className="normal-case underline underline-offset-2 hover:text-offwhite transition-colors cursor-pointer"
       >
-        Unsubscribe
+        {dict.label}
       </button>
 
       {open && (
@@ -32,7 +43,7 @@ export function UnsubscribePopover({ className }: { className?: string }) {
           {/* Arrow */}
           <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white/[0.08]" />
           <p className="normal-case tracking-normal text-offwhite font-body text-sm leading-relaxed">
-            To unsubscribe, use the link in any of our emails or contact us directly.
+            {dict.message}
           </p>
         </div>
       )}

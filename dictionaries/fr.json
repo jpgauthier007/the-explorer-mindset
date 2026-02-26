@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "The Explorer Mindset - Un guide de croissance pour votre vie, votre famille et votre travail",
+    "description": "Par Jean-Philippe Gauthier. Un guide pratique pour d\u00e9velopper la curiosit\u00e9, l\u2019adaptabilit\u00e9 et la r\u00e9silience face \u00e0 un avenir incertain. Pr\u00e9face de Sean Downey."
+  },
+  "header": {
+    "navBook": "Le livre",
+    "navFramework": "Le cadre",
+    "navAuthor": "L\u2019auteur",
+    "navJoin": "S\u2019inscrire",
+    "ctaBuy": "Acheter"
+  },
+  "hero": {
+    "subtitle": "Un guide de croissance pour votre vie, votre famille et votre travail",
+    "author": "Jean-Philippe Gauthier",
+    "scroll": "D\u00e9filer",
+    "bookAlt": "Couverture du livre The Explorer Mindset"
+  },
+  "aboutBook": {
+    "badge": "\u00c0 propos du livre",
+    "pullQuote": "\u00ab\u2009Troquez la s\u00e9curit\u00e9 contre la curiosit\u00e9 et d\u00e9couvrez \u00e0 quel point ce choix peut \u00eatre \u00e9nergisant.\u2009\u00bb",
+    "description1": "Le changement ne ralentit pas. Il fa\u00e7onne notre mani\u00e8re de diriger, d\u2019\u00e9lever nos enfants et de vivre. La question n\u2019est pas de savoir si vous pouvez suivre le rythme\u2009\u2014\u2009mais comment vous le traverserez.",
+    "description2": "Ce guide montre pourquoi un \u00e9tat d\u2019esprit d\u2019explorateur nourrit le bonheur, la r\u00e9silience et l\u2019\u00e9lan. Vous y trouverez des fa\u00e7ons concr\u00e8tes d\u2019exp\u00e9rimenter au quotidien, de vous adapter en cours de route, de transformer les revers en tremplins et de poser des questions plus grandes qui vous rapprochent de votre raison d\u2019\u00eatre."
+  },
+  "buyBook": {
+    "badge": "Obtenir le livre",
+    "heading": "Commencez votre aventure aujourd\u2019hui.",
+    "subtitle": "Disponible en trois formats\u2009\u2014\u2009choisissez celui qui vous convient.",
+    "launchDate": "Disponible le 12 mars 2026",
+    "comingSoon": "Bient\u00f4t disponible",
+    "formats": {
+      "digital": {
+        "name": "Version num\u00e9rique",
+        "description": "Acc\u00e8s instantan\u00e9 sur Kindle. Lisez partout, en tout temps."
+      },
+      "hardcover": {
+        "name": "Couverture rigide",
+        "description": "\u00c9dition premium. Un bel ajout \u00e0 votre biblioth\u00e8que."
+      },
+      "softcover": {
+        "name": "Couverture souple",
+        "description": "L\u00e9ger et portatif. Parfait pour lire en d\u00e9placement."
+      }
+    }
+  },
+  "threePillars": {
+    "badge": "Le cadre",
+    "heading": "Trois traits qui changent tout.",
+    "pillars": [
+      {
+        "number": "01",
+        "title": "Curiosit\u00e9",
+        "description": "Le d\u00e9sir de comprendre et d\u2019apprendre. Se demander \u00ab\u2009et si\u2009\u00bb avant de se r\u00e9signer \u00e0 \u00ab\u2009c\u2019est comme \u00e7a\u2009\u00bb."
+      },
+      {
+        "number": "02",
+        "title": "Adaptabilit\u00e9",
+        "description": "La capacit\u00e9 de s\u2019ajuster quand le sol bouge. Accueillir les d\u00e9tours comme faisant partie du voyage."
+      },
+      {
+        "number": "03",
+        "title": "R\u00e9silience",
+        "description": "La capacit\u00e9 de se relever et de continuer. Transformer chaque chute en \u00e9lan vers l\u2019avant."
+      }
+    ]
+  },
+  "aboutAuthor": {
+    "badge": "\u00c0 propos de l\u2019auteur",
+    "name": "Jean-Philippe Gauthier",
+    "role": "Auteur \u00b7 Leader \u00b7 Coach",
+    "bio1": "Un leader d\u2019exp\u00e9rience, coach et conseiller de confiance fort d\u2019une carri\u00e8re de trente ans, dont plus d\u2019une d\u00e9cennie chez Google. Il se d\u00e9crit comme un \u00ab\u2009homme ordinaire\u2009\u00bb, pas un preneur de risques n\u00e9. Il a d\u00e9velopp\u00e9 cet \u00e9tat d\u2019esprit pour naviguer les d\u00e9tours de la vie.",
+    "bio2": "Il a \u00e9crit ce livre par d\u00e9sir profond de guider ses enfants, Ana\u00efs et Louis, ainsi que ses neveux, Jules et Samuel.",
+    "photoAlt": "Jean-Philippe Gauthier"
+  },
+  "emailSignup": {
+    "badge": "Joignez l\u2019aventure",
+    "heading": "Le monde ne cessera pas de changer.",
+    "headingAccent": "Choisissez comment vous grandirez",
+    "headingEnd": "avec lui.",
+    "description": "Inscrivez-vous pour recevoir des r\u00e9flexions sur la curiosit\u00e9, l\u2019adaptabilit\u00e9 et la r\u00e9silience\u2009\u2014\u2009directement dans votre bo\u00eete courriel.",
+    "placeholder": "Votre adresse courriel",
+    "submit": "Commencer l\u2019exploration",
+    "submitting": "Inscription...",
+    "mathPrompt": "Combien font",
+    "mathPlaceholder": "?",
+    "successMessage": "Vous \u00eates sur le bon chemin. Bienvenue \u00e0 bord.",
+    "alreadyMessage": "Vous \u00eates d\u00e9j\u00e0 inscrit\u2009\u2014\u2009restez \u00e0 l\u2019\u00e9coute!",
+    "errorMath": "R\u00e9ponse incorrecte. Veuillez r\u00e9essayer.",
+    "errorGeneric": "Une erreur est survenue. Veuillez r\u00e9essayer.",
+    "noSpam": "Aucun pourriel",
+    "privacy": "Confidentialit\u00e9",
+    "unsubscribe": "Se d\u00e9sabonner",
+    "unsubscribeMessage": "Pour vous d\u00e9sabonner, utilisez le lien dans nos courriels ou contactez-nous directement."
+  },
+  "footer": {
+    "tagline": "Un guide de croissance pour votre vie, votre famille et votre travail.",
+    "copyright": "\u00a9 2026 Jean-Philippe Gauthier. Tous droits r\u00e9serv\u00e9s.",
+    "navBook": "Le livre",
+    "navFramework": "Le cadre",
+    "navAuthor": "L\u2019auteur",
+    "navJoin": "S\u2019inscrire",
+    "navBuy": "Acheter",
+    "privacy": "Confidentialit\u00e9",
+    "unsubscribe": "Se d\u00e9sabonner",
+    "unsubscribeMessage": "Pour vous d\u00e9sabonner, utilisez le lien dans nos courriels ou contactez-nous directement."
+  },
+  "notFound": {
+    "badge": "Hors piste",
+    "heading": "Ce sentier ne m\u00e8ne nulle part.",
+    "description": "M\u00eame les meilleurs explorateurs prennent un mauvais virage parfois.",
+    "descriptionLine2": "Remettons-vous sur le bon chemin.",
+    "cta": "Retour au camp de base"
+  },
+  "privacy": {
+    "headerLabel": "Politique de confidentialit\u00e9",
+    "title": "Politique de confidentialit\u00e9",
+    "lastUpdated": "Derni\u00e8re mise \u00e0 jour\u2009: 25 f\u00e9vrier 2026",
+    "backHome": "\u2190 Retour \u00e0 l\u2019accueil",
+    "whatWeCollect": "Ce que nous collectons",
+    "whatWeCollectText": "Lorsque vous vous inscrivez \u00e0 l\u2019infolettre The Explorer Mindset, nous ne recueillons que votre <strong>adresse courriel</strong>. Nous ne collectons ni noms, ni informations de paiement, ni historique de navigation, ni aucune autre donn\u00e9e personnelle.",
+    "howWeUse": "Comment nous utilisons vos donn\u00e9es",
+    "howWeUseText": "Votre adresse courriel est utilis\u00e9e uniquement pour vous envoyer des r\u00e9flexions occasionnelles sur la curiosit\u00e9, l\u2019adaptabilit\u00e9 et la r\u00e9silience li\u00e9es au livre. Nous ne vendrons, ne louerons et ne partagerons jamais votre adresse courriel avec des tiers.",
+    "whereStored": "O\u00f9 vos donn\u00e9es sont stock\u00e9es",
+    "whereStoredText": "Votre courriel est stock\u00e9 de mani\u00e8re s\u00e9curis\u00e9e dans notre base de donn\u00e9es h\u00e9berg\u00e9e par <a href=\"https://convex.dev\" target=\"_blank\" rel=\"noopener noreferrer\">Convex</a>, qui utilise le chiffrement au repos et en transit. Le site web est h\u00e9berg\u00e9 sur <a href=\"https://vercel.com\" target=\"_blank\" rel=\"noopener noreferrer\">Vercel</a>.",
+    "yourRights": "Vos droits",
+    "yourRightsIntro": "Vous avez le droit de\u2009:",
+    "rightUnsubscribe": "<strong>Vous d\u00e9sabonner</strong> en tout temps via le lien dans nos courriels ou en nous contactant",
+    "rightDeletion": "<strong>Demander la suppression</strong> de vos donn\u00e9es en nous contactant",
+    "rightKnow": "<strong>Savoir quelles donn\u00e9es</strong> nous d\u00e9tenons \u00e0 votre sujet (c\u2019est uniquement votre courriel)",
+    "cookies": "T\u00e9moins et analytique",
+    "cookiesText": "Ce site web n\u2019utilise pas de t\u00e9moins (cookies) et n\u2019ex\u00e9cute aucun script d\u2019analytique ou de suivi.",
+    "retention": "Conservation des donn\u00e9es",
+    "retentionText": "Nous conservons votre adresse courriel tant que vous restez abonn\u00e9. Une fois d\u00e9sabonn\u00e9, votre dossier est marqu\u00e9 comme inactif. Vous pouvez demander la suppression compl\u00e8te en tout temps.",
+    "contact": "Contact",
+    "contactText": "Pour toute question relative \u00e0 la confidentialit\u00e9, veuillez nous joindre \u00e0 <strong>theexplorermindset.com</strong>."
+  }
+}
