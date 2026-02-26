@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DottedPathDivider } from "./DottedPath";
 
 export function Footer() {
@@ -54,13 +55,24 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-gray-secondary">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-secondary">
           <p className="font-body text-xs">
             &copy; 2026 Jean-Philippe Gauthier. All rights reserved.
           </p>
-          <p className="font-body text-xs opacity-50">
-            theexplorermindset.com
-          </p>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy"
+              className="font-display text-xs uppercase tracking-[0.08em] text-gray-secondary hover:text-offwhite transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/unsubscribe"
+              className="font-display text-xs uppercase tracking-[0.08em] text-gray-secondary hover:text-offwhite transition-colors"
+            >
+              Unsubscribe
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

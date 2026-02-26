@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useRef, useState } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function EmailSignup() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "already" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const subscribe = useMutation(api.subscribers.subscribe);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,12 +20,28 @@ export function EmailSignup() {
     setErrorMessage("");
 
     try {
-      const result = await subscribe({ email });
-      setStatus(result?.alreadySubscribed ? "already" : "success");
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, turnstileToken: turnstileToken || "" }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setStatus("error");
+        setErrorMessage(data.error || "Something went wrong.");
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
+        return;
+      }
+
+      setStatus(data.alreadySubscribed ? "already" : "success");
       setEmail("");
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setErrorMessage("Something went wrong. Please try again.");
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     }
   };
 
@@ -92,7 +110,7 @@ export function EmailSignup() {
                 />
                 <button
                   type="submit"
-                  disabled={status === "loading"}
+                  disabled={status === "loading" || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
                   className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
                 >
                   {status === "loading" ? (
@@ -108,6 +126,20 @@ export function EmailSignup() {
                   )}
                 </button>
               </div>
+
+              {/* Turnstile CAPTCHA */}
+              {TURNSTILE_SITE_KEY && (
+                <div className="mt-4 flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={setTurnstileToken}
+                    onError={() => setTurnstileToken(null)}
+                    onExpire={() => setTurnstileToken(null)}
+                    options={{ theme: "dark", size: "compact" }}
+                  />
+                </div>
+              )}
             </form>
           )}
 
@@ -117,7 +149,10 @@ export function EmailSignup() {
 
           {status !== "success" && status !== "already" && (
             <p className="mt-5 text-gray-secondary text-xs font-display uppercase tracking-[0.08em]">
-              No spam &middot; Unsubscribe anytime
+              No spam &middot; Unsubscribe anytime &middot;{" "}
+              <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
+                Privacy
+              </a>
             </p>
           )}
         </AnimateOnScroll>
