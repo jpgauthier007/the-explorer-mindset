@@ -152,7 +152,7 @@ export function EmailSignup() {
               {/* Math challenge */}
               {challenge && (
                 <div className="mt-4 flex items-center justify-center gap-3">
-                  <span className="text-gray-secondary text-sm font-body">
+                  <span className="text-offwhite text-sm font-body">
                     What is {challenge.question}?
                   </span>
                   <input
