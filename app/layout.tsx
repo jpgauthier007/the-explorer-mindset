@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Inter } from "next/font/google";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import { WebMCPProvider } from "@/components/WebMCPProvider";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -16,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://theexplorermindset.com"),
   title: "The Explorer Mindset - A Guide to Growth for Your Life, Family, and Work",
   description:
     "By Jean-Philippe Gauthier. A practical guide to building curiosity, adaptability, and resilience for navigating an uncertain future. Foreword by Sean Downey.",
@@ -88,6 +90,7 @@ export default function RootLayout({
       </head>
       <body className="bg-navy-950 text-white antialiased font-body">
         <ConvexClientProvider>{children}</ConvexClientProvider>
+        <WebMCPProvider />
       </body>
     </html>
   );
