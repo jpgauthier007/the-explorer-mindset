@@ -94,13 +94,7 @@ export default function PrivacyPage() {
             <ul className="mt-3 space-y-2 list-disc list-inside">
               <li>
                 <strong className="text-offwhite">Unsubscribe</strong> at any
-                time via our{" "}
-                <Link
-                  href="/unsubscribe"
-                  className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors"
-                >
-                  unsubscribe page
-                </Link>
+                time using the link in our emails or by contacting us
               </li>
               <li>
                 <strong className="text-offwhite">Request deletion</strong> of

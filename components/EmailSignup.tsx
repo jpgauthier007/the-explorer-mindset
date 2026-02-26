@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
+import { UnsubscribePopover } from "./UnsubscribePopover";
 
 function generateChallenge() {
   const a = Math.floor(Math.random() * 10) + 1;
@@ -176,9 +177,7 @@ export function EmailSignup() {
           {status !== "success" && status !== "already" && (
             <p className="mt-5 text-gray-secondary text-xs font-display uppercase tracking-[0.08em]">
               No spam &middot;{" "}
-              <a href="/unsubscribe" className="underline underline-offset-2 hover:text-offwhite transition-colors">
-                Unsubscribe anytime
-              </a>
+              <UnsubscribePopover />
               {" "}&middot;{" "}
               <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
                 Privacy
