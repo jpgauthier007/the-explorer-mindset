@@ -25,7 +25,7 @@ export function Header() {
           href="#"
           className="font-display text-sm font-bold uppercase tracking-[0.14em] text-offwhite/80 hover:text-offwhite transition-colors"
         >
-          <span className="text-accent">T</span>EM
+          T<span className="text-accent">E</span>M
         </a>
 
         {/* Nav */}
@@ -48,18 +48,20 @@ export function Header() {
           >
             Author
           </a>
+          <a
+            href="#join"
+            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+          >
+            Join
+          </a>
         </nav>
 
         {/* CTA */}
         <a
-          href="#join"
-          className={`font-display text-xs font-semibold uppercase tracking-[0.08em] px-5 py-2 rounded-full transition-all duration-300 ${
-            scrolled
-              ? "bg-accent text-offwhite hover:bg-accent-hover"
-              : "border border-offwhite/20 text-offwhite/80 hover:border-offwhite/40 hover:text-offwhite"
-          }`}
+          href="#buy"
+          className="font-display text-xs font-semibold uppercase tracking-[0.08em] px-5 py-2 rounded-full bg-accent text-offwhite hover:bg-accent-hover transition-all duration-300"
         >
-          Join
+          Buy
         </a>
       </div>
     </header>

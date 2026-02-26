@@ -14,7 +14,7 @@ export function Footer() {
           {/* Left: brand block */}
           <div className="text-center md:text-left">
             <p className="font-display text-lg font-bold uppercase tracking-[0.1em] text-offwhite/90">
-              <span className="text-accent">The Explorer</span> Mindset
+              The <span className="text-accent">Explorer</span> Mindset
             </p>
             <p className="mt-2 font-body text-sm text-gray-secondary leading-relaxed max-w-xs">
               A guide to growth for your life, family, and work.
@@ -43,9 +43,15 @@ export function Footer() {
             </a>
             <a
               href="#join"
-              className="font-display text-xs uppercase tracking-[0.1em] text-accent hover:text-accent-hover transition-colors"
+              className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
             >
               Join
+            </a>
+            <a
+              href="#buy"
+              className="font-display text-xs uppercase tracking-[0.1em] text-accent hover:text-accent-hover transition-colors"
+            >
+              Buy
             </a>
           </nav>
         </div>

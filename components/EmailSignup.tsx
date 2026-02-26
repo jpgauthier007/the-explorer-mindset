@@ -175,14 +175,14 @@ export function EmailSignup() {
           )}
 
           {status !== "success" && status !== "already" && (
-            <p className="mt-5 text-gray-secondary text-xs font-body">
+            <div className="mt-5 text-gray-secondary text-xs font-body">
               No spam &middot;{" "}
               <UnsubscribePopover />
               {" "}&middot;{" "}
               <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
                 Privacy
               </a>
-            </p>
+            </div>
           )}
         </AnimateOnScroll>
       </div>
