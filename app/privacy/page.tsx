@@ -88,26 +88,6 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-offwhite mb-3">
-              CAPTCHA Protection
-            </h2>
-            <p>
-              We use Cloudflare Turnstile to protect our subscription form from
-              automated abuse. Turnstile is a privacy-preserving alternative
-              that does not track users or use cookies. See{" "}
-              <a
-                href="https://www.cloudflare.com/privacypolicy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors"
-              >
-                Cloudflare&rsquo;s Privacy Policy
-              </a>
-              .
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display font-semibold text-lg text-offwhite mb-3">
               Your Rights
             </h2>
             <p>You have the right to:</p>

@@ -21,20 +21,6 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT_MAX;
 }
 
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true; // Skip verification if not configured
-
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret, response: token, remoteip: ip }),
-  });
-
-  const data = await res.json();
-  return data.success === true;
-}
-
 export async function POST(request: Request) {
   // Validate Content-Type
   const contentType = request.headers.get("content-type");
@@ -88,23 +74,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify Turnstile CAPTCHA token
-    const turnstileToken = typeof body.turnstileToken === "string" ? body.turnstileToken : "";
-    if (process.env.TURNSTILE_SECRET_KEY && !turnstileToken) {
+    // Verify math challenge (server-side)
+    const { mathChallenge, mathAnswer } = body;
+    if (
+      !mathChallenge ||
+      typeof mathChallenge.a !== "number" ||
+      typeof mathChallenge.b !== "number" ||
+      typeof mathAnswer !== "number" ||
+      mathChallenge.a + mathChallenge.b !== mathAnswer
+    ) {
       return Response.json(
-        { success: false, error: "Please complete the CAPTCHA." },
+        { success: false, error: "Incorrect answer. Please try again." },
         { status: 400 },
       );
-    }
-
-    if (turnstileToken) {
-      const verified = await verifyTurnstile(turnstileToken, ip);
-      if (!verified) {
-        return Response.json(
-          { success: false, error: "CAPTCHA verification failed. Please try again." },
-          { status: 403 },
-        );
-      }
     }
 
     const result = await convex.mutation(api.subscribers.subscribe, { email });

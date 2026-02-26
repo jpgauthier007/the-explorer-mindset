@@ -1,21 +1,37 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useEffect, useState } from "react";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+function generateChallenge() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  return { a, b, answer: a + b, question: `${a} + ${b}` };
+}
 
 export function EmailSignup() {
   const [email, setEmail] = useState("");
+  const [mathAnswer, setMathAnswer] = useState("");
+  const [challenge, setChallenge] = useState<{ a: number; b: number; answer: number; question: string } | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "already" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileRef = useRef<TurnstileInstance>(null);
+
+  useEffect(() => {
+    setChallenge(generateChallenge());
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!challenge || parseInt(mathAnswer, 10) !== challenge.answer) {
+      setStatus("error");
+      setErrorMessage("Incorrect answer. Please try again.");
+      setChallenge(generateChallenge());
+      setMathAnswer("");
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
 
@@ -23,25 +39,30 @@ export function EmailSignup() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, turnstileToken: turnstileToken || "" }),
+        body: JSON.stringify({
+          email,
+          mathChallenge: { a: challenge.a, b: challenge.b },
+          mathAnswer: parseInt(mathAnswer, 10),
+        }),
       });
       const data = await res.json();
 
       if (!res.ok) {
         setStatus("error");
         setErrorMessage(data.error || "Something went wrong.");
-        turnstileRef.current?.reset();
-        setTurnstileToken(null);
+        setChallenge(generateChallenge());
+        setMathAnswer("");
         return;
       }
 
       setStatus(data.alreadySubscribed ? "already" : "success");
       setEmail("");
+      setMathAnswer("");
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
-      turnstileRef.current?.reset();
-      setTurnstileToken(null);
+      setChallenge(generateChallenge());
+      setMathAnswer("");
     }
   };
 
@@ -110,7 +131,7 @@ export function EmailSignup() {
                 />
                 <button
                   type="submit"
-                  disabled={status === "loading" || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                  disabled={status === "loading"}
                   className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
                 >
                   {status === "loading" ? (
@@ -127,16 +148,21 @@ export function EmailSignup() {
                 </button>
               </div>
 
-              {/* Turnstile CAPTCHA */}
-              {TURNSTILE_SITE_KEY && (
-                <div className="mt-4 flex justify-center">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={TURNSTILE_SITE_KEY}
-                    onSuccess={setTurnstileToken}
-                    onError={() => setTurnstileToken(null)}
-                    onExpire={() => setTurnstileToken(null)}
-                    options={{ theme: "dark", size: "compact" }}
+              {/* Math challenge */}
+              {challenge && (
+                <div className="mt-4 flex items-center justify-center gap-3">
+                  <span className="text-gray-secondary text-sm font-body">
+                    What is {challenge.question}?
+                  </span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    required
+                    value={mathAnswer}
+                    onChange={(e) => setMathAnswer(e.target.value)}
+                    placeholder="?"
+                    className="w-14 bg-white/[0.04] border border-white/[0.08] text-offwhite text-center rounded-lg px-2 py-1.5 font-body text-sm focus:outline-none focus:border-accent/40 transition-colors"
                   />
                 </div>
               )}
