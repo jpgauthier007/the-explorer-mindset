@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { SectionBadge } from "./SectionBadge";
 import { AnimateOnScroll } from "./AnimateOnScroll";
 import { UnsubscribePopover } from "./UnsubscribePopover";
-import type { Dictionary } from "@/dictionaries/getDictionary";
+import type { Lang, Dictionary } from "@/dictionaries/getDictionary";
 
 type EmailSignupDict = Dictionary["emailSignup"];
 
@@ -14,7 +14,9 @@ function generateChallenge() {
   return { a, b, answer: a + b, question: `${a} + ${b}` };
 }
 
-export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
+export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang }) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [mathAnswer, setMathAnswer] = useState("");
   const [challenge, setChallenge] = useState<{ a: number; b: number; answer: number; question: string } | null>(null);
@@ -44,7 +46,10 @@ export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          firstName,
+          lastName,
           email,
+          preferredLang: lang,
           mathChallenge: { a: challenge.a, b: challenge.b },
           mathAnswer: parseInt(mathAnswer, 10),
         }),
@@ -60,6 +65,8 @@ export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
       }
 
       setStatus(data.alreadySubscribed ? "already" : "success");
+      setFirstName("");
+      setLastName("");
       setEmail("");
       setMathAnswer("");
     } catch {
@@ -69,6 +76,8 @@ export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
       setMathAnswer("");
     }
   };
+
+  const inputClass = "bg-transparent text-offwhite placeholder:text-gray-secondary rounded-xl px-5 py-3.5 font-body text-base focus:outline-none transition-colors";
 
   return (
     <section
@@ -122,33 +131,56 @@ export function EmailSignup({ dict }: { dict: EmailSignupDict }) {
               className="mt-12 relative max-w-lg mx-auto"
             >
               {/* Glass form container */}
-              <div className="flex flex-col sm:flex-row items-stretch gap-3 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-2">
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={dict.placeholder}
-                  className="flex-1 bg-transparent text-offwhite placeholder:text-gray-secondary rounded-xl px-5 py-3.5 font-body text-base focus:outline-none transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
-                >
-                  {status === "loading" ? (
-                    <span className="inline-flex items-center gap-2">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                      {dict.submitting}
-                    </span>
-                  ) : (
-                    dict.submit
-                  )}
-                </button>
+              <div className="flex flex-col gap-3 bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-2">
+                {/* Name row */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    name="firstName"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder={dict.placeholderFirstName}
+                    className={`flex-1 ${inputClass}`}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder={dict.placeholderLastName}
+                    className={`flex-1 ${inputClass}`}
+                  />
+                </div>
+                {/* Email + submit row */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={dict.placeholder}
+                    className={`flex-1 ${inputClass}`}
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
+                  >
+                    {status === "loading" ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        {dict.submitting}
+                      </span>
+                    ) : (
+                      dict.submit
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Math challenge */}

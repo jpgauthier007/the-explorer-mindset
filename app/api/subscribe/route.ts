@@ -74,6 +74,27 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate firstName (required, max 100 chars)
+    const firstName = typeof body.firstName === "string" ? body.firstName.trim() : "";
+    if (firstName.length === 0 || firstName.length > 100) {
+      return Response.json(
+        { success: false, error: "A first name is required." },
+        { status: 400 },
+      );
+    }
+
+    // Validate lastName (optional, max 100 chars)
+    const lastName = typeof body.lastName === "string" ? body.lastName.trim() : "";
+    if (lastName.length > 100) {
+      return Response.json(
+        { success: false, error: "Last name is too long." },
+        { status: 400 },
+      );
+    }
+
+    // Validate preferredLang
+    const preferredLang = body.preferredLang === "fr" ? "fr" : "en";
+
     // Verify math challenge (server-side)
     const { mathChallenge, mathAnswer } = body;
     if (
@@ -89,7 +110,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await convex.mutation(api.subscribers.subscribe, { email });
+    const result = await convex.mutation(api.subscribers.subscribe, {
+      email,
+      firstName,
+      lastName: lastName || undefined,
+      preferredLang,
+    });
     return Response.json(result);
   } catch {
     return Response.json(

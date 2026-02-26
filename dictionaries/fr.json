@@ -78,6 +78,8 @@
     "headingAccent": "Choisissez comment vous grandirez",
     "headingEnd": "avec lui.",
     "description": "Inscrivez-vous pour recevoir des r\u00e9flexions sur la curiosit\u00e9, l\u2019adaptabilit\u00e9 et la r\u00e9silience\u2009\u2014\u2009directement dans votre bo\u00eete courriel.",
+    "placeholderFirstName": "Pr\u00e9nom",
+    "placeholderLastName": "Nom (facultatif)",
     "placeholder": "Votre adresse courriel",
     "submit": "Commencer l\u2019exploration",
     "submitting": "Inscription...",

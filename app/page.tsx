@@ -20,7 +20,7 @@ export default async function Home() {
         <BuyBook dict={dict.buyBook} />
         <ThreePillars dict={dict.threePillars} />
         <AboutAuthor dict={dict.aboutAuthor} />
-        <EmailSignup dict={dict.emailSignup} />
+        <EmailSignup dict={dict.emailSignup} lang="en" />
         <Footer dict={dict.footer} lang="en" />
       </main>
     </>

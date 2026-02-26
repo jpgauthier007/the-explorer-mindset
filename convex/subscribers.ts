@@ -17,9 +17,19 @@ function validateEmail(email: string): string {
 }
 
 export const subscribe = mutation({
-  args: { email: v.string() },
-  handler: async (ctx, { email }) => {
+  args: {
+    email: v.string(),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+    preferredLang: v.optional(v.string()),
+  },
+  handler: async (ctx, { email, firstName, lastName, preferredLang }) => {
     const normalizedEmail = validateEmail(email);
+    const profileFields = {
+      ...(firstName !== undefined && { firstName: firstName.trim() }),
+      ...(lastName !== undefined && { lastName: lastName.trim() }),
+      ...(preferredLang !== undefined && { preferredLang }),
+    };
 
     const existing = await ctx.db
       .query("subscribers")
@@ -27,16 +37,24 @@ export const subscribe = mutation({
       .first();
 
     if (existing) {
-      // Re-subscribe if previously unsubscribed
       if (existing.unsubscribedAt) {
-        await ctx.db.patch(existing._id, { unsubscribedAt: undefined });
+        // Re-subscribe: update profile and clear unsubscribe
+        await ctx.db.patch(existing._id, {
+          ...profileFields,
+          unsubscribedAt: undefined,
+        });
         return { success: true, alreadySubscribed: false };
+      }
+      // Already active: update profile fields if provided
+      if (Object.keys(profileFields).length > 0) {
+        await ctx.db.patch(existing._id, profileFields);
       }
       return { success: true, alreadySubscribed: true };
     }
 
     await ctx.db.insert("subscribers", {
       email: normalizedEmail,
+      ...profileFields,
       subscribedAt: Date.now(),
     });
 

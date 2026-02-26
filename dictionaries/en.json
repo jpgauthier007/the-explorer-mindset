@@ -78,6 +78,8 @@
     "headingAccent": "Choose how you grow",
     "headingEnd": "with it.",
     "description": "Sign up for reflections on curiosity, adaptability, and resilience\u2009\u2014\u2009straight to your inbox.",
+    "placeholderFirstName": "First name",
+    "placeholderLastName": "Last name (optional)",
     "placeholder": "Your email address",
     "submit": "Start Exploring",
     "submitting": "Joining...",
