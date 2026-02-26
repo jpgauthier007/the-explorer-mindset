@@ -53,6 +53,12 @@ export function Footer({ dict, lang }: { dict: FooterDict; lang: Lang }) {
               {dict.navJoin}
             </a>
             <a
+              href={lang === "fr" ? "/fr/resources" : "/resources"}
+              className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            >
+              {dict.navResources}
+            </a>
+            <a
               href="#buy"
               className="font-display text-xs uppercase tracking-[0.1em] text-accent hover:text-accent-hover transition-colors"
             >

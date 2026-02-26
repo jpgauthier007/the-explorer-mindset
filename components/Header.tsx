@@ -58,6 +58,12 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
           >
             {dict.navJoin}
           </a>
+          <a
+            href={lang === "fr" ? "/fr/resources" : "/resources"}
+            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+          >
+            {dict.navResources}
+          </a>
         </nav>
 
         <div className="flex items-center gap-3">

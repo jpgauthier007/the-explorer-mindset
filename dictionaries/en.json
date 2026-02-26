@@ -8,6 +8,7 @@
     "navFramework": "Framework",
     "navAuthor": "Author",
     "navJoin": "Join",
+    "navResources": "Resources",
     "ctaBuy": "Buy"
   },
   "hero": {
@@ -101,10 +102,47 @@
     "navFramework": "Framework",
     "navAuthor": "Author",
     "navJoin": "Join",
+    "navResources": "Resources",
     "navBuy": "Buy",
     "privacy": "Privacy",
     "unsubscribe": "Unsubscribe",
     "unsubscribeMessage": "To unsubscribe, use the link in any of our emails or contact us directly."
+  },
+  "resources": {
+    "badge": "Resources",
+    "heading": "Your Explorer Toolkit",
+    "description": "Companion materials to deepen your practice and keep growing.",
+    "backHome": "\u2190 Back to home",
+    "worksheets": {
+      "heading": "Book Companion Worksheets",
+      "items": [
+        {
+          "title": "90 Days Plan",
+          "description": "A structured 90-day plan to build your Explorer Mindset habits, one week at a time.",
+          "file": "90-days-plan.pdf"
+        },
+        {
+          "title": "48 Hours Plan",
+          "description": "A quick-start guide to begin your explorer journey this weekend.",
+          "file": "48-hours-plan.pdf"
+        }
+      ]
+    },
+    "assessment": {
+      "heading": "The Explorer Mindset Assessment",
+      "description": "Discover where you stand on curiosity, adaptability, and resilience. A self-assessment tool to guide your growth."
+    },
+    "extras": {
+      "heading": "Extras",
+      "items": [
+        {
+          "title": "Workshop",
+          "description": "An interactive workshop to practice the Explorer Mindset with your team or community."
+        }
+      ]
+    },
+    "download": "Download PDF",
+    "comingSoon": "Coming Soon"
   },
   "notFound": {
     "badge": "Off the Map",

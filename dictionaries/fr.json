@@ -8,6 +8,7 @@
     "navFramework": "Le cadre",
     "navAuthor": "L\u2019auteur",
     "navJoin": "S\u2019inscrire",
+    "navResources": "Ressources",
     "ctaBuy": "Acheter"
   },
   "hero": {
@@ -101,10 +102,47 @@
     "navFramework": "Le cadre",
     "navAuthor": "L\u2019auteur",
     "navJoin": "S\u2019inscrire",
+    "navResources": "Ressources",
     "navBuy": "Acheter",
     "privacy": "Confidentialit\u00e9",
     "unsubscribe": "Se d\u00e9sabonner",
     "unsubscribeMessage": "Pour vous d\u00e9sabonner, utilisez le lien dans nos courriels ou contactez-nous directement."
+  },
+  "resources": {
+    "badge": "Ressources",
+    "heading": "Votre bo\u00eete \u00e0 outils d\u2019explorateur",
+    "description": "Des outils compl\u00e9mentaires pour approfondir votre pratique et continuer \u00e0 grandir.",
+    "backHome": "\u2190 Retour \u00e0 l\u2019accueil",
+    "worksheets": {
+      "heading": "Cahiers d\u2019accompagnement",
+      "items": [
+        {
+          "title": "Plan 90 jours",
+          "description": "Un plan structur\u00e9 sur 90 jours pour ancrer vos habitudes d\u2019explorateur, une semaine \u00e0 la fois.",
+          "file": "90-days-plan.pdf"
+        },
+        {
+          "title": "Plan 48 heures",
+          "description": "Un guide de d\u00e9marrage rapide pour commencer votre parcours d\u2019explorateur cette fin de semaine.",
+          "file": "48-hours-plan.pdf"
+        }
+      ]
+    },
+    "assessment": {
+      "heading": "\u00c9valuation Explorer Mindset",
+      "description": "D\u00e9couvrez o\u00f9 vous en \u00eates en mati\u00e8re de curiosit\u00e9, d\u2019adaptabilit\u00e9 et de r\u00e9silience. Un outil d\u2019auto\u00e9valuation pour guider votre croissance."
+    },
+    "extras": {
+      "heading": "Extras",
+      "items": [
+        {
+          "title": "Atelier",
+          "description": "Un atelier interactif pour mettre en pratique l\u2019\u00e9tat d\u2019esprit d\u2019explorateur avec votre \u00e9quipe ou votre communaut\u00e9."
+        }
+      ]
+    },
+    "download": "T\u00e9l\u00e9charger le PDF",
+    "comingSoon": "Bient\u00f4t disponible"
   },
   "notFound": {
     "badge": "Hors piste",
