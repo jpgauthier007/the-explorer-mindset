@@ -175,7 +175,7 @@ export function EmailSignup() {
           )}
 
           {status !== "success" && status !== "already" && (
-            <p className="mt-5 text-gray-secondary text-xs font-display uppercase tracking-[0.08em]">
+            <p className="mt-5 text-gray-secondary text-xs font-body">
               No spam &middot;{" "}
               <UnsubscribePopover />
               {" "}&middot;{" "}
