@@ -11,7 +11,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  // Set language header for root layout to read
+  const lang = pathname.startsWith("/fr") ? "fr" : "en";
+  const response = NextResponse.next();
+  response.headers.set("x-lang", lang);
+  return response;
 }
 
 export const config = {

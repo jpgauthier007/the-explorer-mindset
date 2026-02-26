@@ -26,24 +26,10 @@ export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "fr" }];
 }
 
-export default async function LangLayout({
+export default function LangLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
-
-  // Set the html lang attribute via a script since the root layout owns <html>
-  return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `document.documentElement.lang="${lang === "fr" ? "fr" : "en"}";`,
-        }}
-      />
-      {children}
-    </>
-  );
+  return children;
 }

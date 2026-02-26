@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Montserrat, Source_Serif_4 } from "next/font/google";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { WebMCPProvider } from "@/components/WebMCPProvider";
@@ -79,13 +80,16 @@ const jsonLd = [
   },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = await headers();
+  const lang = headersList.get("x-lang") || "en";
+
   return (
-    <html lang="en" className={`${montserrat.variable} ${sourceSerif.variable}`}>
+    <html lang={lang} className={`${montserrat.variable} ${sourceSerif.variable}`}>
       <head>
         <script
           type="application/ld+json"
