@@ -2,26 +2,71 @@
 
 @theme {
   /* Navy family (backgrounds) */
-  --color-navy-950: #151517;
-  --color-navy-900: #1C2C4A;
-  --color-navy-800: #23375E;
+  --color-navy-950: #0D0F14;
+  --color-navy-900: #141B2D;
+  --color-navy-800: #1E2D4D;
   --color-navy-700: #29406F;
   --color-navy-600: #2F4A82;
+  --color-navy-500: #3A5A9A;
 
   /* Orange family (accent) */
   --color-accent: #CB4A33;
   --color-accent-hover: #D7674C;
+  --color-accent-glow: rgba(203, 74, 51, 0.15);
 
   /* Neutrals */
   --color-offwhite: #F5F6F9;
-  --color-gray-muted: #C6BBC7;
-  --color-gray-secondary: #777F97;
+  --color-gray-muted: #C6CBC7;
+  --color-gray-secondary: #7A8299;
 
   /* Border tokens */
-  --color-border-subtle: rgba(245, 246, 249, 0.14);
-  --color-border-strong: rgba(245, 246, 249, 0.22);
+  --color-border-subtle: rgba(245, 246, 249, 0.08);
+  --color-border-strong: rgba(245, 246, 249, 0.16);
+
+  /* Glass */
+  --color-glass: rgba(20, 27, 45, 0.6);
+  --color-glass-border: rgba(245, 246, 249, 0.1);
 
   /* Font families */
   --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-source-serif-4), "Georgia", "Times New Roman", serif;
+}
+
+/* Grain texture overlay */
+@layer base {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom selection */
+::selection {
+  background: rgba(203, 74, 51, 0.3);
+  color: #F5F6F9;
+}
+
+/* Glow utilities */
+@layer utilities {
+  .glow-accent {
+    box-shadow: 0 0 80px 20px rgba(203, 74, 51, 0.12), 0 0 160px 60px rgba(203, 74, 51, 0.06);
+  }
+  .glow-accent-soft {
+    box-shadow: 0 0 120px 40px rgba(203, 74, 51, 0.08);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
 }

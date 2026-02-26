@@ -1,0 +1,19 @@
+/* TEAM */
+
+Author: Jean-Philippe Gauthier
+Role: Author, Leader, Coach
+Location: Canada
+Book: The Explorer Mindset — A Guide to Growth for Your Life, Family, and Work
+
+/* THANKS */
+
+Foreword: Sean Downey
+
+/* SITE */
+
+Built with: Next.js 16, Tailwind CSS v4, Convex, Vercel
+Fonts: Montserrat (display), Source Serif 4 (body)
+Standards: HTML5, CSS3, ES2024
+Software: Claude Code (Anthropic)
+Last updated: 2026-02-25
+Language: English

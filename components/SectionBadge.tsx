@@ -1,7 +1,9 @@
 export function SectionBadge({ label }: { label: string }) {
   return (
-    <span className="inline-block bg-accent text-offwhite text-xs font-display font-semibold uppercase tracking-[0.08em] px-4 py-1.5 rounded-full">
+    <span className="inline-flex items-center gap-2 text-accent text-[11px] font-display font-semibold uppercase tracking-[0.16em]">
+      <span className="w-8 h-px bg-accent/40" />
       {label}
+      <span className="w-8 h-px bg-accent/40" />
     </span>
   );
 }

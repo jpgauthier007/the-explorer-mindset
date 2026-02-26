@@ -17,7 +17,7 @@ export const subscribe = mutation({
       .first();
 
     if (existing) {
-      return { success: true };
+      return { success: true, alreadySubscribed: true };
     }
 
     await ctx.db.insert("subscribers", {
@@ -25,6 +25,6 @@ export const subscribe = mutation({
       subscribedAt: Date.now(),
     });
 
-    return { success: true };
+    return { success: true, alreadySubscribed: false };
   },
 });

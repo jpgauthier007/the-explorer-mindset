@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Source_Serif_4 } from "next/font/google";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { WebMCPProvider } from "@/components/WebMCPProvider";
 import "./globals.css";
@@ -10,9 +10,9 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const inter = Inter({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-source-serif-4",
   display: "swap",
 });
 
@@ -81,14 +81,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${sourceSerif.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-navy-950 text-white antialiased font-body">
+      <body className="bg-navy-950 text-offwhite antialiased font-body">
         <ConvexClientProvider>{children}</ConvexClientProvider>
         <WebMCPProvider />
       </body>
