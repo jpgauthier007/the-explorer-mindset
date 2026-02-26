@@ -22,7 +22,7 @@ export function UnsubscribePopover({ className }: { className?: string }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="underline underline-offset-2 hover:text-offwhite transition-colors cursor-pointer"
+        className="normal-case underline underline-offset-2 hover:text-offwhite transition-colors cursor-pointer"
       >
         Unsubscribe
       </button>
