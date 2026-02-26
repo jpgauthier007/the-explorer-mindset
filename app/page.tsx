@@ -1,7 +1,9 @@
 export default function Home() {
   return (
-    <main>
-      <h1>The Explorer Mindset</h1>
+    <main className="min-h-screen bg-navy-800 flex items-center justify-center">
+      <h1 className="font-display text-6xl font-extrabold uppercase tracking-wider text-offwhite">
+        THE <span className="text-accent">EXPLORER</span> MINDSET
+      </h1>
     </main>
   );
 }

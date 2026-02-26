@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@theme {
+  /* Navy family (backgrounds) */
+  --color-navy-950: #151517;
+  --color-navy-900: #1C2C4A;
+  --color-navy-800: #23375E;
+  --color-navy-700: #29406F;
+  --color-navy-600: #2F4A82;
+
+  /* Orange family (accent) */
+  --color-accent: #CB4A33;
+  --color-accent-hover: #D7674C;
+
+  /* Neutrals */
+  --color-offwhite: #F5F6F9;
+  --color-gray-muted: #C6BBC7;
+  --color-gray-secondary: #777F97;
+
+  /* Border tokens */
+  --color-border-subtle: rgba(245, 246, 249, 0.14);
+  --color-border-strong: rgba(245, 246, 249, 0.22);
+
+  /* Font families */
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
