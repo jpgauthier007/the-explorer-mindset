@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__list_memories",
+      "mcp__serena__list_dir",
+      "mcp__serena__activate_project",
+      "Bash(unzip -l \"/Users/jpgauthier/Coding/the-website/docs/The Explorer Mindset_-HJASTdspdu.epub\" | head -30)",
+      "Bash(unzip -l \"/Users/jpgauthier/Coding/the-website/docs/The Explorer Mindset_-HJASTdspdu.epub\" | grep -i \"opf\\\\|xml\")",
+      "WebSearch",
+      "WebFetch(domain:patrickbrosset.com)",
+      "WebFetch(domain:webmcp.link)",
+      "WebFetch(domain:searchengineland.com)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm --yes 2>&1)",
+      "Bash(npx create-next-app@latest /tmp/next-scaffold --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm --yes 2>&1)",
+      "Bash(npm run build 2>&1)",
+      "Bash(git init 2>&1)",
+      "Bash(git add -A && git commit -m \"$\\(cat <<'EOF'\nchore: scaffold Next.js 15 + Tailwind project\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "serena"
+  ]
+}
