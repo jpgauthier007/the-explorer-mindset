@@ -5,6 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SectionBadge } from "./SectionBadge";
 import { DottedPathConnector } from "./DottedPath";
+import { AnimateOnScroll } from "./AnimateOnScroll";
 
 export function EmailSignup() {
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ export function EmailSignup() {
       <DottedPathConnector className="absolute inset-0 w-full h-full opacity-40 pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-[1120px] px-5 md:px-10 text-center">
+        <AnimateOnScroll>
         <SectionBadge label="Join the Journey" />
 
         <h2 className="mt-8 font-display font-bold text-2xl md:text-3xl text-offwhite max-w-xl mx-auto leading-snug">
@@ -87,6 +89,7 @@ export function EmailSignup() {
             No spam. Unsubscribe anytime.
           </p>
         )}
+        </AnimateOnScroll>
       </div>
     </section>
   );
