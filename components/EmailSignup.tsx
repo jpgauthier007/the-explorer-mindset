@@ -77,12 +77,12 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
     }
   };
 
-  const inputClass = "bg-transparent text-offwhite placeholder:text-gray-secondary rounded-xl px-5 py-3.5 font-body text-base focus:outline-none transition-colors";
+  const inputClass = "bg-transparent border border-transparent text-offwhite placeholder:text-gray-secondary rounded-xl px-5 py-3.5 font-body text-base focus:outline-none focus:border-accent/40 transition-colors";
 
   return (
     <section
       id="join"
-      className="relative bg-navy-900 py-28 md:py-36 overflow-hidden"
+      className="relative bg-navy-800 py-28 md:py-36 overflow-hidden"
     >
       {/* Large radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-accent/[0.05] rounded-full blur-[140px] pointer-events-none" />
@@ -166,7 +166,7 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
+                    className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] whitespace-nowrap hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
                   >
                     {status === "loading" ? (
                       <span className="inline-flex items-center gap-2">
@@ -215,7 +215,7 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
                 dict={{ label: dict.unsubscribe, message: dict.unsubscribeMessage }}
               />
               {" "}&middot;{" "}
-              <a href="/privacy" className="underline underline-offset-2 hover:text-offwhite transition-colors">
+              <a href={lang === "fr" ? "/fr/privacy" : "/privacy"} className="underline underline-offset-2 hover:text-offwhite transition-colors">
                 {dict.privacy}
               </a>
             </div>
