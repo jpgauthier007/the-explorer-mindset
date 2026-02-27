@@ -8,6 +8,7 @@ type HeaderDict = Dictionary["header"];
 
 export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
   const [scrolled, setScrolled] = useState(false);
+  const home = lang === "fr" ? "/fr" : "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -26,7 +27,7 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
       <div className="mx-auto max-w-[1120px] px-5 md:px-10 flex items-center justify-between h-16">
         {/* Logo / wordmark */}
         <a
-          href={lang === "fr" ? "/fr" : "/"}
+          href={home}
           className="font-display text-sm font-bold uppercase tracking-[0.14em] text-offwhite/80 hover:text-offwhite transition-colors"
         >
           T<span className="text-accent">E</span>M
@@ -35,25 +36,25 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
         {/* Nav */}
         <nav className="hidden sm:flex items-center gap-8">
           <a
-            href="#about"
+            href={`${home}#about`}
             className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
           >
             {dict.navBook}
           </a>
           <a
-            href="#framework"
+            href={`${home}#framework`}
             className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
           >
             {dict.navFramework}
           </a>
           <a
-            href="#author"
+            href={`${home}#author`}
             className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
           >
             {dict.navAuthor}
           </a>
           <a
-            href="#join"
+            href={`${home}#join`}
             className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
           >
             {dict.navJoin}
@@ -71,7 +72,7 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
 
           {/* CTA */}
           <a
-            href="#buy"
+            href={`${home}#buy`}
             className="font-display text-xs font-semibold uppercase tracking-[0.08em] px-5 py-2 rounded-full bg-accent text-offwhite hover:bg-accent-hover transition-all duration-300"
           >
             {dict.ctaBuy}
