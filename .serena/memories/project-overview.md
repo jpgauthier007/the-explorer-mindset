@@ -30,7 +30,7 @@ app/
   resources/page.tsx      -- Resources page (worksheets, assessment, extras)
   api/subscribe/route.ts  -- POST: rate limited, Turnstile-verified, validated
 components/
-  Header.tsx              -- Sticky glass header (scroll-aware), "Buy" CTA, "Newsletter"/"Infolettre" nav link
+  Header.tsx              -- Sticky glass header (scroll-aware), "Buy" CTA, "Newsletter"/"Infolettre" nav link. All anchor links use `${home}#anchor` (absolute paths) to work from any sub-page (e.g. /resources/worksheets)
   UnsubscribePopover.tsx  -- Click popover: "use the link in our emails"
   Hero.tsx                -- Full-viewport: layered gradients, 3D book cover, dotted path
   AboutBook.tsx           -- Italic serif pull quote + description
@@ -39,7 +39,11 @@ components/
   AboutAuthor.tsx         -- Photo with radial glow + bio with role subtitle
   EmailSignup.tsx         -- Glass form: firstName + lastName row, email + button row, math CAPTCHA, lang auto-detect, focus:border-accent/40, locale-aware privacy link
   Footer.tsx              -- Two-column layout, dotted divider, nav synced with header
-  Resources.tsx           -- Resources page: 3 sub-sections (worksheets, assessment, extras), glassmorphism cards, "Coming Soon" state
+  Resources.tsx           -- Resources hub (currently bypassed by redirect to /worksheets). Shows 3 overview cards.
+  ResourcesSubNav.tsx     -- Sliding underline tab nav (client component, usePathname + ref-measured positions)
+  ResourcesWorksheets.tsx -- Worksheets section cards
+  ResourcesAssessment.tsx -- Assessment section card
+  ResourcesExtras.tsx     -- Extras section cards
   SectionBadge.tsx        -- Line-accent label (horizontal lines flanking text)
   DottedPath.tsx          -- SVG motif variants (Hero, Divider, Connector, Vertical)
   AnimateOnScroll.tsx     -- IntersectionObserver scroll animations (threshold 0.15)
@@ -114,11 +118,15 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - **Design doc:** `docs/plans/2026-02-26-newsletter-fields-design.md`
 
 ## Resources Page
-- **URL:** `/resources` (EN), `/fr/resources` (FR). Referenced in book as theexplorermindset.com/resources
+- **URL:** `/resources` redirects to `/resources/worksheets` (worksheets is default). Referenced in book as theexplorermindset.com/resources
+- **Sub-nav:** Sliding underline tab nav (Worksheets / Assessment / Extras). Client component `ResourcesSubNav.tsx` uses `usePathname()` + ref-measured tab positions + CSS `transition-all` for slide effect.
+- **Route group:** `app/resources/(sections)/layout.tsx` wraps EN sub-pages. `app/[lang]/resources/(sections)/layout.tsx` wraps FR sub-pages. Both include Header, sub-nav shell, Footer.
+- **Sub-pages:** `/resources/worksheets`, `/resources/assessment`, `/resources/extras` (+ FR mirrors at `/fr/resources/*`)
 - **Sub-sections:** Book Companion Worksheets (90 Days Plan, 48 Hours Plan), Explorer Mindset Assessment, Extras (Workshop)
 - **Status:** All "Coming Soon" until PDFs dropped in `public/resources/`
-- **Nav:** "Resources"/"Ressources" added to header and footer
+- **Nav:** "Resources"/"Ressources" in header and footer
 - **No gate:** Public page, no authentication
+- **Dict keys:** `subnav.{worksheets,assessment,extras}`, `backResources`, `explore`, `{section}.hubDescription` added to both en.json and fr.json
 - **Design doc:** `docs/plans/2026-02-26-resources-page-design.md`
 
 ## Pending

@@ -7,5 +7,5 @@ export default async function ExtrasPage({ params }: Props) {
   const { lang: rawLang } = await params;
   const lang = (rawLang === "fr" ? "fr" : "en") as Lang;
   const dict = await getDictionary(lang);
-  return <ResourcesExtras dict={dict.resources} />;
+  return <ResourcesExtras dict={dict.resources} lang={lang} />;
 }

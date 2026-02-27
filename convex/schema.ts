@@ -10,4 +10,18 @@ export default defineSchema({
     subscribedAt: v.number(),
     unsubscribedAt: v.optional(v.number()),
   }).index("by_email", ["email"]),
+
+  resources: defineTable({
+    section: v.union(v.literal("worksheets"), v.literal("extras")),
+    titleEn: v.string(),
+    titleFr: v.string(),
+    descriptionEn: v.string(),
+    descriptionFr: v.string(),
+    fileId: v.id("_storage"),
+    fileName: v.string(),
+    published: v.boolean(),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_section", ["section"]),
 });

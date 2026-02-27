@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as resources from "../resources.js";
 import type * as subscribers from "../subscribers.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  resources: typeof resources;
   subscribers: typeof subscribers;
 }>;
 

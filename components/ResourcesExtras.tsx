@@ -1,4 +1,8 @@
-import type { Dictionary } from "@/dictionaries/getDictionary";
+"use client";
+
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Dictionary, Lang } from "@/dictionaries/getDictionary";
 
 type ResourcesDict = Dictionary["resources"];
 
@@ -20,10 +24,30 @@ function ComingSoonLabel({ label }: { label: string }) {
   );
 }
 
-export function ResourcesExtras({ dict }: { dict: ResourcesDict }) {
+function DownloadButton({ url, label }: { url: string; label: string }) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-auto pt-6 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.12em] text-accent hover:text-accent-hover transition-colors"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+      {label}
+    </a>
+  );
+}
+
+type CardItem = { title: string; description: string; published: boolean; url: string | null };
+
+function ExtrasGrid({ items, comingSoon, download }: { items: CardItem[]; comingSoon: string; download: string }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {dict.extras.items.map((item) => (
+      {items.map((item) => (
         <div
           key={item.title}
           className="group relative flex h-full flex-col bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 md:p-9 transition-all duration-500 hover:bg-white/[0.06] hover:border-accent/20 hover:shadow-[0_0_60px_-12px_rgba(203,74,51,0.15)]"
@@ -31,16 +55,40 @@ export function ResourcesExtras({ dict }: { dict: ResourcesDict }) {
           <div className="text-accent/70 transition-colors duration-500 group-hover:text-accent">
             {extrasIcon}
           </div>
-          <h3 className="mt-5 font-display font-bold text-xl text-offwhite tracking-tight">
-            {item.title}
-          </h3>
-          <p className="mt-2 text-gray-muted font-body text-sm leading-[1.75]">
-            {item.description}
-          </p>
-          <ComingSoonLabel label={dict.comingSoon} />
+          <h3 className="mt-5 font-display font-bold text-xl text-offwhite tracking-tight">{item.title}</h3>
+          <p className="mt-2 text-gray-muted font-body text-sm leading-[1.75]">{item.description}</p>
+          {item.published && item.url ? (
+            <DownloadButton url={item.url} label={download} />
+          ) : (
+            <ComingSoonLabel label={comingSoon} />
+          )}
           <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
       ))}
     </div>
   );
+}
+
+export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lang }) {
+  const convexItems = useQuery(api.resources.listBySection, { section: "extras" });
+
+  const fallback: CardItem[] = dict.extras.items.map((i) => ({
+    title: i.title,
+    description: i.description,
+    published: false,
+    url: null,
+  }));
+
+  if (convexItems === undefined || convexItems.length === 0) {
+    return <ExtrasGrid items={fallback} comingSoon={dict.comingSoon} download={dict.download} />;
+  }
+
+  const items: CardItem[] = convexItems.map((r) => ({
+    title: lang === "fr" ? r.titleFr : r.titleEn,
+    description: lang === "fr" ? r.descriptionFr : r.descriptionEn,
+    published: r.published,
+    url: r.url,
+  }));
+
+  return <ExtrasGrid items={items} comingSoon={dict.comingSoon} download={dict.download} />;
 }
