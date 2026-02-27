@@ -13,7 +13,6 @@ export default async function ResourcesSectionsLayout({ children, params }: Prop
   const { lang: rawLang } = await params;
   const lang = (rawLang === "fr" ? "fr" : "en") as Lang;
   const dict = await getDictionary(lang);
-  const resourcesBase = lang === "fr" ? "/fr/resources" : "/resources";
 
   return (
     <>
@@ -23,15 +22,7 @@ export default async function ResourcesSectionsLayout({ children, params }: Prop
           {/* Background glow */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-accent/[0.04] rounded-full blur-[140px] pointer-events-none" />
 
-          <div className="relative z-10 mx-auto max-w-[1120px] px-5 md:px-10 pt-28 pb-20">
-            {/* Back to hub */}
-            <a
-              href={resourcesBase}
-              className="inline-block font-body text-sm text-gray-secondary hover:text-offwhite transition-colors mb-12"
-            >
-              {dict.resources.backResources}
-            </a>
-
+          <div className="relative z-10 mx-auto max-w-[1120px] px-5 md:px-10 pt-24 pb-20">
             {/* Page header */}
             <div className="mb-10">
               <SectionBadge label={dict.resources.badge} />
