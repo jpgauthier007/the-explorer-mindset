@@ -113,8 +113,16 @@
     "heading": "Your Explorer Toolkit",
     "description": "Companion materials to deepen your practice and keep growing.",
     "backHome": "\u2190 Back to home",
+    "backResources": "\u2190 Resources",
+    "explore": "Explore",
+    "subnav": {
+      "worksheets": "Worksheets",
+      "assessment": "Assessment",
+      "extras": "Extras"
+    },
     "worksheets": {
       "heading": "Book Companion Worksheets",
+      "hubDescription": "Printable guides to structure your explorer practice, one day at a time.",
       "items": [
         {
           "title": "90 Days Plan",
@@ -130,10 +138,12 @@
     },
     "assessment": {
       "heading": "The Explorer Mindset Assessment",
+      "hubDescription": "Find out where you stand on curiosity, adaptability, and resilience.",
       "description": "Discover where you stand on curiosity, adaptability, and resilience. A self-assessment tool to guide your growth."
     },
     "extras": {
       "heading": "Extras",
+      "hubDescription": "Workshops and bonus content to go deeper with your community.",
       "items": [
         {
           "title": "Workshop",

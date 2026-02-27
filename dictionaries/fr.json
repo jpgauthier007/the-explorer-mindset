@@ -113,8 +113,16 @@
     "heading": "Votre bo\u00eete \u00e0 outils d\u2019explorateur",
     "description": "Des outils compl\u00e9mentaires pour approfondir votre pratique et continuer \u00e0 grandir.",
     "backHome": "\u2190 Retour \u00e0 l\u2019accueil",
+    "backResources": "\u2190 Ressources",
+    "explore": "D\u00e9couvrir",
+    "subnav": {
+      "worksheets": "Cahiers",
+      "assessment": "\u00c9valuation",
+      "extras": "Extras"
+    },
     "worksheets": {
       "heading": "Cahiers d\u2019accompagnement",
+      "hubDescription": "Des guides imprimables pour structurer votre pratique d\u2019explorateur au quotidien.",
       "items": [
         {
           "title": "Plan 90 jours",
@@ -130,10 +138,12 @@
     },
     "assessment": {
       "heading": "\u00c9valuation Explorer Mindset",
+      "hubDescription": "D\u00e9couvrez votre profil en curiosit\u00e9, adaptabilit\u00e9 et r\u00e9silience.",
       "description": "D\u00e9couvrez o\u00f9 vous en \u00eates en mati\u00e8re de curiosit\u00e9, d\u2019adaptabilit\u00e9 et de r\u00e9silience. Un outil d\u2019auto\u00e9valuation pour guider votre croissance."
     },
     "extras": {
       "heading": "Extras",
+      "hubDescription": "Ateliers et contenus bonus pour approfondir avec votre communaut\u00e9.",
       "items": [
         {
           "title": "Atelier",
