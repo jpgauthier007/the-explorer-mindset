@@ -152,39 +152,20 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
                     className={`flex-1 ${inputClass}`}
                   />
                 </div>
-                {/* Email + submit row */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={dict.placeholder}
-                    className={`flex-1 ${inputClass}`}
-                  />
-                  <button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] whitespace-nowrap hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
-                  >
-                    {status === "loading" ? (
-                      <span className="inline-flex items-center gap-2">
-                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                        {dict.submitting}
-                      </span>
-                    ) : (
-                      dict.submit
-                    )}
-                  </button>
-                </div>
+                {/* Email row */}
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={dict.placeholder}
+                  className={inputClass}
+                />
 
-                {/* Math challenge — integrated as third row */}
+                {/* Math challenge row */}
                 {challenge && (
-                  <div className="flex items-center gap-3 px-3 pb-1">
+                  <div className="flex items-center gap-3 px-3 py-1">
                     <span className="flex-1 text-gray-secondary text-sm font-body text-left">
                       {dict.mathPrompt} {challenge.question}?
                     </span>
@@ -200,6 +181,25 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
                     />
                   </div>
                 )}
+
+                {/* Submit button — last in flow */}
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full bg-accent text-offwhite font-display font-semibold rounded-xl px-8 py-3.5 text-sm uppercase tracking-[0.06em] hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all duration-300 disabled:opacity-60 cursor-pointer hover:shadow-[0_0_30px_-4px_rgba(203,74,51,0.4)]"
+                >
+                  {status === "loading" ? (
+                    <span className="inline-flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      {dict.submitting}
+                    </span>
+                  ) : (
+                    dict.submit
+                  )}
+                </button>
               </div>
             </form>
           )}
