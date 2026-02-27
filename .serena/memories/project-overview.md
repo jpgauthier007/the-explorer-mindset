@@ -33,7 +33,7 @@ components/
   Header.tsx              -- Sticky glass header (scroll-aware). All anchor links use ${home}#anchor (absolute paths) to work from any sub-page
   Hero.tsx                -- Full-viewport: layered gradients, 3D book cover, dotted path
   AboutBook.tsx           -- Italic serif pull quote + description
-  BuyBook.tsx             -- 3 format cards (Digital/Hardcover/Softcover), "Coming Soon" pre-launch
+  BuyBook.tsx             -- 3 format cards (Digital/Hardcover/Softcover), "Coming Soon" pre-launch. EN launch: April 16, 2026. FR launch: December 3, 2026.
   ThreePillars.tsx        -- Glassmorphism cards: Curiosity/Adaptability/Resilience
   AboutAuthor.tsx         -- Photo with radial glow + bio
   EmailSignup.tsx         -- Glass form: firstName + lastName row, email + button row, math CAPTCHA, lang auto-detect
@@ -69,6 +69,16 @@ resources {
   createdAt/updatedAt: number
 }
 ```
+
+## Design Audit Fixes (2026-02-27)
+- Resources page header: centered (`text-center` + `mx-auto` on description) in both EN + FR section layouts
+- EmailSignup CAPTCHA: moved inside glass form container as integrated third row — no more floating element below the form
+- ThreePillars cards: padding increased `p-8/p-9` → `p-10/p-12`, gap `gap-5` → `gap-6`
+- BuyBook icons: larger `w-8` → `w-11`, bolder `strokeWidth 1.5` → `1.75`
+- AboutBook: description paragraphs `text-left` (pull quote stays centred)
+- Hero subtitle: `max-w-sm` + `text-balance` to prevent orphan line break
+- Footer tagline: `text-gray-muted` instead of `text-gray-secondary` (more readable)
+- Admin empty state: `py-5` instead of `py-8`
 
 ## Design Tokens (globals.css @theme)
 - Navy: 950 (#0D0F14), 900 (#141B2D), 800 (#1E2D4D), 700 (#29406F), 600 (#2F4A82)
