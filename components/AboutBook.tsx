@@ -21,7 +21,7 @@ export function AboutBook({ dict }: { dict: AboutBookDict }) {
             </p>
           </blockquote>
 
-          <div className="mt-10 max-w-[600px] mx-auto space-y-6 text-gray-muted font-body text-base md:text-lg leading-[1.8]">
+          <div className="mt-10 max-w-[600px] mx-auto space-y-6 text-gray-muted font-body text-base md:text-lg leading-[1.8] text-left">
             <p>{dict.description1}</p>
             <p>{dict.description2}</p>
           </div>

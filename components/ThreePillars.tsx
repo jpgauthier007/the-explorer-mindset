@@ -20,10 +20,10 @@ export function ThreePillars({ dict }: { dict: ThreePillarsDict }) {
           </div>
         </AnimateOnScroll>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
           {dict.pillars.map((pillar, index) => (
             <AnimateOnScroll key={pillar.title} delay={index * 150}>
-              <div className="group relative h-full bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 md:p-9 transition-all duration-500 hover:bg-white/[0.06] hover:border-accent/20 hover:shadow-[0_0_60px_-12px_rgba(203,74,51,0.15)]">
+              <div className="group relative h-full bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-10 md:p-12 transition-all duration-500 hover:bg-white/[0.06] hover:border-accent/20 hover:shadow-[0_0_60px_-12px_rgba(203,74,51,0.15)]">
                 {/* Number + dot */}
                 <div className="flex items-center gap-3">
                   <div className="w-2.5 h-2.5 rounded-full bg-accent transition-all duration-500 group-hover:scale-150 group-hover:shadow-[0_0_20px_4px_rgba(203,74,51,0.3)]" />

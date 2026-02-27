@@ -384,7 +384,7 @@ function SectionPanel({
 
       <div className="p-4 space-y-3">
         {resources.length === 0 && !isAdding && (
-          <div className="py-8 flex flex-col items-center gap-2 text-center">
+          <div className="py-5 flex flex-col items-center gap-2 text-center">
             <span className="text-gray-secondary/30"><IconFile /></span>
             <p className="font-body text-sm text-gray-secondary/50">No resources yet.</p>
             <button onClick={onAddOpen}

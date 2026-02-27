@@ -33,7 +33,7 @@ export function Hero({ dict }: { dict: HeroDict }) {
               </span>
             </h1>
 
-            <p className="mt-8 text-lg md:text-xl text-offwhite/80 font-body italic max-w-md mx-auto md:mx-0 leading-relaxed">
+            <p className="mt-8 text-lg md:text-xl text-offwhite/80 font-body italic max-w-sm mx-auto md:mx-0 leading-relaxed text-balance">
               {dict.subtitle}
             </p>
 

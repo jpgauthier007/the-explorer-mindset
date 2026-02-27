@@ -21,12 +21,12 @@ export default async function ResourcesSectionsLayout({
 
           <div className="relative z-10 mx-auto max-w-[1120px] px-5 md:px-10 pt-24 pb-20">
             {/* Page header */}
-            <div className="mb-10">
+            <div className="mb-8 text-center">
               <SectionBadge label={dict.resources.badge} />
               <h1 className="mt-8 font-display font-bold text-3xl md:text-5xl text-offwhite tracking-tight">
                 {dict.resources.heading}
               </h1>
-              <p className="mt-5 text-gray-muted font-body text-base md:text-lg max-w-lg leading-relaxed">
+              <p className="mt-5 text-gray-muted font-body text-base md:text-lg max-w-lg mx-auto leading-relaxed">
                 {dict.resources.description}
               </p>
             </div>

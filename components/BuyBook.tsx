@@ -8,13 +8,13 @@ type BuyBookDict = Dictionary["buyBook"];
 
 const icons = {
   digital: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-8 h-8">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-11 h-11">
       <rect x="6" y="2" width="12" height="20" rx="2" />
       <line x1="9" y1="18" x2="15" y2="18" />
     </svg>
   ),
   hardcover: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-8 h-8">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-11 h-11">
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
       <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" />
       <line x1="9" y1="7" x2="16" y2="7" />
@@ -22,7 +22,7 @@ const icons = {
     </svg>
   ),
   softcover: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-8 h-8">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-11 h-11">
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
       <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" />
     </svg>

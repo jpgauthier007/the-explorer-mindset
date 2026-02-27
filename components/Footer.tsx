@@ -21,7 +21,7 @@ export function Footer({ dict, lang }: { dict: FooterDict; lang: Lang }) {
             <p className="font-display text-lg font-bold uppercase tracking-[0.1em] text-offwhite/90">
               The <span className="text-accent">Explorer</span> Mindset
             </p>
-            <p className="mt-2 font-body text-sm text-gray-secondary leading-relaxed max-w-xs">
+            <p className="mt-2 font-body text-sm text-gray-muted leading-relaxed max-w-xs">
               {dict.tagline}
             </p>
           </div>

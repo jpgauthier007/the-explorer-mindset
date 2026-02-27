@@ -181,26 +181,26 @@ export function EmailSignup({ dict, lang }: { dict: EmailSignupDict; lang: Lang 
                     )}
                   </button>
                 </div>
-              </div>
 
-              {/* Math challenge */}
-              {challenge && (
-                <div className="mt-4 flex items-center justify-center gap-3">
-                  <span className="text-offwhite text-sm font-body">
-                    {dict.mathPrompt} {challenge.question}?
-                  </span>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    required
-                    value={mathAnswer}
-                    onChange={(e) => setMathAnswer(e.target.value)}
-                    placeholder={dict.mathPlaceholder}
-                    className="w-14 bg-white/[0.04] border border-white/[0.08] text-offwhite text-center rounded-lg px-2 py-1.5 font-body text-sm focus:outline-none focus:border-accent/40 transition-colors"
-                  />
-                </div>
-              )}
+                {/* Math challenge — integrated as third row */}
+                {challenge && (
+                  <div className="flex items-center gap-3 px-3 pb-1">
+                    <span className="flex-1 text-gray-secondary text-sm font-body text-left">
+                      {dict.mathPrompt} {challenge.question}?
+                    </span>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      value={mathAnswer}
+                      onChange={(e) => setMathAnswer(e.target.value)}
+                      placeholder={dict.mathPlaceholder}
+                      className="w-20 bg-transparent border border-transparent text-offwhite text-center rounded-xl px-3 py-2 font-body text-sm focus:outline-none focus:border-accent/40 transition-colors"
+                    />
+                  </div>
+                )}
+              </div>
             </form>
           )}
 

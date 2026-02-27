@@ -12,7 +12,7 @@ A one-pager marketing site for "The Explorer Mindset" book by Jean-Philippe Gaut
 ## Tech Stack
 - **Framework:** Next.js 16.1.6 (App Router) with TypeScript + Turbopack
 - **Styling:** Tailwind CSS v4 (uses `@theme` directive in globals.css, NOT tailwind.config.ts)
-- **Database:** Convex (deployment: descriptive-yak-588)
+- **Database:** Convex (deployment: descriptive-yak-588) — subscribers + resources CMS + file storage
 - **Hosting:** Vercel
 - **Fonts:** Montserrat (display) + Source Serif 4 (body) via next/font/google
 - **CAPTCHA:** Cloudflare Turnstile (installed, graceful degradation without keys)
@@ -24,39 +24,50 @@ app/
   page.tsx                -- Assembles Header + 7 sections + Footer
   globals.css             -- Tailwind @theme: navy/accent/glass/grain tokens
   not-found.tsx           -- Explorer-themed 404 page
-  ConvexClientProvider.tsx -- Convex provider with env var validation
-  robots.ts, sitemap.ts, icon.tsx, opengraph-image.tsx
-  privacy/page.tsx        -- GDPR privacy policy
-  resources/page.tsx      -- Resources page (worksheets, assessment, extras)
+  admin/page.tsx          -- Admin CMS route (no auth yet)
+  resources/page.tsx      -- Redirects to /resources/worksheets
+  resources/(sections)/layout.tsx -- EN sections shared layout (Header + sub-nav + Footer)
+  resources/(sections)/{worksheets,assessment,extras}/page.tsx
   api/subscribe/route.ts  -- POST: rate limited, Turnstile-verified, validated
 components/
-  Header.tsx              -- Sticky glass header (scroll-aware), "Buy" CTA, "Newsletter"/"Infolettre" nav link. All anchor links use `${home}#anchor` (absolute paths) to work from any sub-page (e.g. /resources/worksheets)
-  UnsubscribePopover.tsx  -- Click popover: "use the link in our emails"
+  Header.tsx              -- Sticky glass header (scroll-aware). All anchor links use ${home}#anchor (absolute paths) to work from any sub-page
   Hero.tsx                -- Full-viewport: layered gradients, 3D book cover, dotted path
   AboutBook.tsx           -- Italic serif pull quote + description
   BuyBook.tsx             -- 3 format cards (Digital/Hardcover/Softcover), "Coming Soon" pre-launch
   ThreePillars.tsx        -- Glassmorphism cards: Curiosity/Adaptability/Resilience
-  AboutAuthor.tsx         -- Photo with radial glow + bio with role subtitle
-  EmailSignup.tsx         -- Glass form: firstName + lastName row, email + button row, math CAPTCHA, lang auto-detect, focus:border-accent/40, locale-aware privacy link
+  AboutAuthor.tsx         -- Photo with radial glow + bio
+  EmailSignup.tsx         -- Glass form: firstName + lastName row, email + button row, math CAPTCHA, lang auto-detect
   Footer.tsx              -- Two-column layout, dotted divider, nav synced with header
-  Resources.tsx           -- Resources hub (currently bypassed by redirect to /worksheets). Shows 3 overview cards.
-  ResourcesSubNav.tsx     -- Sliding underline tab nav (client component, usePathname + ref-measured positions)
-  ResourcesWorksheets.tsx -- Worksheets section cards
-  ResourcesAssessment.tsx -- Assessment section card
-  ResourcesExtras.tsx     -- Extras section cards
+  Resources.tsx           -- Resources hub (bypassed by redirect). Shows 3 overview cards.
+  ResourcesSubNav.tsx     -- Sliding underline tab nav (client, usePathname + ref-measured positions)
+  ResourcesWorksheets.tsx -- Client component: queries Convex listBySection, falls back to dict; serves urlEn or urlFr by lang
+  ResourcesAssessment.tsx -- Assessment card (dict only, no Convex yet)
+  ResourcesExtras.tsx     -- Client component: same pattern as ResourcesWorksheets
+  admin/AdminCMS.tsx      -- Full CMS: two-column panels (Worksheets|Extras), side-by-side EN+FR PDF upload zones, publish pill toggle, inline edit+delete
   SectionBadge.tsx        -- Line-accent label (horizontal lines flanking text)
-  DottedPath.tsx          -- SVG motif variants (Hero, Divider, Connector, Vertical)
-  AnimateOnScroll.tsx     -- IntersectionObserver scroll animations (threshold 0.15)
+  DottedPath.tsx          -- SVG motif variants
   LanguageToggle.tsx      -- EN|FR pill toggle (plain <a> links, no client state)
   WebMCPProvider.tsx      -- WebMCP tools (getBookInfo, subscribeNewsletter)
 convex/
-  schema.ts               -- subscribers: email, firstName?, lastName?, preferredLang?, subscribedAt, unsubscribedAt?
-  subscribers.ts          -- subscribe (with profile update on re-subscribe) + unsubscribe mutations
-public/
-  book-cover.png          -- 3D perspective cover photo (768x768)
-  author-photo.jpg        -- JP headshot, dark background (2400x3000)
-  resources/              -- PDF downloads directory (empty, awaiting files)
-  humans.txt, llms.txt
+  schema.ts               -- subscribers table + resources table
+  subscribers.ts          -- subscribe + unsubscribe mutations
+  resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove
+```
+
+## Convex Resources Schema
+```
+resources {
+  section:        "worksheets" | "extras"
+  titleEn/titleFr: string
+  descriptionEn/descriptionFr: string
+  fileIdEn?:      Id<"_storage">   -- EN PDF
+  fileNameEn?:    string
+  fileIdFr?:      Id<"_storage">   -- FR PDF
+  fileNameFr?:    string
+  published:      boolean          -- false = Coming Soon, true = Download button live
+  order:          number
+  createdAt/updatedAt: number
+}
 ```
 
 ## Design Tokens (globals.css @theme)
@@ -65,73 +76,60 @@ public/
 - Offwhite: #F5F6F9, gray-muted: #C6CBC7, gray-secondary: #7A8299
 - Glass: rgba(20,27,45,0.6), glass-border: rgba(245,246,249,0.1)
 - Grain overlay: SVG feTurbulence noise at 3% opacity
-- Glow utilities: .glow-accent, .glow-accent-soft
 
 ## Security Measures
 - CSP + X-Content-Type-Options, X-Frame-Options, HSTS, Referrer-Policy, Permissions-Policy
 - Rate limiting: 5 req/IP/60s on /api/subscribe
-- Input validation: type, length (254 max), format regex on all API routes
+- Input validation: type, length, format regex on all API routes
 - Generic error messages (no internals leaked)
 - Turnstile CAPTCHA: integrated but needs keys to activate
-- Convex: soft-delete unsubscribe, re-subscribe support, profile update on re-subscribe
-- API validation: firstName required (max 100), lastName optional (max 100), preferredLang defaults to "en"
+- Convex: soft-delete unsubscribe, re-subscribe support
 
 ## Branding Rule
 - Book title: "THE" white, "EXPLORER" orange/accent, "MINDSET" white
 - Header logo TEM: T white, E orange, M white
-- Consistent across Header, Hero, Footer
 
 ## Key Decisions
-- Goal: audience building via email capture + book pre-launch
-- Book launches March 12, 2026. BuyBook cards have "Coming Soon" (no links yet)
-- WebMCP protocol for AI agent discoverability (progressive enhancement)
-- SEO + GEO: JSON-LD (Book + Person + WebSite), AI crawler-friendly robots.txt
 - NEVER use em dashes (—) in any content or copy. Use periods, commas, or restructure.
 - French copy must be natural Quebec French, not machine-translated.
 - Keep CTA button text short (must fit container in both EN and FR).
+- WebMCP protocol for AI agent discoverability (progressive enhancement)
+- SEO + GEO: JSON-LD (Book + Person + WebSite), AI crawler-friendly robots.txt
 
 ## Section Order (page.tsx)
 Hero → AboutBook → BuyBook → ThreePillars → AboutAuthor → EmailSignup → Footer
 Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Author(900) → Signup(800) → Footer
 
 ## i18n (French Translation)
-- **Routing:** `/` = English (default), `/fr` = French. Middleware redirects `/en` → `/`, `/newsletter` → `/#join`, `/fr/newsletter` → `/fr#join`
-- **Dictionaries:** `dictionaries/en.json` + `fr.json` (~80 strings each, keyed by section)
-- **getDictionary.ts:** Typed helper, returns `Dictionary` type inferred from `en.json`
-- **Components:** All accept `dict` prop (typed per section). Zero hardcoded strings.
-- **LanguageToggle:** `EN | FR` pill in header, plain `<a>` links, no client state
-- **html lang:** Middleware sets `x-lang` header → root layout reads via `headers()` → `<html lang={lang}>`
-- **Hybrid translation:** UI text in French, book title "THE EXPLORER MINDSET" stays English always
-- **SEO:** hreflang alternates in metadata, per-language meta title/description
-- **Pages are dynamic (ƒ)** because root layout reads headers() — expected for i18n
-- **Privacy:** `/privacy` (EN) and `/fr/privacy` (FR) both from dictionaries
-- **Design doc:** `docs/plans/2026-02-26-i18n-french-design.md`
+- **Routing:** `/` = English (default), `/fr` = French. Middleware redirects `/en` → `/`
+- **Dictionaries:** `dictionaries/en.json` + `fr.json` (~85 strings each, keyed by section)
+- **Components:** All accept `dict` prop. Zero hardcoded strings.
+- **LanguageToggle:** EN|FR pill in header, plain `<a>` links, no client state
+- **html lang:** Middleware sets `x-lang` header → root layout reads via `headers()`
+- **Hybrid:** UI in French, book title stays English always
+
+## Resources Pages
+- `/resources` redirects to `/resources/worksheets` (default)
+- Sub-nav: sliding underline tabs (Worksheets / Assessment / Extras)
+- Route group `(sections)` shares layout (Header + sub-nav + Footer) for EN and FR
+- FR mirrors at `/fr/resources/{worksheets,assessment,extras}`
+- Dict keys: `subnav.{worksheets,assessment,extras}`, `backResources`, `explore`, `{section}.hubDescription`
+
+## Resources CMS (/admin)
+- No password protection yet (pending)
+- Bilingual PDFs: EN and FR uploaded separately; public pages serve language-correct URL
+- New resources saved as Draft; click pill to publish instantly (Convex reactive)
+- Delete removes both PDFs from Convex storage
+- Public fallback: no Convex records → dict placeholders show as "Coming Soon"
 
 ## Newsletter Signup
-- **Fields:** firstName (required), lastName (optional), email (required), preferredLang (auto-detected from page lang)
-- **Form layout:** Two-row glass container — names row (side-by-side on desktop, stacked on mobile) above email + button row
-- **Profile behavior:** New subscribers get all fields stored; re-subscribers get profile updated; already-active get profile refreshed
-- **Math CAPTCHA:** Client-side generation + server-side verification (a + b addition)
-- **Focus states:** All inputs use `focus:border-accent/40` (WCAG 2.4.7)
-- **Privacy link:** Locale-aware (`/fr/privacy` on French page)
-- **Button text:** EN "Start Exploring", FR "S'inscrire" (shorter to fit container)
-- **Design doc:** `docs/plans/2026-02-26-newsletter-fields-design.md`
-
-## Resources Page
-- **URL:** `/resources` redirects to `/resources/worksheets` (worksheets is default). Referenced in book as theexplorermindset.com/resources
-- **Sub-nav:** Sliding underline tab nav (Worksheets / Assessment / Extras). Client component `ResourcesSubNav.tsx` uses `usePathname()` + ref-measured tab positions + CSS `transition-all` for slide effect.
-- **Route group:** `app/resources/(sections)/layout.tsx` wraps EN sub-pages. `app/[lang]/resources/(sections)/layout.tsx` wraps FR sub-pages. Both include Header, sub-nav shell, Footer.
-- **Sub-pages:** `/resources/worksheets`, `/resources/assessment`, `/resources/extras` (+ FR mirrors at `/fr/resources/*`)
-- **Sub-sections:** Book Companion Worksheets (90 Days Plan, 48 Hours Plan), Explorer Mindset Assessment, Extras (Workshop)
-- **Status:** All "Coming Soon" until PDFs dropped in `public/resources/`
-- **Nav:** "Resources"/"Ressources" in header and footer
-- **No gate:** Public page, no authentication
-- **Dict keys:** `subnav.{worksheets,assessment,extras}`, `backResources`, `explore`, `{section}.hubDescription` added to both en.json and fr.json
-- **Design doc:** `docs/plans/2026-02-26-resources-page-design.md`
+- Fields: firstName (required), lastName (optional), email (required), preferredLang (auto-detected)
+- Button text: EN "Start Exploring", FR "S'inscrire"
+- Math CAPTCHA: client-side generation + server-side verification
 
 ## Pending
-- Add resource PDFs to `public/resources/` and swap "Coming Soon" for download buttons
-- Activate BuyBook Amazon.ca links when available (currently "Coming Soon")
+- Password protect /admin
+- Activate BuyBook Amazon.ca links (currently "Coming Soon")
 - Activate Turnstile keys on Vercel
 - Configure custom domain theexplorermindset.com
 - Email sending service (Resend) for newsletter delivery
