@@ -1,7 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
-// Admin: list all resources with resolved URLs
+// Admin: list all resources with both resolved URLs
 export const list = query({
   args: {},
   handler: async (ctx) => {
@@ -10,13 +10,14 @@ export const list = query({
     return Promise.all(
       items.map(async (item) => ({
         ...item,
-        url: await ctx.storage.getUrl(item.fileId),
+        urlEn: item.fileIdEn ? await ctx.storage.getUrl(item.fileIdEn) : null,
+        urlFr: item.fileIdFr ? await ctx.storage.getUrl(item.fileIdFr) : null,
       }))
     );
   },
 });
 
-// Public pages: list published resources by section, URL only for published
+// Public pages: list by section, return both URLs (only when published)
 export const listBySection = query({
   args: {
     section: v.union(v.literal("worksheets"), v.literal("extras")),
@@ -30,7 +31,8 @@ export const listBySection = query({
     return Promise.all(
       items.map(async (item) => ({
         ...item,
-        url: item.published ? await ctx.storage.getUrl(item.fileId) : null,
+        urlEn: item.published && item.fileIdEn ? await ctx.storage.getUrl(item.fileIdEn) : null,
+        urlFr: item.published && item.fileIdFr ? await ctx.storage.getUrl(item.fileIdFr) : null,
       }))
     );
   },
@@ -49,8 +51,10 @@ export const create = mutation({
     titleFr: v.string(),
     descriptionEn: v.string(),
     descriptionFr: v.string(),
-    fileId: v.id("_storage"),
-    fileName: v.string(),
+    fileIdEn: v.optional(v.id("_storage")),
+    fileNameEn: v.optional(v.string()),
+    fileIdFr: v.optional(v.id("_storage")),
+    fileNameFr: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -74,9 +78,30 @@ export const update = mutation({
     titleFr: v.string(),
     descriptionEn: v.string(),
     descriptionFr: v.string(),
+    // Optional PDF replacements — if provided, old file is deleted
+    fileIdEn: v.optional(v.id("_storage")),
+    fileNameEn: v.optional(v.string()),
+    fileIdFr: v.optional(v.id("_storage")),
+    fileNameFr: v.optional(v.string()),
   },
-  handler: async (ctx, { id, ...fields }) => {
-    await ctx.db.patch(id, { ...fields, updatedAt: Date.now() });
+  handler: async (ctx, { id, fileIdEn, fileNameEn, fileIdFr, fileNameFr, ...fields }) => {
+    const resource = await ctx.db.get(id);
+    if (!resource) throw new Error("Resource not found");
+
+    const patch: Record<string, unknown> = { ...fields, updatedAt: Date.now() };
+
+    if (fileIdEn && fileNameEn) {
+      if (resource.fileIdEn) await ctx.storage.delete(resource.fileIdEn);
+      patch.fileIdEn = fileIdEn;
+      patch.fileNameEn = fileNameEn;
+    }
+    if (fileIdFr && fileNameFr) {
+      if (resource.fileIdFr) await ctx.storage.delete(resource.fileIdFr);
+      patch.fileIdFr = fileIdFr;
+      patch.fileNameFr = fileNameFr;
+    }
+
+    await ctx.db.patch(id, patch);
   },
 });
 
@@ -85,10 +110,7 @@ export const togglePublished = mutation({
   handler: async (ctx, { id }) => {
     const resource = await ctx.db.get(id);
     if (!resource) throw new Error("Resource not found");
-    await ctx.db.patch(id, {
-      published: !resource.published,
-      updatedAt: Date.now(),
-    });
+    await ctx.db.patch(id, { published: !resource.published, updatedAt: Date.now() });
   },
 });
 
@@ -97,7 +119,8 @@ export const remove = mutation({
   handler: async (ctx, { id }) => {
     const resource = await ctx.db.get(id);
     if (!resource) throw new Error("Resource not found");
-    await ctx.storage.delete(resource.fileId);
+    if (resource.fileIdEn) await ctx.storage.delete(resource.fileIdEn);
+    if (resource.fileIdFr) await ctx.storage.delete(resource.fileIdFr);
     await ctx.db.delete(id);
   },
 });

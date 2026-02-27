@@ -87,7 +87,7 @@ export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lan
     title: lang === "fr" ? r.titleFr : r.titleEn,
     description: lang === "fr" ? r.descriptionFr : r.descriptionEn,
     published: r.published,
-    url: r.url,
+    url: lang === "fr" ? r.urlFr : r.urlEn,
   }));
 
   return <ExtrasGrid items={items} comingSoon={dict.comingSoon} download={dict.download} />;

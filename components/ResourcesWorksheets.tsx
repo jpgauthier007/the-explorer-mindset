@@ -88,7 +88,7 @@ export function ResourcesWorksheets({ dict, lang }: { dict: ResourcesDict; lang:
     title: lang === "fr" ? r.titleFr : r.titleEn,
     description: lang === "fr" ? r.descriptionFr : r.descriptionEn,
     published: r.published,
-    url: r.url,
+    url: lang === "fr" ? r.urlFr : r.urlEn,
   }));
 
   return <WorksheetsGrid items={items} comingSoon={dict.comingSoon} download={dict.download} />;
