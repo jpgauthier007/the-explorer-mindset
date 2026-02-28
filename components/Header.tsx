@@ -65,6 +65,12 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
           >
             {dict.navResources}
           </a>
+          <a
+            href={lang === "fr" ? "/fr/gratitude" : "/gratitude"}
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
+          >
+            {dict.navGratitude}
+          </a>
         </nav>
 
         <div className="flex items-center gap-3">
