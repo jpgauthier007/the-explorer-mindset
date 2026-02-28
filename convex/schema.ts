@@ -11,6 +11,26 @@ export default defineSchema({
     unsubscribedAt: v.optional(v.number()),
   }).index("by_email", ["email"]),
 
+  gratitudeFeatured: defineTable({
+    name: v.string(),
+    roleEn: v.string(),
+    roleFr: v.string(),
+    noteEn: v.string(),
+    noteFr: v.string(),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
+
+  gratitudeGroups: defineTable({
+    labelEn: v.string(),
+    labelFr: v.string(),
+    names: v.array(v.string()),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
+
   resources: defineTable({
     section: v.union(v.literal("worksheets"), v.literal("extras")),
     titleEn: v.string(),

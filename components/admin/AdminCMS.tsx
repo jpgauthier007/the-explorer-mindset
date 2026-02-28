@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { GratitudeCMS } from "./GratitudeCMS";
 
 type Section = "worksheets" | "extras";
 
@@ -532,6 +533,13 @@ export function AdminCMS() {
     onDeleteCancel: () => setDeleteConfirmId(null),
   };
 
+  const [activeTab, setActiveTab] = useState<"resources" | "gratitude">("resources");
+
+  const tabs = [
+    { id: "resources" as const, label: "Resources" },
+    { id: "gratitude" as const, label: "Gratitude" },
+  ];
+
   return (
     <div className="min-h-screen bg-navy-950">
       <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-navy-950/90 backdrop-blur-xl border-b border-white/[0.06] flex items-center px-6 gap-4">
@@ -539,45 +547,77 @@ export function AdminCMS() {
           T<span className="text-accent">E</span>M
         </a>
         <span className="w-px h-4 bg-white/[0.12]" />
-        <span className="font-display text-xs uppercase tracking-[0.14em] text-gray-secondary">Resources Admin</span>
+        <span className="font-display text-xs uppercase tracking-[0.14em] text-gray-secondary">Admin</span>
         <div className="ml-auto flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           <span className="font-display text-[10px] uppercase tracking-[0.1em] text-gray-secondary">Convex live</span>
         </div>
       </header>
 
-      <main className="pt-28 pb-16 px-6 max-w-5xl mx-auto">
-        <div className="mb-10">
-          <h1 className="font-display font-bold text-2xl text-offwhite tracking-tight">Resources CMS</h1>
-          <p className="mt-1.5 font-body text-sm text-gray-secondary">
-            Upload EN and FR PDFs separately, manage titles and descriptions, publish or unpublish.
-          </p>
+      <main className="pt-24 pb-16 px-6 max-w-5xl mx-auto">
+        {/* Tab bar */}
+        <div className="flex gap-1 mb-10 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-5 py-2 rounded-lg font-display text-xs uppercase tracking-[0.1em] transition-all duration-200 ${
+                activeTab === tab.id
+                  ? "bg-accent text-offwhite shadow-sm"
+                  : "text-gray-secondary hover:text-offwhite"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {resources === undefined ? (
-          <div className="flex items-center justify-center py-24">
-            <svg className="animate-spin w-6 h-6 text-accent/50" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SectionPanel title="Worksheets" section="worksheets" resources={worksheets}
-              isAdding={addingSection === "worksheets"}
-              onAddOpen={() => handleAddOpen("worksheets")}
-              onAddSave={() => handleAdd("worksheets")}
-              onAddCancel={() => setAddingSection(null)}
-              onEditOpen={handleEditOpen}
-              {...sharedPanelProps} />
-            <SectionPanel title="Extras" section="extras" resources={extras}
-              isAdding={addingSection === "extras"}
-              onAddOpen={() => handleAddOpen("extras")}
-              onAddSave={() => handleAdd("extras")}
-              onAddCancel={() => setAddingSection(null)}
-              onEditOpen={handleEditOpen}
-              {...sharedPanelProps} />
-          </div>
+        {activeTab === "resources" && (
+          <>
+            <div className="mb-8">
+              <h1 className="font-display font-bold text-2xl text-offwhite tracking-tight">Resources CMS</h1>
+              <p className="mt-1.5 font-body text-sm text-gray-secondary">
+                Upload EN and FR PDFs separately, manage titles and descriptions, publish or unpublish.
+              </p>
+            </div>
+            {resources === undefined ? (
+              <div className="flex items-center justify-center py-24">
+                <svg className="animate-spin w-6 h-6 text-accent/50" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SectionPanel title="Worksheets" section="worksheets" resources={worksheets}
+                  isAdding={addingSection === "worksheets"}
+                  onAddOpen={() => handleAddOpen("worksheets")}
+                  onAddSave={() => handleAdd("worksheets")}
+                  onAddCancel={() => setAddingSection(null)}
+                  onEditOpen={handleEditOpen}
+                  {...sharedPanelProps} />
+                <SectionPanel title="Extras" section="extras" resources={extras}
+                  isAdding={addingSection === "extras"}
+                  onAddOpen={() => handleAddOpen("extras")}
+                  onAddSave={() => handleAdd("extras")}
+                  onAddCancel={() => setAddingSection(null)}
+                  onEditOpen={handleEditOpen}
+                  {...sharedPanelProps} />
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === "gratitude" && (
+          <>
+            <div className="mb-8">
+              <h1 className="font-display font-bold text-2xl text-offwhite tracking-tight">Gratitude CMS</h1>
+              <p className="mt-1.5 font-body text-sm text-gray-secondary">
+                Manage featured people and name groups for the Gratitude page.
+              </p>
+            </div>
+            <GratitudeCMS />
+          </>
         )}
       </main>
     </div>
