@@ -105,8 +105,34 @@
     "navResources": "Resources",
     "navBuy": "Buy",
     "privacy": "Privacy",
+    "navGratitude": "Gratitude",
     "unsubscribe": "Unsubscribe",
     "unsubscribeMessage": "To unsubscribe, use the link in any of our emails or contact us directly."
+  },
+  "gratitude": {
+    "badge": "Gratitude",
+    "heading": "With Heartfelt Thanks",
+    "openingQuote": "This book exists because of the people who believed in it before it was finished.",
+    "backHome": "\u2190 Back to home",
+    "featuredHeading": "Special Thanks",
+    "groupsHeading": "With Thanks To",
+    "featured": [
+      {
+        "name": "Name",
+        "role": "Role / Relationship",
+        "note": "A personal note about this person and their contribution to the book."
+      }
+    ],
+    "groups": [
+      {
+        "label": "Family",
+        "names": ["Name 1", "Name 2", "Name 3"]
+      },
+      {
+        "label": "Colleagues & Friends",
+        "names": ["Name 1", "Name 2", "Name 3"]
+      }
+    ]
   },
   "resources": {
     "badge": "Resources",

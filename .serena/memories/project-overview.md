@@ -126,7 +126,7 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - Dict keys: `subnav.{worksheets,assessment,extras}`, `backResources`, `explore`, `{section}.hubDescription`
 
 ## Resources CMS (/admin)
-- No password protection yet (pending)
+- No password protection currently (was added then reverted). When ready: add HTTP Basic Auth block in middleware.ts checking `pathname.startsWith("/admin")` against `ADMIN_PASSWORD` env var — pattern already tested.
 - Bilingual PDFs: EN and FR uploaded separately; public pages serve language-correct URL
 - New resources saved as Draft; click pill to publish instantly (Convex reactive)
 - Delete removes both PDFs from Convex storage

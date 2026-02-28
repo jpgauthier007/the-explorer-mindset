@@ -105,8 +105,34 @@
     "navResources": "Ressources",
     "navBuy": "Acheter",
     "privacy": "Confidentialit\u00e9",
+    "navGratitude": "Gratitude",
     "unsubscribe": "Se d\u00e9sabonner",
     "unsubscribeMessage": "Pour vous d\u00e9sabonner, utilisez le lien dans nos courriels ou contactez-nous directement."
+  },
+  "gratitude": {
+    "badge": "Gratitude",
+    "heading": "Avec toute ma reconnaissance",
+    "openingQuote": "Ce livre existe gr\u00e2ce aux personnes qui y ont cru avant m\u00eame qu\u2019il soit termin\u00e9.",
+    "backHome": "\u2190 Retour \u00e0 l\u2019accueil",
+    "featuredHeading": "Remerciements sp\u00e9ciaux",
+    "groupsHeading": "Merci \u00e9galement \u00e0",
+    "featured": [
+      {
+        "name": "Pr\u00e9nom Nom",
+        "role": "R\u00f4le / Relation",
+        "note": "Une note personnelle sur cette personne et sa contribution au livre."
+      }
+    ],
+    "groups": [
+      {
+        "label": "Famille",
+        "names": ["Pr\u00e9nom 1", "Pr\u00e9nom 2", "Pr\u00e9nom 3"]
+      },
+      {
+        "label": "Coll\u00e8gues et amis",
+        "names": ["Pr\u00e9nom 1", "Pr\u00e9nom 2", "Pr\u00e9nom 3"]
+      }
+    ]
   },
   "resources": {
     "badge": "Ressources",

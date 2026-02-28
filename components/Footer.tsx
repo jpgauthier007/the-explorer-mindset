@@ -79,6 +79,12 @@ export function Footer({ dict, lang }: { dict: FooterDict; lang: Lang }) {
           </p>
           <div className="flex items-center gap-6 font-display text-xs uppercase tracking-[0.08em]">
             <Link
+              href={lang === "fr" ? "/fr/gratitude" : "/gratitude"}
+              className="text-gray-secondary hover:text-offwhite transition-colors"
+            >
+              {dict.navGratitude}
+            </Link>
+            <Link
               href={privacyHref}
               className="text-gray-secondary hover:text-offwhite transition-colors"
             >
