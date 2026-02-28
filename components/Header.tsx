@@ -34,34 +34,34 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
         </a>
 
         {/* Nav */}
-        <nav className="hidden sm:flex items-center gap-8">
+        <nav className="hidden sm:flex items-center gap-6">
           <a
             href={`${home}#about`}
-            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
           >
             {dict.navBook}
           </a>
           <a
             href={`${home}#framework`}
-            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
           >
             {dict.navFramework}
           </a>
           <a
             href={`${home}#author`}
-            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
           >
             {dict.navAuthor}
           </a>
           <a
             href={`${home}#join`}
-            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
           >
             {dict.navJoin}
           </a>
           <a
             href={lang === "fr" ? "/fr/resources" : "/resources"}
-            className="font-display text-xs uppercase tracking-[0.1em] text-gray-secondary hover:text-offwhite transition-colors"
+            className="font-display text-xs uppercase tracking-[0.1em] text-offwhite/70 hover:text-offwhite transition-colors py-3"
           >
             {dict.navResources}
           </a>
@@ -73,7 +73,7 @@ export function Header({ dict, lang }: { dict: HeaderDict; lang: Lang }) {
           {/* CTA */}
           <a
             href={`${home}#buy`}
-            className="font-display text-xs font-semibold uppercase tracking-[0.08em] px-5 py-2 rounded-full bg-accent text-offwhite hover:bg-accent-hover transition-all duration-300"
+            className="font-display text-sm font-semibold uppercase tracking-[0.08em] px-5 py-2 rounded-full bg-accent text-offwhite hover:bg-accent-hover transition-all duration-300"
           >
             {dict.ctaBuy}
           </a>
