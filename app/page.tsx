@@ -15,7 +15,7 @@ export default async function Home() {
     <>
       <Header dict={dict.header} lang="en" />
       <main>
-        <Hero dict={dict.hero} />
+        <Hero dict={dict.hero} lang="en" />
         <AboutBook dict={dict.aboutBook} />
         <BuyBook dict={dict.buyBook} />
         <ThreePillars dict={dict.threePillars} />

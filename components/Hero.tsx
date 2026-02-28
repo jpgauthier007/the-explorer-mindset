@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { DottedPathHero } from "./DottedPath";
-import type { Dictionary } from "@/dictionaries/getDictionary";
+import type { Lang, Dictionary } from "@/dictionaries/getDictionary";
 
 type HeroDict = Dictionary["hero"];
 
-export function Hero({ dict }: { dict: HeroDict }) {
+export function Hero({ dict, lang }: { dict: HeroDict; lang: Lang }) {
+  const coverSrc = lang === "fr" ? "/book-cover-fr.png" : "/book-cover.png";
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Layered background */}
@@ -51,10 +52,10 @@ export function Hero({ dict }: { dict: HeroDict }) {
             <div className="absolute inset-0 scale-110 bg-accent/[0.08] rounded-3xl blur-[60px] pointer-events-none" />
             <div className="relative transition-transform duration-700 hover:scale-[1.03]">
               <Image
-                src="/book-cover.png"
+                src={coverSrc}
                 alt={dict.bookAlt}
-                width={768}
-                height={768}
+                width={6656}
+                height={10240}
                 priority
                 className="w-full h-auto drop-shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
               />

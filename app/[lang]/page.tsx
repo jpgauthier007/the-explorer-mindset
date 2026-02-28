@@ -21,7 +21,7 @@ export default async function Home({ params }: Props) {
     <>
       <Header dict={dict.header} lang={lang} />
       <main>
-        <Hero dict={dict.hero} />
+        <Hero dict={dict.hero} lang={lang} />
         <AboutBook dict={dict.aboutBook} />
         <BuyBook dict={dict.buyBook} />
         <ThreePillars dict={dict.threePillars} />
