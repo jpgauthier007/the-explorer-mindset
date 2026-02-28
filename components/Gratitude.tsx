@@ -18,8 +18,9 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
           name: p.name,
           role: lang === "fr" ? p.roleFr : p.roleEn,
           note: lang === "fr" ? p.noteFr : p.noteEn,
+          photoUrl: p.photoUrl ?? null,
         }))
-      : dict.featured.map((p) => ({ name: p.name, role: p.role, note: p.note }));
+      : dict.featured.map((p) => ({ name: p.name, role: p.role, note: p.note, photoUrl: null }));
 
   const groups =
     convexGroups && convexGroups.length > 0
@@ -57,8 +58,19 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
               {featured.map((person) => (
                 <div
                   key={person.name}
-                  className="group relative flex flex-col bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 md:p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-accent/20 hover:shadow-[0_0_60px_-12px_rgba(203,74,51,0.12)]"
+                  className="group relative flex flex-col items-center text-center bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 md:p-10 transition-all duration-500 hover:bg-white/[0.05] hover:border-accent/20 hover:shadow-[0_0_60px_-12px_rgba(203,74,51,0.12)]"
                 >
+                  {/* Avatar */}
+                  {person.photoUrl ? (
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 rounded-full bg-accent/20 blur-xl scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <img
+                        src={person.photoUrl}
+                        alt={person.name}
+                        className="relative w-24 h-24 rounded-full object-cover border-2 border-white/[0.1] group-hover:border-accent/30 transition-colors duration-500"
+                      />
+                    </div>
+                  ) : null}
                   <p className="font-display text-[10px] uppercase tracking-[0.18em] text-accent/80 mb-3">
                     {person.role}
                   </p>

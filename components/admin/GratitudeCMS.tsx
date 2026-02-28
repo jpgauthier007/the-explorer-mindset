@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -12,6 +12,8 @@ type FeaturedItem = {
   roleFr: string;
   noteEn: string;
   noteFr: string;
+  photoId?: Id<"_storage">;
+  photoUrl: string | null;
   order: number;
 };
 
@@ -78,37 +80,123 @@ function IconGroup() {
     </svg>
   );
 }
+function IconCamera() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+      <circle cx="12" cy="13" r="4" />
+    </svg>
+  );
+}
+
+// ─── Photo upload zone ────────────────────────────────────────────────────────
+
+function PhotoUploadZone({
+  file,
+  existingUrl,
+  onFileChange,
+}: {
+  file: File | null;
+  existingUrl?: string | null;
+  onFileChange: (f: File | null) => void;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  const previewUrl = file ? URL.createObjectURL(file) : existingUrl;
+
+  return (
+    <div>
+      <label className={labelCls}>Photo (optional)</label>
+      <button
+        type="button"
+        onClick={() => ref.current?.click()}
+        className={`w-full flex flex-col items-center gap-2 py-4 rounded-lg border border-dashed transition-all duration-200 ${
+          previewUrl
+            ? "border-accent/40 bg-accent/[0.04]"
+            : "border-white/[0.10] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+        }`}
+      >
+        {previewUrl ? (
+          <img
+            src={previewUrl}
+            alt="Preview"
+            className="w-16 h-16 rounded-full object-cover border-2 border-accent/30"
+          />
+        ) : (
+          <span className="text-gray-secondary/40"><IconCamera /></span>
+        )}
+        <span className={`font-body text-xs ${previewUrl ? "text-accent/70" : "text-gray-secondary/50"}`}>
+          {previewUrl ? (existingUrl && !file ? "Click to replace" : file?.name) : "Click to upload photo"}
+        </span>
+      </button>
+      <input
+        ref={ref}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
+      />
+    </div>
+  );
+}
 
 // ─── Featured panel ───────────────────────────────────────────────────────────
 
 function FeaturedPanel() {
   const featured = useQuery(api.gratitude.listFeatured, {});
+  const generateUploadUrl = useMutation(api.gratitude.generateUploadUrl);
   const createFeatured = useMutation(api.gratitude.createFeatured);
   const updateFeatured = useMutation(api.gratitude.updateFeatured);
   const removeFeatured = useMutation(api.gratitude.removeFeatured);
 
   const [isAdding, setIsAdding] = useState(false);
   const [addForm, setAddForm] = useState(EMPTY_FEATURED);
+  const [addPhoto, setAddPhoto] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
   const [editingId, setEditingId] = useState<Id<"gratitudeFeatured"> | null>(null);
   const [editForm, setEditForm] = useState(EMPTY_FEATURED);
+  const [editPhoto, setEditPhoto] = useState<File | null>(null);
+
   const [deleteConfirmId, setDeleteConfirmId] = useState<Id<"gratitudeFeatured"> | null>(null);
+
+  async function uploadPhoto(file: File) {
+    const url = await generateUploadUrl();
+    const res = await fetch(url, { method: "POST", headers: { "Content-Type": file.type }, body: file });
+    const { storageId } = await res.json();
+    return storageId as Id<"_storage">;
+  }
 
   async function handleAdd() {
     if (!addForm.name.trim()) return;
-    await createFeatured(addForm);
-    setAddForm(EMPTY_FEATURED);
-    setIsAdding(false);
+    setUploading(true);
+    try {
+      const photoId = addPhoto ? await uploadPhoto(addPhoto) : undefined;
+      await createFeatured({ ...addForm, photoId });
+      setAddForm(EMPTY_FEATURED);
+      setAddPhoto(null);
+      setIsAdding(false);
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleUpdate() {
     if (!editingId) return;
-    await updateFeatured({ id: editingId, ...editForm });
-    setEditingId(null);
+    setUploading(true);
+    try {
+      const photoId = editPhoto ? await uploadPhoto(editPhoto) : undefined;
+      await updateFeatured({ id: editingId, ...editForm, photoId });
+      setEditingId(null);
+      setEditPhoto(null);
+    } finally {
+      setUploading(false);
+    }
   }
 
   function openEdit(item: FeaturedItem) {
     setIsAdding(false);
     setDeleteConfirmId(null);
+    setEditPhoto(null);
     setEditingId(item._id);
     setEditForm({ name: item.name, roleEn: item.roleEn, roleFr: item.roleFr, noteEn: item.noteEn, noteFr: item.noteFr });
   }
@@ -124,7 +212,7 @@ function FeaturedPanel() {
           </h2>
         </div>
         <button
-          onClick={() => { setIsAdding(true); setEditingId(null); setDeleteConfirmId(null); setAddForm(EMPTY_FEATURED); }}
+          onClick={() => { setIsAdding(true); setEditingId(null); setDeleteConfirmId(null); setAddForm(EMPTY_FEATURED); setAddPhoto(null); }}
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-display uppercase tracking-[0.08em] bg-accent/10 text-accent border border-accent/20 rounded-lg hover:bg-accent hover:text-offwhite transition-all duration-200"
         >
           <IconPlus />Add
@@ -144,6 +232,14 @@ function FeaturedPanel() {
         {featured?.map((item) => (
           <div key={item._id} className="border border-white/[0.06] rounded-xl overflow-hidden">
             <div className="flex items-center gap-3 px-4 py-3 bg-white/[0.02]">
+              {/* Avatar thumbnail */}
+              {item.photoUrl ? (
+                <img src={item.photoUrl} alt={item.name} className="w-9 h-9 rounded-full object-cover shrink-0 border border-white/[0.1]" />
+              ) : (
+                <div className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.08] shrink-0 flex items-center justify-center text-gray-secondary/40">
+                  <IconPerson />
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-display text-sm font-semibold text-offwhite truncate">{item.name}</p>
                 <p className="font-body text-xs text-gray-secondary/60 truncate mt-0.5">{item.roleEn}</p>
@@ -170,6 +266,7 @@ function FeaturedPanel() {
 
             {editingId === item._id && (
               <div className="px-4 py-4 border-t border-white/[0.06] bg-white/[0.01] space-y-3">
+                <PhotoUploadZone file={editPhoto} existingUrl={item.photoUrl} onFileChange={setEditPhoto} />
                 <div>
                   <label className={labelCls}>Name</label>
                   <input className={inputCls} value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} />
@@ -184,7 +281,9 @@ function FeaturedPanel() {
                 </div>
                 <div className="flex gap-2 justify-end">
                   <button onClick={() => setEditingId(null)} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] text-gray-secondary border border-white/[0.08] rounded-lg">Cancel</button>
-                  <button onClick={handleUpdate} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover">Save</button>
+                  <button onClick={handleUpdate} disabled={uploading} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover disabled:opacity-50">
+                    {uploading ? "Saving…" : "Save"}
+                  </button>
                 </div>
               </div>
             )}
@@ -193,6 +292,7 @@ function FeaturedPanel() {
 
         {isAdding && (
           <div className="border border-white/[0.08] border-dashed rounded-xl p-4 space-y-3">
+            <PhotoUploadZone file={addPhoto} onFileChange={setAddPhoto} />
             <div>
               <label className={labelCls}>Name</label>
               <input className={inputCls} placeholder="Sean Downey" value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} />
@@ -207,7 +307,9 @@ function FeaturedPanel() {
             </div>
             <div className="flex gap-2 justify-end">
               <button onClick={() => setIsAdding(false)} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] text-gray-secondary border border-white/[0.08] rounded-lg">Cancel</button>
-              <button onClick={handleAdd} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover">Save person</button>
+              <button onClick={handleAdd} disabled={uploading} className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover disabled:opacity-50">
+                {uploading ? "Saving…" : "Save person"}
+              </button>
             </div>
           </div>
         )}

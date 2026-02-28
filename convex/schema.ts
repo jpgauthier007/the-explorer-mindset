@@ -17,6 +17,7 @@ export default defineSchema({
     roleFr: v.string(),
     noteEn: v.string(),
     noteFr: v.string(),
+    photoId: v.optional(v.id("_storage")),
     order: v.number(),
     createdAt: v.number(),
     updatedAt: v.number(),

@@ -43,7 +43,9 @@ components/
   ResourcesWorksheets.tsx -- Client component: queries Convex listBySection, falls back to dict; serves urlEn or urlFr by lang
   ResourcesAssessment.tsx -- Assessment card (dict only, no Convex yet)
   ResourcesExtras.tsx     -- Client component: same pattern as ResourcesWorksheets
-  admin/AdminCMS.tsx      -- Full CMS: two-column panels (Worksheets|Extras), side-by-side EN+FR PDF upload zones, publish pill toggle, inline edit+delete
+  admin/AdminCMS.tsx      -- Tab bar (Resources | Gratitude). Resources: two-column panels (Worksheets|Extras), EN+FR PDF upload, publish pill, inline edit+delete
+  admin/GratitudeCMS.tsx  -- Gratitude CMS: Featured People panel (name, roleEN/FR, noteEN/FR) + Name Groups panel (labelEN/FR, names one-per-line textarea)
+  Gratitude.tsx           -- Client component: reads from Convex (listFeatured + listGroups), falls back to dict; bilingual role/note/label by lang
   SectionBadge.tsx        -- Line-accent label (horizontal lines flanking text)
   DottedPath.tsx          -- SVG motif variants
   LanguageToggle.tsx      -- EN|FR pill toggle (plain <a> links, no client state)
@@ -52,6 +54,7 @@ convex/
   schema.ts               -- subscribers table + resources table
   subscribers.ts          -- subscribe + unsubscribe mutations
   resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove
+  gratitude.ts            -- listFeatured, listGroups, createFeatured, updateFeatured, removeFeatured, createGroup, updateGroup, removeGroup
 ```
 
 ## Convex Resources Schema
@@ -124,6 +127,19 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - Route group `(sections)` shares layout (Header + sub-nav + Footer) for EN and FR
 - FR mirrors at `/fr/resources/{worksheets,assessment,extras}`
 - Dict keys: `subnav.{worksheets,assessment,extras}`, `backResources`, `explore`, `{section}.hubDescription`
+
+## Gratitude Page
+- **Routes:** `/gratitude` (EN), `/fr/gratitude` (FR). Linked in header nav + footer.
+- **Layout:** Header + Footer shell (same as Resources/Privacy pages)
+- **Sections:** Opening quote (hardcoded dict) → Featured People cards (name, role, note) → dotted divider → Name Groups (label + list of names)
+- **Convex tables:** `gratitudeFeatured` (name, roleEn, roleFr, noteEn, noteFr, order) + `gratitudeGroups` (labelEn, labelFr, names[], order)
+- **Public component:** `Gratitude.tsx` — client, reads from Convex, falls back to dict placeholders when empty
+- **CMS:** Managed via `/admin` Gratitude tab (Featured People panel + Name Groups panel)
+- **Groups input pattern:** Names entered one per line in textarea, split on save
+
+## Admin CMS (/admin)
+- **Tab bar:** Resources | Gratitude (local state, no routing)
+- **Auth:** Currently unprotected. When ready: HTTP Basic Auth in middleware.ts, ADMIN_PASSWORD env var.
 
 ## Resources CMS (/admin)
 - No password protection currently (was added then reverted). When ready: add HTTP Basic Auth block in middleware.ts checking `pathname.startsWith("/admin")` against `ADMIN_PASSWORD` env var — pattern already tested.
