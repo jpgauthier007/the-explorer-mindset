@@ -54,7 +54,7 @@ convex/
   schema.ts               -- subscribers table + resources table
   subscribers.ts          -- subscribe + unsubscribe mutations
   resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove
-  gratitude.ts            -- listFeatured, listGroups, createFeatured, updateFeatured, removeFeatured, createGroup, updateGroup, removeGroup
+  gratitude.ts            -- generateUploadUrl, listFeatured (resolves photoUrl), listGroups, createFeatured, updateFeatured (replaces photo + deletes old), removeFeatured (deletes photo from storage), createGroup, updateGroup, removeGroup
 ```
 
 ## Convex Resources Schema
@@ -132,7 +132,8 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - **Routes:** `/gratitude` (EN), `/fr/gratitude` (FR). Linked in header nav + footer.
 - **Layout:** Header + Footer shell (same as Resources/Privacy pages)
 - **Sections:** Opening quote (hardcoded dict) → Featured People cards (name, role, note) → dotted divider → Name Groups (label + list of names)
-- **Convex tables:** `gratitudeFeatured` (name, roleEn, roleFr, noteEn, noteFr, order) + `gratitudeGroups` (labelEn, labelFr, names[], order)
+- **Convex tables:** `gratitudeFeatured` (name, roleEn, roleFr, noteEn, noteFr, photoId?, order) + `gratitudeGroups` (labelEn, labelFr, names[], order)
+- **Photos:** Optional per featured person. Stored in Convex storage. Admin has circular preview upload zone. Public card shows circular avatar (w-24 h-24) with orange glow on hover; centers card content when present.
 - **Public component:** `Gratitude.tsx` — client, reads from Convex, falls back to dict placeholders when empty
 - **CMS:** Managed via `/admin` Gratitude tab (Featured People panel + Name Groups panel)
 - **Groups input pattern:** Names entered one per line in textarea, split on save
