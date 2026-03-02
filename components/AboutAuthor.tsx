@@ -55,6 +55,7 @@ export function AboutAuthor({ dict }: { dict: AboutAuthorDict }) {
               <div className="mt-6 space-y-5 text-gray-muted font-body text-base md:text-lg leading-[1.8] max-w-xl">
                 <p>{dict.bio1}</p>
                 <p>{dict.bio2}</p>
+                <p>{dict.bio3}</p>
               </div>
             </div>
           </AnimateOnScroll>
