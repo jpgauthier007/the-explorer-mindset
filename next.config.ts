@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data:",
+              "img-src 'self' data: blob: https://*.convex.cloud https://*.convex.site",
               "font-src 'self'",
               "connect-src 'self' https://*.convex.cloud wss://*.convex.cloud https://*.convex.site",
               "frame-src 'none'",
