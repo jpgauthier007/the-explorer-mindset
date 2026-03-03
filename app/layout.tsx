@@ -96,7 +96,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-navy-950 text-offwhite antialiased font-body">
+      <body className="bg-navy-950 text-offwhite antialiased font-body overflow-x-hidden">
         <ConvexClientProvider>{children}</ConvexClientProvider>
         <WebMCPProvider />
       </body>

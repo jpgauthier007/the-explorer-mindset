@@ -38,7 +38,7 @@ export function Resources({ dict, lang }: { dict: ResourcesDict; lang: Lang }) {
   const base = lang === "fr" ? "/fr/resources" : "/resources";
 
   return (
-    <div className="relative bg-navy-900 min-h-screen">
+    <div className="relative bg-navy-900 min-h-screen overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-accent/[0.04] rounded-full blur-[140px] pointer-events-none" />
 

@@ -32,7 +32,7 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
       : dict.groups.map((g) => ({ label: g.label, description: null, names: g.names }));
 
   return (
-    <div className="relative bg-navy-900 min-h-screen">
+    <div className="relative bg-navy-900 min-h-screen overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-accent/[0.04] rounded-full blur-[160px] pointer-events-none" />
 
