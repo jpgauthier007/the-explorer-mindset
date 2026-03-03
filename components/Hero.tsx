@@ -54,8 +54,8 @@ export function Hero({ dict, lang }: { dict: HeroDict; lang: Lang }) {
               <Image
                 src={coverSrc}
                 alt={dict.bookAlt}
-                width={6656}
-                height={10240}
+                width={900}
+                height={1384}
                 priority
                 className="w-full h-auto drop-shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
               />
