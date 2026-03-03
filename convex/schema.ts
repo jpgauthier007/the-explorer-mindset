@@ -26,6 +26,8 @@ export default defineSchema({
   gratitudeGroups: defineTable({
     labelEn: v.string(),
     labelFr: v.string(),
+    descriptionEn: v.optional(v.string()),
+    descriptionFr: v.optional(v.string()),
     names: v.array(v.string()),
     order: v.number(),
     createdAt: v.number(),

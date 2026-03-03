@@ -26,9 +26,10 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
     convexGroups && convexGroups.length > 0
       ? convexGroups.map((g) => ({
           label: lang === "fr" ? g.labelFr : g.labelEn,
+          description: lang === "fr" ? (g.descriptionFr ?? null) : (g.descriptionEn ?? null),
           names: g.names,
         }))
-      : dict.groups.map((g) => ({ label: g.label, names: g.names }));
+      : dict.groups.map((g) => ({ label: g.label, description: null, names: g.names }));
 
   return (
     <div className="relative bg-navy-900 min-h-screen">
@@ -100,16 +101,21 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
             <p className="font-display text-xs uppercase tracking-[0.16em] text-accent/70 text-center mb-12">
               {dict.groupsHeading}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {groups.map((group) => (
                 <div key={group.label}>
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4 mb-4">
                     <span className="flex-1 h-px bg-white/[0.06]" />
                     <span className="font-display text-[10px] uppercase tracking-[0.18em] text-gray-secondary">
                       {group.label}
                     </span>
                     <span className="flex-1 h-px bg-white/[0.06]" />
                   </div>
+                  {group.description && (
+                    <p className="font-body text-sm text-gray-secondary/70 italic text-center leading-relaxed mb-5">
+                      {group.description}
+                    </p>
+                  )}
                   <ul className="space-y-3">
                     {group.names.map((name) => (
                       <li key={name} className="font-body text-base text-offwhite/75 text-center leading-relaxed">

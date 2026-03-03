@@ -21,12 +21,14 @@ type GroupItem = {
   _id: Id<"gratitudeGroups">;
   labelEn: string;
   labelFr: string;
+  descriptionEn?: string;
+  descriptionFr?: string;
   names: string[];
   order: number;
 };
 
 const EMPTY_FEATURED = { name: "", roleEn: "", roleFr: "", noteEn: "", noteFr: "" };
-const EMPTY_GROUP = { labelEn: "", labelFr: "", namesRaw: "" };
+const EMPTY_GROUP = { labelEn: "", labelFr: "", descriptionEn: "", descriptionFr: "", namesRaw: "" };
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 
@@ -338,14 +340,25 @@ function GroupsPanel() {
 
   async function handleAdd() {
     if (!addForm.labelEn.trim()) return;
-    await createGroup({ labelEn: addForm.labelEn, labelFr: addForm.labelFr, names: parseNames(addForm.namesRaw) });
+    await createGroup({
+      labelEn: addForm.labelEn, labelFr: addForm.labelFr,
+      descriptionEn: addForm.descriptionEn || undefined,
+      descriptionFr: addForm.descriptionFr || undefined,
+      names: parseNames(addForm.namesRaw),
+    });
     setAddForm(EMPTY_GROUP);
     setIsAdding(false);
   }
 
   async function handleUpdate() {
     if (!editingId) return;
-    await updateGroup({ id: editingId, labelEn: editForm.labelEn, labelFr: editForm.labelFr, names: parseNames(editForm.namesRaw) });
+    await updateGroup({
+      id: editingId,
+      labelEn: editForm.labelEn, labelFr: editForm.labelFr,
+      descriptionEn: editForm.descriptionEn || undefined,
+      descriptionFr: editForm.descriptionFr || undefined,
+      names: parseNames(editForm.namesRaw),
+    });
     setEditingId(null);
   }
 
@@ -353,7 +366,12 @@ function GroupsPanel() {
     setIsAdding(false);
     setDeleteConfirmId(null);
     setEditingId(item._id);
-    setEditForm({ labelEn: item.labelEn, labelFr: item.labelFr, namesRaw: item.names.join("\n") });
+    setEditForm({
+      labelEn: item.labelEn, labelFr: item.labelFr,
+      descriptionEn: item.descriptionEn ?? "",
+      descriptionFr: item.descriptionFr ?? "",
+      namesRaw: item.names.join("\n"),
+    });
   }
 
   return (
@@ -417,6 +435,10 @@ function GroupsPanel() {
                   <div><label className={labelCls}>Label (EN)</label><input className={inputCls} value={editForm.labelEn} onChange={e => setEditForm(f => ({ ...f, labelEn: e.target.value }))} /></div>
                   <div><label className={labelCls}>Libellé (FR)</label><input className={inputCls} value={editForm.labelFr} onChange={e => setEditForm(f => ({ ...f, labelFr: e.target.value }))} /></div>
                 </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div><label className={labelCls}>Description (EN)</label><textarea className={textareaCls} rows={2} value={editForm.descriptionEn} onChange={e => setEditForm(f => ({ ...f, descriptionEn: e.target.value }))} /></div>
+                  <div><label className={labelCls}>Description (FR)</label><textarea className={textareaCls} rows={2} value={editForm.descriptionFr} onChange={e => setEditForm(f => ({ ...f, descriptionFr: e.target.value }))} /></div>
+                </div>
                 <div>
                   <label className={labelCls}>Names — one per line</label>
                   <textarea className={textareaCls} rows={6} value={editForm.namesRaw} onChange={e => setEditForm(f => ({ ...f, namesRaw: e.target.value }))} />
@@ -433,8 +455,12 @@ function GroupsPanel() {
         {isAdding && (
           <div className="border border-white/[0.08] border-dashed rounded-xl p-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
-              <div><label className={labelCls}>Label (EN)</label><input className={inputCls} placeholder="Family" value={addForm.labelEn} onChange={e => setAddForm(f => ({ ...f, labelEn: e.target.value }))} /></div>
-              <div><label className={labelCls}>Libellé (FR)</label><input className={inputCls} placeholder="Famille" value={addForm.labelFr} onChange={e => setAddForm(f => ({ ...f, labelFr: e.target.value }))} /></div>
+              <div><label className={labelCls}>Label (EN)</label><input className={inputCls} placeholder="Reviewers" value={addForm.labelEn} onChange={e => setAddForm(f => ({ ...f, labelEn: e.target.value }))} /></div>
+              <div><label className={labelCls}>Libellé (FR)</label><input className={inputCls} placeholder="Réviseurs" value={addForm.labelFr} onChange={e => setAddForm(f => ({ ...f, labelFr: e.target.value }))} /></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div><label className={labelCls}>Description (EN)</label><textarea className={textareaCls} rows={2} placeholder="A special thank you to all those who read the manuscript and provided feedback." value={addForm.descriptionEn} onChange={e => setAddForm(f => ({ ...f, descriptionEn: e.target.value }))} /></div>
+              <div><label className={labelCls}>Description (FR)</label><textarea className={textareaCls} rows={2} placeholder="Un merci tout spécial à ceux qui ont lu le manuscrit et fourni leurs commentaires." value={addForm.descriptionFr} onChange={e => setAddForm(f => ({ ...f, descriptionFr: e.target.value }))} /></div>
             </div>
             <div>
               <label className={labelCls}>Names — one per line</label>

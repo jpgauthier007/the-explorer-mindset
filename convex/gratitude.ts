@@ -92,6 +92,8 @@ export const createGroup = mutation({
   args: {
     labelEn: v.string(),
     labelFr: v.string(),
+    descriptionEn: v.optional(v.string()),
+    descriptionFr: v.optional(v.string()),
     names: v.array(v.string()),
   },
   handler: async (ctx, args) => {
@@ -110,6 +112,8 @@ export const updateGroup = mutation({
     id: v.id("gratitudeGroups"),
     labelEn: v.string(),
     labelFr: v.string(),
+    descriptionEn: v.optional(v.string()),
+    descriptionFr: v.optional(v.string()),
     names: v.array(v.string()),
   },
   handler: async (ctx, { id, ...fields }) => {
