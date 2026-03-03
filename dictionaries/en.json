@@ -182,6 +182,102 @@
     "download": "Download PDF",
     "comingSoon": "Coming Soon"
   },
+  "assessment": {
+    "badge": "Self-Assessment",
+    "heading": "The Explorer Mindset Assessment",
+    "instructions": "For each statement, rate yourself honestly from 1 to 5.",
+    "scaleLabels": ["Never", "Rarely", "Sometimes", "Often", "Always"],
+    "start": "Start Assessment",
+    "next": "Next Section",
+    "previous": "Previous",
+    "sections": [
+      {
+        "id": "curiosity",
+        "title": "Curiosity",
+        "questionsLabel": "Questions 1\u20136 of 18",
+        "questions": [
+          "When I encounter something I don\u2019t understand, my first instinct is to explore it rather than move past it.",
+          "I actively seek out experiences that challenge how I currently see the world.",
+          "I find myself genuinely interested in people whose lives and perspectives are very different from mine.",
+          "Uncertainty about something makes me want to learn more, not less.",
+          "I regularly make time to follow ideas or questions that have no immediate practical use, just because they interest me.",
+          "When a conversation takes an unexpected turn, I lean in rather than steer back to familiar ground."
+        ]
+      },
+      {
+        "id": "adaptability",
+        "title": "Adaptability",
+        "questionsLabel": "Questions 7\u201312 of 18",
+        "questions": [
+          "When my plans fall apart, I look for a new path rather than dwelling on what didn\u2019t work.",
+          "I can see multiple ways to approach a problem, even when I\u2019m under pressure.",
+          "I\u2019m comfortable changing my mind when new information or a better perspective comes along.",
+          "I adjust my communication style depending on who I\u2019m talking to and what the situation calls for.",
+          "When something in my life shifts unexpectedly, I find ways to make it work rather than waiting for things to go back to normal.",
+          "I treat new challenges as opportunities to learn something, even when they\u2019re unwelcome."
+        ]
+      },
+      {
+        "id": "resilience",
+        "title": "Resilience",
+        "questionsLabel": "Questions 13\u201318 of 18",
+        "questions": [
+          "When something knocks me down, I find my footing again without staying down too long.",
+          "I tend to come through difficult periods feeling like I\u2019ve grown from them.",
+          "I don\u2019t need everything to be perfect or certain before I can move forward.",
+          "During hard times, I hold onto the belief that things will improve.",
+          "I can manage stress without it derailing the things that matter most to me.",
+          "After a setback, I\u2019m able to reflect on what happened without getting stuck in self-criticism."
+        ]
+      }
+    ],
+    "gate": {
+      "heading": "You\u2019re almost there.",
+      "description": "Enter your details to reveal your Explorer Profile.",
+      "firstNamePlaceholder": "First name (optional)",
+      "emailPlaceholder": "Your email address",
+      "submit": "See My Results",
+      "submitting": "Scoring\u2026",
+      "privacyNote": "No spam. We respect your privacy."
+    },
+    "results": {
+      "badge": "Your Explorer Profile",
+      "curiosityLabel": "Curiosity",
+      "adaptabilityLabel": "Adaptability",
+      "resilienceLabel": "Resilience",
+      "totalLabel": "Total Score",
+      "outOf30": "\u00a0/ 30",
+      "outOf90": "\u00a0/ 90",
+      "restart": "Retake Assessment",
+      "footnote": "This tool is designed for reflection, not diagnosis. Inspired by peer-reviewed research including Kashdan et al. (2009), Dennis & Vander Wal (2010), and Smith et al. (2008)."
+    },
+    "profiles": {
+      "mapmaker": {
+        "name": "The Mapmaker",
+        "range": "18\u201336",
+        "description": "You\u2019re at the beginning of the journey, and that\u2019s a perfectly honest place to be. The Explorer Mindset isn\u2019t something you\u2019re born with; it\u2019s something you build. Start with one trait and go from there."
+      },
+      "pathfinder": {
+        "name": "The Pathfinder",
+        "range": "37\u201354",
+        "description": "You have real strengths to build on. Some habits are forming; others are still inconsistent. That\u2019s normal. Pick one area from your lowest section and try one small thing differently this week."
+      },
+      "trailblazer": {
+        "name": "The Trailblazer",
+        "range": "55\u201372",
+        "description": "You\u2019re living much of this already. The next frontier isn\u2019t just personal growth. It\u2019s helping others find their own path. Who in your life could benefit from what you already know?"
+      },
+      "pioneer": {
+        "name": "The Pioneer",
+        "range": "73\u201390",
+        "description": "You\u2019ve internalized the Explorer Mindset in a meaningful way. These aren\u2019t just concepts. They\u2019re habits. Stay humble, stay curious. What\u2019s the next edge you want to push?"
+      }
+    },
+    "errors": {
+      "email": "Please enter a valid email address.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
   "notFound": {
     "badge": "Off the Map",
     "heading": "This trail doesn\u2019t lead anywhere.",

@@ -11,6 +11,19 @@ export default defineSchema({
     unsubscribedAt: v.optional(v.number()),
   }).index("by_email", ["email"]),
 
+  assessmentSessions: defineTable({
+    email: v.string(),
+    firstName: v.optional(v.string()),
+    lang: v.string(),
+    answers: v.array(v.object({ questionId: v.number(), answer: v.number() })),
+    curiosityScore: v.number(),
+    adaptabilityScore: v.number(),
+    resilienceScore: v.number(),
+    totalScore: v.number(),
+    profile: v.string(),
+    createdAt: v.number(),
+  }).index("by_email", ["email"]),
+
   gratitudeFeatured: defineTable({
     name: v.string(),
     roleEn: v.string(),

@@ -182,6 +182,102 @@
     "download": "T\u00e9l\u00e9charger le PDF",
     "comingSoon": "Bient\u00f4t disponible"
   },
+  "assessment": {
+    "badge": "Auto\u00e9valuation",
+    "heading": "\u00c9valuation Explorer Mindset",
+    "instructions": "Pour chaque affirmation, \u00e9valuez-vous honn\u00eately de 1 \u00e0 5.",
+    "scaleLabels": ["Jamais", "Rarement", "Parfois", "Souvent", "Toujours"],
+    "start": "Commencer l\u2019\u00e9valuation",
+    "next": "Section suivante",
+    "previous": "Pr\u00e9c\u00e9dent",
+    "sections": [
+      {
+        "id": "curiosity",
+        "title": "Curiosit\u00e9",
+        "questionsLabel": "Questions 1\u20136 sur 18",
+        "questions": [
+          "Quand je rencontre quelque chose que je ne comprends pas, mon premier r\u00e9flexe est de l\u2019explorer plut\u00f4t que de passer \u00e0 autre chose.",
+          "Je cherche activement des exp\u00e9riences qui remettent en question ma fa\u00e7on de voir le monde.",
+          "Je suis sinc\u00e8rement int\u00e9ress\u00e9 par les personnes dont la vie et les perspectives sont tr\u00e8s diff\u00e9rentes des miennes.",
+          "L\u2019incertitude face \u00e0 quelque chose me pousse \u00e0 en apprendre davantage, pas moins.",
+          "Je prends r\u00e9guli\u00e8rement le temps de suivre des id\u00e9es ou des questions sans utilit\u00e9 imm\u00e9diate, simplement parce qu\u2019elles m\u2019int\u00e9ressent.",
+          "Quand une conversation prend une tournure inattendue, je m\u2019y penche plut\u00f4t que de ramener la discussion en terrain familier."
+        ]
+      },
+      {
+        "id": "adaptability",
+        "title": "Adaptabilit\u00e9",
+        "questionsLabel": "Questions 7\u201312 sur 18",
+        "questions": [
+          "Quand mes plans tombent \u00e0 l\u2019eau, je cherche une nouvelle voie plut\u00f4t que de m\u2019attarder sur ce qui n\u2019a pas fonctionn\u00e9.",
+          "Je peux envisager plusieurs fa\u00e7ons d\u2019aborder un probl\u00e8me, m\u00eame sous pression.",
+          "Je suis \u00e0 l\u2019aise de changer d\u2019avis quand de nouvelles informations ou une meilleure perspective se pr\u00e9sentent.",
+          "J\u2019adapte mon style de communication selon les personnes et les situations.",
+          "Quand quelque chose change de fa\u00e7on inattendue dans ma vie, je trouve des fa\u00e7ons de m\u2019adapter plut\u00f4t que d\u2019attendre que \u00e7a redevienne comme avant.",
+          "Je vois les nouveaux d\u00e9fis comme des occasions d\u2019apprendre quelque chose, m\u00eame quand ils sont ind\u00e9sirables."
+        ]
+      },
+      {
+        "id": "resilience",
+        "title": "R\u00e9silience",
+        "questionsLabel": "Questions 13\u201318 sur 18",
+        "questions": [
+          "Quand quelque chose me renverse, je retrouve mon \u00e9quilibre sans rester longtemps \u00e0 terre.",
+          "J\u2019ai tendance \u00e0 sortir des p\u00e9riodes difficiles avec un sentiment de croissance.",
+          "Je n\u2019ai pas besoin que tout soit parfait ou certain pour aller de l\u2019avant.",
+          "Dans les moments difficiles, je garde la conviction que les choses vont s\u2019am\u00e9liorer.",
+          "Je g\u00e8re le stress sans que \u00e7a compromette ce qui compte le plus pour moi.",
+          "Apr\u00e8s un revers, je suis capable de r\u00e9fl\u00e9chir \u00e0 ce qui s\u2019est pass\u00e9 sans rester coinc\u00e9 dans l\u2019autocritique."
+        ]
+      }
+    ],
+    "gate": {
+      "heading": "Vous y \u00eates presque.",
+      "description": "Entrez vos informations pour r\u00e9v\u00e9ler votre Profil d\u2019explorateur.",
+      "firstNamePlaceholder": "Pr\u00e9nom (optionnel)",
+      "emailPlaceholder": "Votre adresse courriel",
+      "submit": "Voir mes r\u00e9sultats",
+      "submitting": "Calcul en cours\u2026",
+      "privacyNote": "Pas de spam. Nous respectons votre vie priv\u00e9e."
+    },
+    "results": {
+      "badge": "Votre Profil d\u2019explorateur",
+      "curiosityLabel": "Curiosit\u00e9",
+      "adaptabilityLabel": "Adaptabilit\u00e9",
+      "resilienceLabel": "R\u00e9silience",
+      "totalLabel": "Score total",
+      "outOf30": "\u00a0/ 30",
+      "outOf90": "\u00a0/ 90",
+      "restart": "Recommencer l\u2019\u00e9valuation",
+      "footnote": "Cet outil est con\u00e7u pour la r\u00e9flexion, non pour le diagnostic. Inspir\u00e9 par des recherches valid\u00e9es par les pairs, notamment Kashdan et al. (2009), Dennis & Vander Wal (2010) et Smith et al. (2008)."
+    },
+    "profiles": {
+      "mapmaker": {
+        "name": "Le cartographe",
+        "range": "18\u201336",
+        "description": "Vous \u00eates au d\u00e9but du parcours, et c\u2019est un endroit parfaitement honn\u00eate o\u00f9 se trouver. L\u2019Explorer Mindset ne vient pas naturellement; il se construit. Commencez par un trait et progressez \u00e0 partir de l\u00e0."
+      },
+      "pathfinder": {
+        "name": "Le chercheur de voie",
+        "range": "37\u201354",
+        "description": "Vous avez de vraies forces sur lesquelles vous appuyer. Certaines habitudes se forment; d\u2019autres sont encore irr\u00e9guli\u00e8res. C\u2019est normal. Choisissez un domaine dans votre section la plus faible et essayez une petite chose diff\u00e9remment cette semaine."
+      },
+      "trailblazer": {
+        "name": "Le d\u00e9fricheur",
+        "range": "55\u201372",
+        "description": "Vous vivez d\u00e9j\u00e0 beaucoup de cela. La prochaine fronti\u00e8re n\u2019est pas seulement la croissance personnelle. C\u2019est d\u2019aider les autres \u00e0 trouver leur propre chemin. Qui dans votre vie pourrait b\u00e9n\u00e9ficier de ce que vous savez d\u00e9j\u00e0?"
+      },
+      "pioneer": {
+        "name": "Le pionnier",
+        "range": "73\u201390",
+        "description": "Vous avez int\u00e9gr\u00e9 l\u2019Explorer Mindset de fa\u00e7on significative. Ce ne sont pas que des concepts. Ce sont des habitudes. Restez humble, restez curieux. Quelle est la prochaine fronti\u00e8re que vous voulez repousser?"
+      }
+    },
+    "errors": {
+      "email": "Veuillez entrer une adresse courriel valide.",
+      "generic": "Une erreur est survenue. Veuillez r\u00e9essayer."
+    }
+  },
   "notFound": {
     "badge": "Hors piste",
     "heading": "Ce sentier ne m\u00e8ne nulle part.",
