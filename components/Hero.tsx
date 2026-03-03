@@ -38,11 +38,20 @@ export function Hero({ dict, lang }: { dict: HeroDict; lang: Lang }) {
               {dict.subtitle}
             </p>
 
-            <div className="mt-4 flex items-center gap-3 justify-center md:justify-start">
-              <span className="w-6 h-px bg-accent/50" />
-              <p className="text-sm text-gray-secondary font-display uppercase tracking-[0.1em]">
-                {dict.author}
-              </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 justify-center md:justify-start">
+              {/* Launch date pill */}
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/[0.08] px-4 py-1.5 text-xs font-display font-semibold uppercase tracking-[0.12em] text-accent">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                {dict.launchBadge}
+              </span>
+              {/* Newsletter CTA */}
+              <a
+                href="#join"
+                className="group inline-flex items-center gap-1.5 font-display text-sm text-offwhite/70 hover:text-offwhite transition-colors duration-200"
+              >
+                {dict.notifyCta}
+                <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+              </a>
             </div>
           </div>
 

@@ -30,10 +30,13 @@ app/
   resources/(sections)/{worksheets,assessment,extras}/page.tsx
   api/subscribe/route.ts  -- POST: rate limited, Turnstile-verified, validated
 components/
-  Header.tsx              -- Sticky glass header (scroll-aware). All anchor links use ${home}#anchor (absolute paths) to work from any sub-page
+  Header.tsx              -- Sticky glass header (scroll-aware). All anchor links use ${home}#anchor. Mobile: hamburger (sm:hidden) opens full-screen navy overlay with staggered nav links + BUY CTA. Body scroll locked while open.
   Hero.tsx                -- Full-viewport: layered gradients, 3D book cover, dotted path
   AboutBook.tsx           -- Italic serif pull quote + description
   BuyBook.tsx             -- 3 format cards (Digital/Hardcover/Softcover), "Coming Soon" pre-launch. EN launch: April 16, 2026. FR launch: December 3, 2026.
+  Hero.tsx                -- Book cover: 900x1384px (resized from 6656x10240 — was 13x over Vercel's 5M pixel optimization limit, causing silent failure)
+
+CRITICAL: Vercel Next.js image optimization hard limit = 5,120,000 pixels. Images larger than ~2000x2500px will silently fail. Always resize with sips before committing: sips -z [height] [width] file.png
   ThreePillars.tsx        -- Glassmorphism cards: Curiosity/Adaptability/Resilience
   AboutAuthor.tsx         -- Photo with radial glow + bio
   EmailSignup.tsx         -- Glass form: firstName + lastName row, email + button row, math CAPTCHA, lang auto-detect
@@ -73,6 +76,11 @@ resources {
   createdAt/updatedAt: number
 }
 ```
+
+## Mobile Fixes
+- **Navigation:** Hamburger (3 lines, accent-orange bottom) replaces BUY button on mobile. Full-screen overlay with large Montserrat nav links, staggered 55ms fade-in, LanguageToggle + BUY at bottom.
+- **Horizontal overflow:** `overflow-x-hidden` on body (layout.tsx) + `overflow-hidden` on all standalone page wrappers (Resources.tsx, Gratitude.tsx, both EN+FR section layouts). Wide absolute glow blobs caused horizontal scroll on Android (Pixel).
+- **Rule:** Any future page wrapper with absolute `w-[800px+]` glow elements MUST have `overflow-hidden` on the container.
 
 ## Design Audit Fixes (2026-02-27)
 - Resources page header: centered (`text-center` + `mx-auto` on description) in both EN + FR section layouts
