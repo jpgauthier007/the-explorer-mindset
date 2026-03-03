@@ -51,7 +51,8 @@ components/
   LanguageToggle.tsx      -- EN|FR pill toggle (plain <a> links, no client state)
   WebMCPProvider.tsx      -- WebMCP tools (getBookInfo, subscribeNewsletter)
 convex/
-  schema.ts               -- subscribers table + resources table
+  schema.ts               -- subscribers + resources + assessmentSessions + gratitudeFeatured + gratitudeGroups tables
+  assessment.ts           -- submitAssessment mutation: validates email, scores 18 answers server-side, stores full session (all answers + scores + profile), upserts subscriber
   subscribers.ts          -- subscribe + unsubscribe mutations
   resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove
   gratitude.ts            -- generateUploadUrl, listFeatured (resolves photoUrl), listGroups, createFeatured, updateFeatured (replaces photo + deletes old), removeFeatured (deletes photo from storage), createGroup, updateGroup, removeGroup
@@ -153,6 +154,17 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - Fields: firstName (required), lastName (optional), email (required), preferredLang (auto-detected)
 - Button text: EN "Start Exploring", FR "S'inscrire"
 - Math CAPTCHA: client-side generation + server-side verification
+
+## Assessment (/resources/assessment + /fr/resources/assessment)
+- **18 questions**, 3 sections: Curiosity (Q1–6), Adaptability (Q7–12), Resilience (Q13–18). Rated 1–5.
+- **Flow:** intro → section 1 → section 2 → section 3 → email gate → results
+- **Email gate:** user enters email (+ optional firstName) AFTER completing all questions. Server-side scoring only — client never computes scores.
+- **Convex:** `assessmentSessions` table stores email, firstName?, lang, all 18 answers as array, 3 section scores, totalScore, profile string, createdAt. Indexed by_email.
+- **Profiles:** Mapmaker (18–36), Pathfinder (37–54), Trailblazer (55–72), Pioneer (73–90)
+- **Component:** `Assessment.tsx` — client, multi-step state machine (Step type), animated score bars with CSS transition delay
+- **Dict key:** `assessment` in en.json + fr.json — all 18 questions, scale labels, gate copy, results copy, all 4 profiles
+- **No email sent** — results shown on screen only. Email delivery pending Resend setup.
+- **CSP fix:** `img-src blob: https://*.convex.cloud https://*.convex.site` added to next.config.ts
 
 ## Pending
 - Password protect /admin
