@@ -121,6 +121,8 @@ resources {
 ## Section Order (page.tsx)
 Hero → AboutBook → BuyBook → ThreePillars → AboutAuthor → EmailSignup → Footer
 Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Author(900) → Signup(800) → Footer
+Hero byline (author name) replaced with: pulsing orange launch date pill + "Notify me when it's out →" link to #join.
+Dict keys: hero.launchBadge (EN: "Coming April 16, 2026" / FR: "Disponible le 3 décembre 2026"), hero.notifyCta.
 
 ## i18n (French Translation)
 - **Routing:** `/` = English (default), `/fr` = French. Middleware redirects `/en` → `/`
@@ -157,6 +159,7 @@ Backgrounds: Hero(gradient) → About(900) → Buy(900) → Pillars(800) → Aut
 - New resources saved as Draft; click pill to publish instantly (Convex reactive)
 - Delete removes both PDFs from Convex storage
 - Public fallback: no Convex records → dict placeholders show as "Coming Soon"
+- CRITICAL loading pattern: undefined (loading) → skeleton cards. [] (confirmed empty) → dict fallback. [...data] → live data. Never use `undefined || length === 0` — causes flash of placeholder content on load. Applies to ResourcesWorksheets, ResourcesExtras, Gratitude.
 
 ## Newsletter Signup
 - Fields: firstName (required), lastName (optional), email (required), preferredLang (auto-detected)

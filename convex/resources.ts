@@ -124,3 +124,28 @@ export const remove = mutation({
     await ctx.db.delete(id);
   },
 });
+
+export const moveResource = mutation({
+  args: {
+    id: v.id("resources"),
+    direction: v.union(v.literal("up"), v.literal("down")),
+  },
+  handler: async (ctx, { id, direction }) => {
+    const item = await ctx.db.get(id);
+    if (!item) throw new Error("Resource not found");
+
+    const siblings = await ctx.db
+      .query("resources")
+      .withIndex("by_section", (q) => q.eq("section", item.section))
+      .collect();
+    siblings.sort((a, b) => a.order - b.order);
+
+    const idx = siblings.findIndex((s) => s._id === id);
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= siblings.length) return;
+
+    const swapItem = siblings[swapIdx];
+    await ctx.db.patch(id, { order: swapItem.order });
+    await ctx.db.patch(swapItem._id, { order: item.order });
+  },
+});

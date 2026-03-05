@@ -43,6 +43,20 @@ function IconEdit() {
     </svg>
   );
 }
+function IconChevronUp() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  );
+}
+function IconChevronDown() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
 function IconTrash() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
@@ -190,7 +204,8 @@ function ResourceForm({
 
 function ResourceRow({
   resource, isEditing, editForm, editFileEn, editFileFr,
-  isConfirmingDelete, onToggle, onEdit, onEditChange,
+  isConfirmingDelete, isFirst, isLast, onMoveUp, onMoveDown,
+  onToggle, onEdit, onEditChange,
   onEditFileEnChange, onEditFileFrChange,
   onEditSave, onEditCancel, onDeleteRequest, onDeleteConfirm, onDeleteCancel,
 }: {
@@ -200,6 +215,10 @@ function ResourceRow({
   editFileEn: File | null;
   editFileFr: File | null;
   isConfirmingDelete: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
   onToggle: () => void;
   onEdit: () => void;
   onEditChange: (f: typeof EMPTY_FORM) => void;
@@ -248,6 +267,18 @@ function ResourceRow({
           <span className={`w-1.5 h-1.5 rounded-full ${resource.published ? "bg-emerald-400" : "bg-amber-400"}`} />
           {resource.published ? "Published" : "Draft"}
         </button>
+
+        {/* Reorder */}
+        <div className="shrink-0 flex flex-col gap-0.5">
+          <button onClick={onMoveUp} disabled={isFirst}
+            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
+            <IconChevronUp />
+          </button>
+          <button onClick={onMoveDown} disabled={isLast}
+            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
+            <IconChevronDown />
+          </button>
+        </div>
 
         <button onClick={onEdit}
           className="shrink-0 p-1.5 text-gray-secondary/50 hover:text-offwhite transition-colors rounded-md hover:bg-white/[0.06]">
@@ -367,6 +398,7 @@ function SectionPanel({
   onEditFormChange: (f: typeof EMPTY_FORM) => void;
   onEditFileEnChange: (f: File | null) => void; onEditFileFrChange: (f: File | null) => void;
   onEditSave: () => void; onEditCancel: () => void;
+  onMove: (id: Id<"resources">, direction: "up" | "down") => void;
   onDeleteRequest: (id: Id<"resources">) => void;
   onDeleteConfirm: () => void; onDeleteCancel: () => void;
 }) {
@@ -395,12 +427,14 @@ function SectionPanel({
           </div>
         )}
 
-        {resources.map((r) => (
+        {resources.map((r, i) => (
           <ResourceRow
             key={r._id} resource={r}
             isEditing={editingId === r._id} editForm={editForm}
             editFileEn={editFileEn} editFileFr={editFileFr}
             isConfirmingDelete={deleteConfirmId === r._id}
+            isFirst={i === 0} isLast={i === resources.length - 1}
+            onMoveUp={() => onMove(r._id, "up")} onMoveDown={() => onMove(r._id, "down")}
             onToggle={() => onToggle(r._id)} onEdit={() => onEditOpen(r)}
             onEditChange={onEditFormChange}
             onEditFileEnChange={onEditFileEnChange} onEditFileFrChange={onEditFileFrChange}
@@ -432,6 +466,7 @@ export function AdminCMS() {
   const createResource = useMutation(api.resources.create);
   const updateResource = useMutation(api.resources.update);
   const togglePublished = useMutation(api.resources.togglePublished);
+  const moveResource = useMutation(api.resources.moveResource);
   const removeResource = useMutation(api.resources.remove);
 
   const [addingSection, setAddingSection] = useState<Section | null>(null);
@@ -525,6 +560,7 @@ export function AdminCMS() {
     onAddFormChange: setAddForm,
     onAddFileEnChange: setAddFileEn, onAddFileFrChange: setAddFileFr,
     onToggle: (id: Id<"resources">) => togglePublished({ id }),
+    onMove: (id: Id<"resources">, direction: "up" | "down") => moveResource({ id, direction }),
     onEditFormChange: setEditForm,
     onEditFileEnChange: setEditFileEn, onEditFileFrChange: setEditFileFr,
     onEditSave: handleEditSave, onEditCancel: () => { setEditingId(null); setEditFileEn(null); setEditFileFr(null); },
