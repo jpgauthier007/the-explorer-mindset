@@ -12,24 +12,25 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
   const convexFeatured = useQuery(api.gratitude.listFeatured, {});
   const convexGroups = useQuery(api.gratitude.listGroups, {});
 
-  const featured =
-    convexFeatured && convexFeatured.length > 0
-      ? convexFeatured.map((p) => ({
-          name: p.name,
-          role: lang === "fr" ? p.roleFr : p.roleEn,
-          note: lang === "fr" ? p.noteFr : p.noteEn,
-          photoUrl: p.photoUrl ?? null,
-        }))
-      : dict.featured.map((p) => ({ name: p.name, role: p.role, note: p.note, photoUrl: null }));
+  // Still loading — don't flash dict placeholders
+  const loading = convexFeatured === undefined || convexGroups === undefined;
 
-  const groups =
-    convexGroups && convexGroups.length > 0
-      ? convexGroups.map((g) => ({
-          label: lang === "fr" ? g.labelFr : g.labelEn,
-          description: lang === "fr" ? (g.descriptionFr ?? null) : (g.descriptionEn ?? null),
-          names: g.names,
-        }))
-      : dict.groups.map((g) => ({ label: g.label, description: null, names: g.names }));
+  const featured = !loading && convexFeatured!.length > 0
+    ? convexFeatured!.map((p) => ({
+        name: p.name,
+        role: lang === "fr" ? p.roleFr : p.roleEn,
+        note: lang === "fr" ? p.noteFr : p.noteEn,
+        photoUrl: p.photoUrl ?? null,
+      }))
+    : loading ? [] : dict.featured.map((p) => ({ name: p.name, role: p.role, note: p.note, photoUrl: null }));
+
+  const groups = !loading && convexGroups!.length > 0
+    ? convexGroups!.map((g) => ({
+        label: lang === "fr" ? g.labelFr : g.labelEn,
+        description: lang === "fr" ? (g.descriptionFr ?? null) : (g.descriptionEn ?? null),
+        names: g.names,
+      }))
+    : loading ? [] : dict.groups.map((g) => ({ label: g.label, description: null, names: g.names }));
 
   return (
     <div className="relative bg-navy-900 min-h-screen overflow-hidden">
@@ -49,8 +50,25 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
           </blockquote>
         </div>
 
+        {/* Loading skeleton */}
+        {loading && (
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[0, 1].map((i) => (
+              <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-10 animate-pulse">
+                <div className="w-20 h-20 bg-white/[0.08] rounded-full mx-auto mb-6" />
+                <div className="h-4 bg-white/[0.08] rounded-full w-1/3 mx-auto mb-3" />
+                <div className="h-6 bg-white/[0.08] rounded-full w-1/2 mx-auto mb-4" />
+                <div className="space-y-2">
+                  <div className="h-3 bg-white/[0.05] rounded-full w-full" />
+                  <div className="h-3 bg-white/[0.05] rounded-full w-4/5 mx-auto" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Featured people */}
-        {featured.length > 0 && (
+        {!loading && featured.length > 0 && (
           <section className="mt-20">
             <p className="font-display text-xs uppercase tracking-[0.16em] text-accent/70 text-center mb-10">
               {dict.featuredHeading}
@@ -89,14 +107,14 @@ export function Gratitude({ dict, lang }: { dict: GratitudeDict; lang: Lang }) {
         )}
 
         {/* Dotted divider */}
-        {featured.length > 0 && groups.length > 0 && (
+        {!loading && featured.length > 0 && groups.length > 0 && (
           <div className="flex justify-center my-20">
             <DottedPathDivider className="w-48" />
           </div>
         )}
 
         {/* Name groups */}
-        {groups.length > 0 && (
+        {!loading && groups.length > 0 && (
           <section>
             <p className="font-display text-xs uppercase tracking-[0.16em] text-accent/70 text-center mb-12">
               {dict.groupsHeading}

@@ -69,6 +69,23 @@ function ExtrasGrid({ items, comingSoon, download }: { items: CardItem[]; coming
   );
 }
 
+function ExtrasSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {[0].map((i) => (
+        <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-9 animate-pulse">
+          <div className="w-8 h-8 bg-white/[0.08] rounded-lg mb-5" />
+          <div className="h-5 bg-white/[0.08] rounded-full w-1/2 mb-3" />
+          <div className="space-y-2">
+            <div className="h-3 bg-white/[0.05] rounded-full w-full" />
+            <div className="h-3 bg-white/[0.05] rounded-full w-4/5" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lang }) {
   const convexItems = useQuery(api.resources.listBySection, { section: "extras" });
 
@@ -79,7 +96,9 @@ export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lan
     url: null,
   }));
 
-  if (convexItems === undefined || convexItems.length === 0) {
+  if (convexItems === undefined) return <ExtrasSkeleton />;
+
+  if (convexItems.length === 0) {
     return <ExtrasGrid items={fallback} comingSoon={dict.comingSoon} download={dict.download} />;
   }
 
