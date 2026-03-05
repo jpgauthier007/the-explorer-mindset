@@ -382,7 +382,7 @@ function SectionPanel({
   title, section, resources, isAdding, addForm, addFileEn, addFileFr,
   uploading, addError, editingId, editForm, editFileEn, editFileFr,
   deleteConfirmId, onAddOpen, onAddFormChange, onAddFileEnChange, onAddFileFrChange,
-  onAddSave, onAddCancel, onToggle, onEditOpen, onEditFormChange,
+  onAddSave, onAddCancel, onToggle, onMove, onEditOpen, onEditFormChange,
   onEditFileEnChange, onEditFileFrChange, onEditSave, onEditCancel,
   onDeleteRequest, onDeleteConfirm, onDeleteCancel,
 }: {
