@@ -57,7 +57,7 @@ convex/
   schema.ts               -- subscribers + resources + assessmentSessions + gratitudeFeatured + gratitudeGroups tables
   assessment.ts           -- submitAssessment mutation: validates email, scores 18 answers server-side, stores full session (all answers + scores + profile), upserts subscriber
   subscribers.ts          -- subscribe + unsubscribe mutations
-  resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove
+  resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove, moveResource (swaps order with adjacent item in section)
   gratitude.ts            -- generateUploadUrl, listFeatured (resolves photoUrl), listGroups, createFeatured, updateFeatured (replaces photo + deletes old), removeFeatured (deletes photo from storage), createGroup, updateGroup, removeGroup
 ```
 
@@ -160,6 +160,7 @@ Dict keys: hero.launchBadge (EN: "Coming April 16, 2026" / FR: "Disponible le 3 
 - Delete removes both PDFs from Convex storage
 - Public fallback: no Convex records → dict placeholders show as "Coming Soon"
 - CRITICAL loading pattern: undefined (loading) → skeleton cards. [] (confirmed empty) → dict fallback. [...data] → live data. Never use `undefined || length === 0` — causes flash of placeholder content on load. Applies to ResourcesWorksheets, ResourcesExtras, Gratitude.
+- Reordering: ▲▼ chevrons leftmost in each admin row. moveResource mutation swaps order values of adjacent items in same section.
 
 ## Newsletter Signup
 - Fields: firstName (required), lastName (optional), email (required), preferredLang (auto-detected)
