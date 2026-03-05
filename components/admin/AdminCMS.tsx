@@ -233,7 +233,19 @@ function ResourceRow({
   return (
     <div className="border border-white/[0.06] rounded-xl overflow-hidden">
       <div className="flex items-start gap-3 px-4 py-3 bg-white/[0.02]">
-        <div className="text-gray-secondary/50"><IconFile /></div>
+        {/* Reorder — leftmost */}
+        <div className="shrink-0 flex flex-col gap-0.5">
+          <button onClick={onMoveUp} disabled={isFirst}
+            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
+            <IconChevronUp />
+          </button>
+          <button onClick={onMoveDown} disabled={isLast}
+            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
+            <IconChevronDown />
+          </button>
+        </div>
+
+        <div className="text-gray-secondary/50 mt-0.5"><IconFile /></div>
         <div className="flex-1 min-w-0">
           <p className="font-display text-sm font-semibold text-offwhite truncate">
             {resource.titleEn}
@@ -267,18 +279,6 @@ function ResourceRow({
           <span className={`w-1.5 h-1.5 rounded-full ${resource.published ? "bg-emerald-400" : "bg-amber-400"}`} />
           {resource.published ? "Published" : "Draft"}
         </button>
-
-        {/* Reorder */}
-        <div className="shrink-0 flex flex-col gap-0.5">
-          <button onClick={onMoveUp} disabled={isFirst}
-            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
-            <IconChevronUp />
-          </button>
-          <button onClick={onMoveDown} disabled={isLast}
-            className="p-1 text-gray-secondary/40 hover:text-offwhite disabled:opacity-20 disabled:cursor-not-allowed transition-colors rounded hover:bg-white/[0.06]">
-            <IconChevronDown />
-          </button>
-        </div>
 
         <button onClick={onEdit}
           className="shrink-0 p-1.5 text-gray-secondary/50 hover:text-offwhite transition-colors rounded-md hover:bg-white/[0.06]">
