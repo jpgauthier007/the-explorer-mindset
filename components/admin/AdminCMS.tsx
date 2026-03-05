@@ -232,7 +232,7 @@ function ResourceRow({
 }) {
   return (
     <div className="border border-white/[0.06] rounded-xl overflow-hidden">
-      <div className="flex items-center gap-3 px-4 py-3 bg-white/[0.02]">
+      <div className="flex items-start gap-3 px-4 py-3 bg-white/[0.02]">
         <div className="text-gray-secondary/50"><IconFile /></div>
         <div className="flex-1 min-w-0">
           <p className="font-display text-sm font-semibold text-offwhite truncate">
