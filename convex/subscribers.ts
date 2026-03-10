@@ -1,5 +1,25 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+
+export const listSubscribers = query({
+  args: {},
+  handler: async (ctx) => {
+    const all = await ctx.db.query("subscribers").collect();
+    const active = all.filter((s) => !s.unsubscribedAt);
+    active.sort((a, b) => b.subscribedAt - a.subscribedAt);
+
+    const now = Date.now();
+    const ms24h = 24 * 60 * 60 * 1000;
+    const ms7d = 7 * 24 * 60 * 60 * 1000;
+
+    return {
+      subscribers: active,
+      total: active.length,
+      last24h: active.filter((s) => s.subscribedAt >= now - ms24h).length,
+      last7d: active.filter((s) => s.subscribedAt >= now - ms7d).length,
+    };
+  },
+});
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
