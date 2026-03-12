@@ -1,7 +1,17 @@
 "use client";
 
-import { useQuery } from "convex/react";
+import { useState } from "react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
+
+// ─── Shared styles ────────────────────────────────────────────────────────────
+
+const inputCls =
+  "w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-offwhite placeholder:text-gray-secondary/40 focus:outline-none focus:border-accent/40 transition-colors font-body";
+const labelCls = "block font-display text-[10px] uppercase tracking-[0.12em] text-gray-secondary mb-1.5";
+
+// ─── Stat card ────────────────────────────────────────────────────────────────
 
 function StatCard({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
   return (
@@ -12,6 +22,8 @@ function StatCard({ label, value, highlight }: { label: string; value: number; h
   );
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function formatDate(ts: number) {
   return new Date(ts).toLocaleDateString("en-CA", {
     year: "numeric",
@@ -20,8 +32,119 @@ function formatDate(ts: number) {
   });
 }
 
+function IconEdit() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+}
+
+// ─── Subscriber row ───────────────────────────────────────────────────────────
+
+type Sub = {
+  _id: Id<"subscribers">;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  subscribedAt: number;
+  unsubscribedAt?: number;
+};
+
+function SubscriberRow({
+  sub,
+  i,
+  editingId,
+  onEditOpen,
+  onEditSave,
+  onEditCancel,
+  onToggle,
+}: {
+  sub: Sub;
+  i: number;
+  editingId: Id<"subscribers"> | null;
+  onEditOpen: (s: Sub) => void;
+  onEditSave: () => void;
+  onEditCancel: () => void;
+  onToggle: (id: Id<"subscribers">) => void;
+}) {
+  const isSubscribed = !sub.unsubscribedAt;
+  const isEditing = editingId === sub._id;
+
+  return (
+    <tr className={`border-b border-white/[0.04] last:border-0 align-top ${i % 2 === 0 ? "" : "bg-white/[0.01]"}`}>
+      <td className="px-5 py-3 font-body text-sm text-offwhite/90">
+        {sub.firstName ?? <span className="text-gray-secondary/40">—</span>}
+      </td>
+      <td className="px-5 py-3 font-body text-sm text-offwhite/90">
+        {sub.lastName ?? <span className="text-gray-secondary/40">—</span>}
+      </td>
+      <td className="px-5 py-3 font-body text-sm text-gray-muted">{sub.email}</td>
+      <td className="px-5 py-3 font-body text-sm text-gray-secondary/70 whitespace-nowrap">
+        {formatDate(sub.subscribedAt)}
+      </td>
+      {/* Subscribed toggle */}
+      <td className="px-5 py-3">
+        <button
+          onClick={() => onToggle(sub._id)}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-display font-semibold uppercase tracking-[0.08em] border transition-all duration-200 ${
+            isSubscribed
+              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20"
+              : "bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
+          }`}
+        >
+          <span className={`w-1.5 h-1.5 rounded-full ${isSubscribed ? "bg-emerald-400" : "bg-red-400"}`} />
+          {isSubscribed ? "Yes" : "No"}
+        </button>
+      </td>
+      {/* Edit */}
+      <td className="px-3 py-3">
+        {!isEditing && (
+          <button
+            onClick={() => onEditOpen(sub)}
+            className="p-1.5 text-gray-secondary/50 hover:text-offwhite transition-colors rounded-md hover:bg-white/[0.06]"
+          >
+            <IconEdit />
+          </button>
+        )}
+        {isEditing && (
+          <button
+            onClick={onEditCancel}
+            className="p-1.5 text-gray-secondary/50 hover:text-offwhite transition-colors rounded-md hover:bg-white/[0.06]"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
+              <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+            </svg>
+          </button>
+        )}
+      </td>
+    </tr>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
 export function SubscribersCMS() {
   const data = useQuery(api.subscribers.listSubscribers, {});
+  const updateSubscriber = useMutation(api.subscribers.updateSubscriber);
+  const toggleSubscription = useMutation(api.subscribers.toggleSubscription);
+
+  const [editingId, setEditingId] = useState<Id<"subscribers"> | null>(null);
+  const [editFirst, setEditFirst] = useState("");
+  const [editLast, setEditLast] = useState("");
+
+  function openEdit(sub: Sub) {
+    setEditingId(sub._id);
+    setEditFirst(sub.firstName ?? "");
+    setEditLast(sub.lastName ?? "");
+  }
+
+  async function saveEdit() {
+    if (!editingId) return;
+    await updateSubscriber({ id: editingId, firstName: editFirst, lastName: editLast });
+    setEditingId(null);
+  }
 
   if (data === undefined) {
     return (
@@ -47,8 +170,8 @@ export function SubscribersCMS() {
       <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-white/[0.06]">
           <h2 className="font-display font-bold text-base text-offwhite">
-            Subscribers
-            <span className="ml-2 font-normal text-gray-secondary text-sm">({data.total})</span>
+            All subscribers
+            <span className="ml-2 font-normal text-gray-secondary text-sm">({data.subscribers.length})</span>
           </h2>
         </div>
 
@@ -61,8 +184,8 @@ export function SubscribersCMS() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  {["First name", "Last name", "Email", "Signed up"].map((h) => (
-                    <th key={h} className="px-5 py-3 text-left font-display text-[10px] uppercase tracking-[0.12em] text-gray-secondary/60">
+                  {["First name", "Last name", "Email", "Signed up", "Subscribed", ""].map((h, i) => (
+                    <th key={i} className="px-5 py-3 text-left font-display text-[10px] uppercase tracking-[0.12em] text-gray-secondary/60 last:px-3">
                       {h}
                     </th>
                   ))}
@@ -70,23 +193,59 @@ export function SubscribersCMS() {
               </thead>
               <tbody>
                 {data.subscribers.map((s, i) => (
-                  <tr
-                    key={s._id}
-                    className={`border-b border-white/[0.04] last:border-0 transition-colors hover:bg-white/[0.02] ${i % 2 === 0 ? "" : "bg-white/[0.01]"}`}
-                  >
-                    <td className="px-5 py-3 font-body text-sm text-offwhite/90">
-                      {s.firstName ?? <span className="text-gray-secondary/40">—</span>}
-                    </td>
-                    <td className="px-5 py-3 font-body text-sm text-offwhite/90">
-                      {s.lastName ?? <span className="text-gray-secondary/40">—</span>}
-                    </td>
-                    <td className="px-5 py-3 font-body text-sm text-gray-muted">
-                      {s.email}
-                    </td>
-                    <td className="px-5 py-3 font-body text-sm text-gray-secondary/70 whitespace-nowrap">
-                      {formatDate(s.subscribedAt)}
-                    </td>
-                  </tr>
+                  <>
+                    <SubscriberRow
+                      key={s._id}
+                      sub={s}
+                      i={i}
+                      editingId={editingId}
+                      onEditOpen={openEdit}
+                      onEditSave={saveEdit}
+                      onEditCancel={() => setEditingId(null)}
+                      onToggle={(id) => toggleSubscription({ id })}
+                    />
+                    {/* Inline edit row */}
+                    {editingId === s._id && (
+                      <tr key={`${s._id}-edit`} className="border-b border-white/[0.04] bg-white/[0.02]">
+                        <td colSpan={6} className="px-5 py-4">
+                          <div className="flex flex-col sm:flex-row gap-3 items-end">
+                            <div className="flex-1">
+                              <label className={labelCls}>First name</label>
+                              <input
+                                className={inputCls}
+                                value={editFirst}
+                                onChange={(e) => setEditFirst(e.target.value)}
+                                placeholder="First name"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className={labelCls}>Last name</label>
+                              <input
+                                className={inputCls}
+                                value={editLast}
+                                onChange={(e) => setEditLast(e.target.value)}
+                                placeholder="Last name"
+                              />
+                            </div>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => setEditingId(null)}
+                                className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] text-gray-secondary border border-white/[0.08] rounded-lg hover:text-offwhite transition-colors"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                onClick={saveEdit}
+                                className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover transition-colors"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>

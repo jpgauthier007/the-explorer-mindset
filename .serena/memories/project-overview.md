@@ -46,7 +46,8 @@ CRITICAL: Vercel Next.js image optimization hard limit = 5,120,000 pixels. Image
   ResourcesWorksheets.tsx -- Client component: queries Convex listBySection, falls back to dict; serves urlEn or urlFr by lang
   ResourcesAssessment.tsx -- Assessment card (dict only, no Convex yet)
   ResourcesExtras.tsx     -- Client component: same pattern as ResourcesWorksheets
-  admin/AdminCMS.tsx      -- Tab bar (Resources | Gratitude). Resources: two-column panels (Worksheets|Extras), EN+FR PDF upload, publish pill, inline edit+delete
+  admin/AdminCMS.tsx      -- Tab bar (Resources | Gratitude | Subscribers). Resources: two-column panels (Worksheets|Extras), EN+FR PDF upload, publish pill, reorder ▲▼, inline edit+delete
+  admin/SubscribersCMS.tsx -- Subscribers tab: 3 stat cards (total, last 24h, last 7d) + table (first name, last name, email, signup date), live via Convex
   admin/GratitudeCMS.tsx  -- Gratitude CMS: Featured People panel (name, roleEN/FR, noteEN/FR) + Name Groups panel (labelEN/FR, names one-per-line textarea)
   Gratitude.tsx           -- Client component: reads from Convex (listFeatured + listGroups), falls back to dict; bilingual role/note/label by lang
   SectionBadge.tsx        -- Line-accent label (horizontal lines flanking text)
@@ -56,7 +57,7 @@ CRITICAL: Vercel Next.js image optimization hard limit = 5,120,000 pixels. Image
 convex/
   schema.ts               -- subscribers + resources + assessmentSessions + gratitudeFeatured + gratitudeGroups tables
   assessment.ts           -- submitAssessment mutation: validates email, scores 18 answers server-side, stores full session (all answers + scores + profile), upserts subscriber
-  subscribers.ts          -- subscribe + unsubscribe mutations
+  subscribers.ts          -- subscribe + unsubscribe mutations + listSubscribers query (active subs sorted newest first, total/last24h/last7d counts)
   resources.ts            -- list (admin), listBySection (public), generateUploadUrl, create, update, togglePublished, remove, moveResource (swaps order with adjacent item in section)
   gratitude.ts            -- generateUploadUrl, listFeatured (resolves photoUrl), listGroups, createFeatured, updateFeatured (replaces photo + deletes old), removeFeatured (deletes photo from storage), createGroup, updateGroup, removeGroup
 ```

@@ -5,19 +5,44 @@ export const listSubscribers = query({
   args: {},
   handler: async (ctx) => {
     const all = await ctx.db.query("subscribers").collect();
-    const active = all.filter((s) => !s.unsubscribedAt);
-    active.sort((a, b) => b.subscribedAt - a.subscribedAt);
+    all.sort((a, b) => b.subscribedAt - a.subscribedAt);
 
+    const active = all.filter((s) => !s.unsubscribedAt);
     const now = Date.now();
     const ms24h = 24 * 60 * 60 * 1000;
     const ms7d = 7 * 24 * 60 * 60 * 1000;
 
     return {
-      subscribers: active,
+      subscribers: all,
       total: active.length,
       last24h: active.filter((s) => s.subscribedAt >= now - ms24h).length,
       last7d: active.filter((s) => s.subscribedAt >= now - ms7d).length,
     };
+  },
+});
+
+export const updateSubscriber = mutation({
+  args: {
+    id: v.id("subscribers"),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+  },
+  handler: async (ctx, { id, firstName, lastName }) => {
+    await ctx.db.patch(id, {
+      firstName: firstName?.trim() || undefined,
+      lastName: lastName?.trim() || undefined,
+    });
+  },
+});
+
+export const toggleSubscription = mutation({
+  args: { id: v.id("subscribers") },
+  handler: async (ctx, { id }) => {
+    const sub = await ctx.db.get(id);
+    if (!sub) throw new Error("Subscriber not found");
+    await ctx.db.patch(id, {
+      unsubscribedAt: sub.unsubscribedAt ? undefined : Date.now(),
+    });
   },
 });
 
