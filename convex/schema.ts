@@ -7,6 +7,8 @@ export default defineSchema({
     firstName: v.optional(v.string()),
     lastName: v.optional(v.string()),
     preferredLang: v.optional(v.string()),
+    source: v.optional(v.string()),
+    resourceTitle: v.optional(v.string()),
     subscribedAt: v.number(),
     unsubscribedAt: v.optional(v.number()),
   }).index("by_email", ["email"]),

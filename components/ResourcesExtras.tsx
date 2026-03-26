@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Dictionary, Lang } from "@/dictionaries/getDictionary";
+import { DownloadGateModal } from "./DownloadGateModal";
 
 type ResourcesDict = Dictionary["resources"];
 
@@ -24,12 +26,10 @@ function ComingSoonLabel({ label }: { label: string }) {
   );
 }
 
-function DownloadButton({ url, label }: { url: string; label: string }) {
+function DownloadButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      onClick={onClick}
       className="mt-auto pt-6 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.12em] text-accent hover:text-accent-hover transition-colors"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
@@ -38,13 +38,23 @@ function DownloadButton({ url, label }: { url: string; label: string }) {
         <line x1="12" y1="15" x2="12" y2="3" />
       </svg>
       {label}
-    </a>
+    </button>
   );
 }
 
 type CardItem = { title: string; description: string; published: boolean; url: string | null };
 
-function ExtrasGrid({ items, comingSoon, download }: { items: CardItem[]; comingSoon: string; download: string }) {
+function ExtrasGrid({
+  items,
+  comingSoon,
+  download,
+  onDownload,
+}: {
+  items: CardItem[];
+  comingSoon: string;
+  download: string;
+  onDownload: (item: CardItem) => void;
+}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {items.map((item) => (
@@ -58,7 +68,7 @@ function ExtrasGrid({ items, comingSoon, download }: { items: CardItem[]; coming
           <h3 className="mt-5 font-display font-bold text-xl text-offwhite tracking-tight">{item.title}</h3>
           <p className="mt-2 text-gray-muted font-body text-sm leading-[1.75]">{item.description}</p>
           {item.published && item.url ? (
-            <DownloadButton url={item.url} label={download} />
+            <DownloadButton label={download} onClick={() => onDownload(item)} />
           ) : (
             <ComingSoonLabel label={comingSoon} />
           )}
@@ -88,6 +98,7 @@ function ExtrasSkeleton() {
 
 export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lang }) {
   const convexItems = useQuery(api.resources.listBySection, { section: "extras" });
+  const [gateItem, setGateItem] = useState<CardItem | null>(null);
 
   const fallback: CardItem[] = dict.extras.items.map((i) => ({
     title: i.title,
@@ -98,16 +109,34 @@ export function ResourcesExtras({ dict, lang }: { dict: ResourcesDict; lang: Lan
 
   if (convexItems === undefined) return <ExtrasSkeleton />;
 
-  if (convexItems.length === 0) {
-    return <ExtrasGrid items={fallback} comingSoon={dict.comingSoon} download={dict.download} />;
-  }
+  const items: CardItem[] =
+    convexItems.length === 0
+      ? fallback
+      : convexItems.map((r) => ({
+          title: lang === "fr" ? r.titleFr : r.titleEn,
+          description: lang === "fr" ? r.descriptionFr : r.descriptionEn,
+          published: r.published,
+          url: lang === "fr" ? r.urlFr : r.urlEn,
+        }));
 
-  const items: CardItem[] = convexItems.map((r) => ({
-    title: lang === "fr" ? r.titleFr : r.titleEn,
-    description: lang === "fr" ? r.descriptionFr : r.descriptionEn,
-    published: r.published,
-    url: lang === "fr" ? r.urlFr : r.urlEn,
-  }));
-
-  return <ExtrasGrid items={items} comingSoon={dict.comingSoon} download={dict.download} />;
+  return (
+    <>
+      <ExtrasGrid
+        items={items}
+        comingSoon={dict.comingSoon}
+        download={dict.download}
+        onDownload={setGateItem}
+      />
+      {gateItem && gateItem.url && (
+        <DownloadGateModal
+          resourceTitle={gateItem.title}
+          downloadUrl={gateItem.url}
+          source="extras"
+          lang={lang}
+          dict={dict.downloadGate}
+          onClose={() => setGateItem(null)}
+        />
+      )}
+    </>
+  );
 }

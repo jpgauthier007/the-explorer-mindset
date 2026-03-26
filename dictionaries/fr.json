@@ -182,7 +182,19 @@
       ]
     },
     "download": "T\u00e9l\u00e9charger le PDF",
-    "comingSoon": "Bient\u00f4t disponible"
+    "comingSoon": "Bient\u00f4t disponible",
+    "downloadGate": {
+      "heading": "Presque l\u00e0.",
+      "description": "Entrez vos coordonn\u00e9es pour acc\u00e9der \u00e0 votre t\u00e9l\u00e9chargement.",
+      "firstName": "Pr\u00e9nom",
+      "email": "Adresse courriel",
+      "emailPlaceholder": "votre@courriel.com",
+      "submit": "T\u00e9l\u00e9charger",
+      "submitting": "Pr\u00e9paration...",
+      "privacy": "Nous respectons votre vie priv\u00e9e.",
+      "privacyLink": "Politique de confidentialit\u00e9",
+      "error": "Une erreur est survenue. Veuillez r\u00e9essayer."
+    }
   },
   "assessment": {
     "badge": "Auto\u00e9valuation",

@@ -26,11 +26,15 @@ export const updateSubscriber = mutation({
     id: v.id("subscribers"),
     firstName: v.optional(v.string()),
     lastName: v.optional(v.string()),
+    source: v.optional(v.string()),
+    resourceTitle: v.optional(v.string()),
   },
-  handler: async (ctx, { id, firstName, lastName }) => {
+  handler: async (ctx, { id, firstName, lastName, source, resourceTitle }) => {
     await ctx.db.patch(id, {
       firstName: firstName?.trim() || undefined,
       lastName: lastName?.trim() || undefined,
+      source: source?.trim() || undefined,
+      resourceTitle: resourceTitle?.trim() || undefined,
     });
   },
 });
@@ -67,14 +71,21 @@ export const subscribe = mutation({
     firstName: v.optional(v.string()),
     lastName: v.optional(v.string()),
     preferredLang: v.optional(v.string()),
+    source: v.optional(v.string()),
+    resourceTitle: v.optional(v.string()),
   },
-  handler: async (ctx, { email, firstName, lastName, preferredLang }) => {
+  handler: async (ctx, { email, firstName, lastName, preferredLang, source, resourceTitle }) => {
     const normalizedEmail = validateEmail(email);
     const profileFields = {
       ...(firstName !== undefined && { firstName: firstName.trim() }),
       ...(lastName !== undefined && { lastName: lastName.trim() }),
       ...(preferredLang !== undefined && { preferredLang }),
     };
+    // First-touch attribution: only set source/resourceTitle if subscriber has none yet
+    const firstTouchFields = (existing?: { source?: string; resourceTitle?: string }) => ({
+      ...(!existing?.source && source !== undefined && { source }),
+      ...(!existing?.resourceTitle && resourceTitle !== undefined && { resourceTitle }),
+    });
 
     const existing = await ctx.db
       .query("subscribers")
@@ -83,16 +94,18 @@ export const subscribe = mutation({
 
     if (existing) {
       if (existing.unsubscribedAt) {
-        // Re-subscribe: update profile and clear unsubscribe
+        // Re-subscribe: update profile, apply first-touch, clear unsubscribe
         await ctx.db.patch(existing._id, {
           ...profileFields,
+          ...firstTouchFields(existing),
           unsubscribedAt: undefined,
         });
         return { success: true, alreadySubscribed: false };
       }
-      // Already active: update profile fields if provided
-      if (Object.keys(profileFields).length > 0) {
-        await ctx.db.patch(existing._id, profileFields);
+      // Already active: update profile and apply first-touch
+      const updates = { ...profileFields, ...firstTouchFields(existing) };
+      if (Object.keys(updates).length > 0) {
+        await ctx.db.patch(existing._id, updates);
       }
       return { success: true, alreadySubscribed: true };
     }
@@ -100,6 +113,7 @@ export const subscribe = mutation({
     await ctx.db.insert("subscribers", {
       email: normalizedEmail,
       ...profileFields,
+      ...firstTouchFields(),
       subscribedAt: Date.now(),
     });
 

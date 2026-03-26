@@ -182,7 +182,19 @@
       ]
     },
     "download": "Download PDF",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming Soon",
+    "downloadGate": {
+      "heading": "One last step.",
+      "description": "Enter your details to unlock your download.",
+      "firstName": "First name",
+      "email": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Download",
+      "submitting": "Preparing...",
+      "privacy": "We respect your privacy.",
+      "privacyLink": "Privacy policy",
+      "error": "Something went wrong. Please try again."
+    }
   },
   "assessment": {
     "badge": "Self-Assessment",

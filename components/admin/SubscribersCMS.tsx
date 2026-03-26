@@ -11,6 +11,14 @@ const inputCls =
   "w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-offwhite placeholder:text-gray-secondary/40 focus:outline-none focus:border-accent/40 transition-colors font-body";
 const labelCls = "block font-display text-[10px] uppercase tracking-[0.12em] text-gray-secondary mb-1.5";
 
+const SOURCE_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "worksheets", label: "Worksheets" },
+  { value: "extras", label: "Extras" },
+  { value: "assessment", label: "Assessment" },
+  { value: "newsletter", label: "Newsletter" },
+];
+
 // ─── Stat card ────────────────────────────────────────────────────────────────
 
 function StatCard({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
@@ -41,6 +49,22 @@ function IconEdit() {
   );
 }
 
+function SourceBadge({ source }: { source?: string }) {
+  if (!source) return <span className="text-gray-secondary/30 text-xs">—</span>;
+  const colors: Record<string, string> = {
+    worksheets: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    extras: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    assessment: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    newsletter: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  };
+  const cls = colors[source] ?? "bg-white/[0.06] text-gray-muted border-white/[0.08]";
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-display font-semibold uppercase tracking-[0.08em] border ${cls}`}>
+      {source}
+    </span>
+  );
+}
+
 // ─── Subscriber row ───────────────────────────────────────────────────────────
 
 type Sub = {
@@ -48,6 +72,8 @@ type Sub = {
   email: string;
   firstName?: string;
   lastName?: string;
+  source?: string;
+  resourceTitle?: string;
   subscribedAt: number;
   unsubscribedAt?: number;
 };
@@ -81,6 +107,16 @@ function SubscriberRow({
         {sub.lastName ?? <span className="text-gray-secondary/40">—</span>}
       </td>
       <td className="px-5 py-3 font-body text-sm text-gray-muted">{sub.email}</td>
+      <td className="px-5 py-3">
+        <SourceBadge source={sub.source} />
+      </td>
+      <td className="px-5 py-3 font-body text-xs text-gray-secondary/60 max-w-[160px]">
+        {sub.resourceTitle ? (
+          <span className="truncate block" title={sub.resourceTitle}>{sub.resourceTitle}</span>
+        ) : (
+          <span className="text-gray-secondary/30">—</span>
+        )}
+      </td>
       <td className="px-5 py-3 font-body text-sm text-gray-secondary/70 whitespace-nowrap">
         {formatDate(sub.subscribedAt)}
       </td>
@@ -133,16 +169,26 @@ export function SubscribersCMS() {
   const [editingId, setEditingId] = useState<Id<"subscribers"> | null>(null);
   const [editFirst, setEditFirst] = useState("");
   const [editLast, setEditLast] = useState("");
+  const [editSource, setEditSource] = useState("");
+  const [editResource, setEditResource] = useState("");
 
   function openEdit(sub: Sub) {
     setEditingId(sub._id);
     setEditFirst(sub.firstName ?? "");
     setEditLast(sub.lastName ?? "");
+    setEditSource(sub.source ?? "");
+    setEditResource(sub.resourceTitle ?? "");
   }
 
   async function saveEdit() {
     if (!editingId) return;
-    await updateSubscriber({ id: editingId, firstName: editFirst, lastName: editLast });
+    await updateSubscriber({
+      id: editingId,
+      firstName: editFirst,
+      lastName: editLast,
+      source: editSource,
+      resourceTitle: editResource,
+    });
     setEditingId(null);
   }
 
@@ -184,7 +230,7 @@ export function SubscribersCMS() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  {["First name", "Last name", "Email", "Signed up", "Subscribed", ""].map((h, i) => (
+                  {["First name", "Last name", "Email", "Source", "Resource", "Signed up", "Subscribed", ""].map((h, i) => (
                     <th key={i} className="px-5 py-3 text-left font-display text-[10px] uppercase tracking-[0.12em] text-gray-secondary/60 last:px-3">
                       {h}
                     </th>
@@ -207,9 +253,9 @@ export function SubscribersCMS() {
                     {/* Inline edit row */}
                     {editingId === s._id && (
                       <tr key={`${s._id}-edit`} className="border-b border-white/[0.04] bg-white/[0.02]">
-                        <td colSpan={6} className="px-5 py-4">
-                          <div className="flex flex-col sm:flex-row gap-3 items-end">
-                            <div className="flex-1">
+                        <td colSpan={8} className="px-5 py-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
                               <label className={labelCls}>First name</label>
                               <input
                                 className={inputCls}
@@ -218,7 +264,7 @@ export function SubscribersCMS() {
                                 placeholder="First name"
                               />
                             </div>
-                            <div className="flex-1">
+                            <div>
                               <label className={labelCls}>Last name</label>
                               <input
                                 className={inputCls}
@@ -227,20 +273,41 @@ export function SubscribersCMS() {
                                 placeholder="Last name"
                               />
                             </div>
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => setEditingId(null)}
-                                className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] text-gray-secondary border border-white/[0.08] rounded-lg hover:text-offwhite transition-colors"
+                            <div>
+                              <label className={labelCls}>Source</label>
+                              <select
+                                className={inputCls}
+                                value={editSource}
+                                onChange={(e) => setEditSource(e.target.value)}
                               >
-                                Cancel
-                              </button>
-                              <button
-                                onClick={saveEdit}
-                                className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover transition-colors"
-                              >
-                                Save
-                              </button>
+                                {SOURCE_OPTIONS.map((o) => (
+                                  <option key={o.value} value={o.value}>{o.label}</option>
+                                ))}
+                              </select>
                             </div>
+                            <div>
+                              <label className={labelCls}>Resource title</label>
+                              <input
+                                className={inputCls}
+                                value={editResource}
+                                onChange={(e) => setEditResource(e.target.value)}
+                                placeholder="e.g. The Curiosity Map"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex gap-2 mt-3 justify-end">
+                            <button
+                              onClick={() => setEditingId(null)}
+                              className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] text-gray-secondary border border-white/[0.08] rounded-lg hover:text-offwhite transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={saveEdit}
+                              className="px-4 py-2 text-xs font-display uppercase tracking-[0.08em] bg-accent text-offwhite rounded-lg hover:bg-accent-hover transition-colors"
+                            >
+                              Save
+                            </button>
                           </div>
                         </td>
                       </tr>
