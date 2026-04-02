@@ -6,6 +6,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { GratitudeCMS } from "./GratitudeCMS";
 import { SubscribersCMS } from "./SubscribersCMS";
+import { NewsletterCMS } from "./NewsletterCMS";
 
 type Section = "worksheets" | "extras";
 
@@ -570,12 +571,13 @@ export function AdminCMS() {
     onDeleteCancel: () => setDeleteConfirmId(null),
   };
 
-  const [activeTab, setActiveTab] = useState<"resources" | "gratitude" | "subscribers">("resources");
+  const [activeTab, setActiveTab] = useState<"resources" | "gratitude" | "subscribers" | "newsletter">("resources");
 
   const tabs = [
     { id: "resources" as const, label: "Resources" },
     { id: "gratitude" as const, label: "Gratitude" },
     { id: "subscribers" as const, label: "Subscribers" },
+    { id: "newsletter" as const, label: "Newsletter" },
   ];
 
   return (
@@ -667,6 +669,18 @@ export function AdminCMS() {
               </p>
             </div>
             <SubscribersCMS />
+          </>
+        )}
+
+        {activeTab === "newsletter" && (
+          <>
+            <div className="mb-8">
+              <h1 className="font-display font-bold text-2xl text-offwhite tracking-tight">Newsletter Template</h1>
+              <p className="mt-1.5 font-body text-sm text-gray-secondary">
+                Fill in your content, preview the email, then copy the HTML to paste into Mailchimp or Klaviyo.
+              </p>
+            </div>
+            <NewsletterCMS />
           </>
         )}
       </main>
